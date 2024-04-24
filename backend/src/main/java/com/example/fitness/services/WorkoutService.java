@@ -38,7 +38,7 @@ public class WorkoutService {
             workoutOptionalId = workoutRepository.findWorkoutByID(workout.getWorkoutID());
         }
 
-        EntityManager.createNativeQuery("INSERT INTO workout(workoutID, trainerID, workout_title, workout_count, workout_estimated_time, workout_description, workout_type, calorie_burn_per_unit_time, workout_intensity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+        entityManager.createNativeQuery("INSERT INTO workout(workoutID, trainerID, workout_title, workout_count, workout_estimated_time, workout_description, workout_type, calorie_burn_per_unit_time, workout_intensity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
             .setParameter(1, workout.getWorkoutID())
             .setParameter(2, workout.getTrainerID())
             .setParameter(3, workout.getWorkoutTitle())
