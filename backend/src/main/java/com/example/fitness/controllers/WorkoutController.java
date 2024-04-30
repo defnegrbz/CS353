@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
-@RequestMapping("workout")
+@RequestMapping("/workouts")
 
 public class WorkoutController {
 
