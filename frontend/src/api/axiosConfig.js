@@ -18,7 +18,7 @@ export const getWorkouts = () => (
 
 // Add the addWorkout function
 export const addWorkout = (trainerID, workoutData) => (
-    api.put(`${baseURL}/workouts/${trainerID}/createWorkout`, workoutData)
+    api.post(`${baseURL}/workouts/${trainerID}/createWorkout`, workoutData)
 );
 
 // Function to filter workouts based on type
