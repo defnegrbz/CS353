@@ -2,6 +2,8 @@ package com.example.fitness.controllers;
 
 import org.hibernate.boot.registry.classloading.spi.ClassLoaderService.Work;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -44,12 +48,26 @@ public class WorkoutController {
         return workoutService.getAllWorkouts();
     }
     
-    @PostMapping
-    public Workout addWorkout( @RequestBody Workout workout){
-        workoutService.addWorkout(workout);
-        return workout;
+    @PutMapping("/workouts/{trainerID}/createWorkout")
+public ResponseEntity<Workout> addWorkout(@PathVariable Long trainerID, @RequestBody Map<String, Object> payload) {
+    // Extracting payload values
+    String workoutTitle = (String) payload.get("workoutTitle");
+    String workoutType = (String) payload.get("workoutType");
+    String targetAudience = (String) payload.get("targetAudience");
+    Integer workoutCount = (Integer) payload.get("workoutCount");
+    Integer workoutEstimatedTime = (Integer) payload.get("workoutEstimatedTime");
+    String workoutDescription = (String) payload.get("workoutDescription");
+    String equipments = (String) payload.get("equipments");
+    Double calorieBurnPerUnitTime = (Double) payload.get("calorieBurnPerUnitTime");
+    Integer intensityLevel = (Integer) payload.get("intensityLevel");
 
-    }
+    // Call the service method to add the workout
+    Workout workout = workoutService.addWorkout(trainerID, workoutTitle, workoutType, targetAudience, workoutCount,
+            workoutEstimatedTime, workoutDescription, equipments, calorieBurnPerUnitTime, intensityLevel);
+
+    // Return the response
+    return new ResponseEntity<>(workout, HttpStatus.CREATED);
+}
 
     @DeleteMapping(path="{workoutID}")
     public Workout deleteWorkout(@PathVariable("workoutID") Long workoutID){
