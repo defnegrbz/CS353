@@ -8,9 +8,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/api/login" element={<LoginPage />} />
-        <Route path="/api/workouts" element={<WorkoutPage />} />
-        <Route path="/api/createWorkout" element={<WorkoutCreatePage />} />
+        <Route path="/workouts" element={<WorkoutPage />} />
+        <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
       </Routes>
     </Router>
   );
