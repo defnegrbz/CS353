@@ -5,6 +5,7 @@ import com.example.fitness.repositories.WorkoutRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,30 +28,40 @@ public class WorkoutService {
     }
 
     @Transactional
-    public void addWorkout(Workout workout){
-        Optional<Workout> workoutOptionalTitle = workoutRepository.findWorkoutByTitle(workout.getWorkoutTitle());
-        if (workoutOptionalTitle.isPresent()) {
+    public Workout addWorkout(Long trainerID, String workoutTitle, String workoutType, String targetAudience,
+                              Integer workoutCount, Integer workoutEstimatedTime, String workoutDescription,
+                              String equipments, Double calorieBurnPerUnitTime, Integer intensityLevel) {
+        // Check if workout title already exists
+        Optional<Workout> existingWorkout = workoutRepository.findWorkoutByTitle(workoutTitle);
+        if (existingWorkout.isPresent()) {
             throw new IllegalStateException("A workout with that title already exists.");
         }
-        Optional<Workout> workoutOptionalId = workoutRepository.findWorkoutByID(workout.getWorkoutID());
-        while(workoutOptionalId.isPresent()){
-            workout.setWorkoutID(workout.getWorkoutID()+1);
-            workoutOptionalId = workoutRepository.findWorkoutByID(workout.getWorkoutID());
-        }
 
-        entityManager.createNativeQuery("INSERT INTO workout(workoutID, trainerID, workout_title, workout_count, workout_estimated_time, workout_description, workout_type, calorie_burn_per_unit_time, workout_intensity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
-            .setParameter(1, workout.getWorkoutID())
-            .setParameter(2, workout.getTrainerID())
-            .setParameter(3, workout.getWorkoutTitle())
-            .setParameter(4, workout.getWorkoutCount())
-            .setParameter(5, workout.getWorkoutEstimatedTime())
-            .setParameter(6, workout.getWorkoutDescription())
-            .setParameter(7, workout.getWorkoutType())
-            .setParameter(8, workout.getCalorieBurnPerUnitTime())
-            .setParameter(9, workout.getIntensityLevel())
-            .executeUpdate();
+        // Create a new Workout object
+        Workout workout = new Workout(trainerID, workoutTitle, workoutType, targetAudience, workoutCount,
+                workoutEstimatedTime, workoutDescription, equipments, calorieBurnPerUnitTime, intensityLevel);
+
+        // Persist the workout using raw SQL
+        String insertQuery = "INSERT INTO workout(trainerID, workout_title, workout_type, target_audience, " +
+                "workout_count, workout_estimated_time, workout_description, equipments, calorie_burn_per_unit_time, " +
+                "intensity_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        entityManager.createNativeQuery(insertQuery)
+                .setParameter(1, trainerID)
+                .setParameter(2, workoutTitle)
+                .setParameter(3, workoutType)
+                .setParameter(4, targetAudience)
+                .setParameter(5, workoutCount)
+                .setParameter(6, workoutEstimatedTime)
+                .setParameter(7, workoutDescription)
+                .setParameter(8, equipments)
+                .setParameter(9, calorieBurnPerUnitTime)
+                .setParameter(10, intensityLevel)
+                .executeUpdate();
+
+        // Return the workout object
+        return workout;
     }
-
+    
     @Transactional
     public void deleteWorkout(Long workoutID){
         Optional<Workout> workoutOptionalId = workoutRepository.findWorkoutByID(workoutID);
@@ -138,3 +149,4 @@ public class WorkoutService {
         return workoutRepository.findWorkoutsByEquipment(equipment);
     }
 }
+
