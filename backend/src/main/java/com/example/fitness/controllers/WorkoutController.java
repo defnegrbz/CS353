@@ -48,18 +48,18 @@ public class WorkoutController {
         return workoutService.getAllWorkouts();
     }
     
-    @PutMapping("/workouts/{trainerID}/createWorkout")
+    @PutMapping("/{trainerID}/createWorkout")
 public ResponseEntity<Workout> addWorkout(@PathVariable Long trainerID, @RequestBody Map<String, Object> payload) {
     // Extracting payload values
-    String workoutTitle = (String) payload.get("workoutTitle");
-    String workoutType = (String) payload.get("workoutType");
-    String targetAudience = (String) payload.get("targetAudience");
-    Integer workoutCount = (Integer) payload.get("workoutCount");
-    Integer workoutEstimatedTime = (Integer) payload.get("workoutEstimatedTime");
-    String workoutDescription = (String) payload.get("workoutDescription");
+    String workoutTitle = (String) payload.get("workout_title");
+    String workoutType = (String) payload.get("workout_type");
+    String targetAudience = (String) payload.get("target_audience");
+    Integer workoutCount = (Integer) payload.get("workout_count");
+    Integer workoutEstimatedTime = (Integer) payload.get("workout_estimated_time");
+    String workoutDescription = (String) payload.get("workout_description");
     String equipments = (String) payload.get("equipments");
-    Double calorieBurnPerUnitTime = (Double) payload.get("calorieBurnPerUnitTime");
-    Integer intensityLevel = (Integer) payload.get("intensityLevel");
+    Double calorieBurnPerUnitTime = (Double) payload.get("calories_burn_per_unit_time");
+    Integer intensityLevel = (Integer) payload.get("intensity_level");
 
     // Call the service method to add the workout
     Workout workout = workoutService.addWorkout(trainerID, workoutTitle, workoutType, targetAudience, workoutCount,
