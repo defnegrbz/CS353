@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -27,39 +28,21 @@ public class WorkoutService {
         this.workoutRepository = workoutRepository;
     }
 
-    @Transactional
-    public Workout addWorkout(Long trainerID, String workoutTitle, String workoutType, String targetAudience,
-                              Integer workoutCount, Integer workoutEstimatedTime, String workoutDescription,
-                              String equipments, Double calorieBurnPerUnitTime, Integer intensityLevel) {
-        // Check if workout title already exists
-        Optional<Workout> existingWorkout = workoutRepository.findWorkoutByTitle(workoutTitle);
-        if (existingWorkout.isPresent()) {
-            throw new IllegalStateException("A workout with that title already exists.");
-        }
+    public void addWorkout(Long trainerID, Map<String, Object> payload) {
+        // Extracting payload values
+        String workoutTitle = (String) payload.get("workout_title");
+        String workoutType = (String) payload.get("workout_type");
+        String targetAudience = (String) payload.get("target_audience");
+        Integer workoutCount = (Integer) payload.get("workout_count");
+        Integer workoutEstimatedTime = (Integer) payload.get("workout_estimated_time");
+        String workoutDescription = (String) payload.get("workout_description");
+        String equipments = (String) payload.get("equipments");
+        Double calorieBurnPerUnitTime = (Double) payload.get("calories_burn_per_unit_time");
+        Integer intensityLevel = (Integer) payload.get("intensity_level");
 
-        // Create a new Workout object
-        Workout workout = new Workout(trainerID, workoutTitle, workoutType, targetAudience, workoutCount,
+        // Call the repository method to add the workout
+        workoutRepository.addWorkout(trainerID, workoutTitle, workoutType, targetAudience, workoutCount,
                 workoutEstimatedTime, workoutDescription, equipments, calorieBurnPerUnitTime, intensityLevel);
-
-        // Persist the workout using raw SQL
-        String insertQuery = "INSERT INTO workout(trainerID, workout_title, workout_type, target_audience, " +
-                "workout_count, workout_estimated_time, workout_description, equipments, calorie_burn_per_unit_time, " +
-                "intensity_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        entityManager.createNativeQuery(insertQuery)
-                .setParameter(1, trainerID)
-                .setParameter(2, workoutTitle)
-                .setParameter(3, workoutType)
-                .setParameter(4, targetAudience)
-                .setParameter(5, workoutCount)
-                .setParameter(6, workoutEstimatedTime)
-                .setParameter(7, workoutDescription)
-                .setParameter(8, equipments)
-                .setParameter(9, calorieBurnPerUnitTime)
-                .setParameter(10, intensityLevel)
-                .executeUpdate();
-
-        // Return the workout object
-        return workout;
     }
     
     @Transactional
@@ -149,4 +132,6 @@ public class WorkoutService {
         return workoutRepository.findWorkoutsByEquipment(equipment);
     }
 }
+
+
 
