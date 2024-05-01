@@ -5,11 +5,13 @@ import com.example.fitness.repositories.WorkoutRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,31 +28,23 @@ public class WorkoutService {
         this.workoutRepository = workoutRepository;
     }
 
-    @Transactional
-    public void addWorkout(Workout workout){
-        Optional<Workout> workoutOptionalTitle = workoutRepository.findWorkoutByTitle(workout.getWorkoutTitle());
-        if (workoutOptionalTitle.isPresent()) {
-            throw new IllegalStateException("A workout with that title already exists.");
-        }
-        Optional<Workout> workoutOptionalId = workoutRepository.findWorkoutByID(workout.getWorkoutID());
-        while(workoutOptionalId.isPresent()){
-            workout.setWorkoutID(workout.getWorkoutID()+1);
-            workoutOptionalId = workoutRepository.findWorkoutByID(workout.getWorkoutID());
-        }
+    public void addWorkout(Long trainerID, Map<String, Object> payload) {
+        // Extracting payload values
+        String workoutTitle = (String) payload.get("workout_title");
+        String workoutType = (String) payload.get("workout_type");
+        String targetAudience = (String) payload.get("target_audience");
+        Integer workoutCount = (Integer) payload.get("workout_count");
+        Integer workoutEstimatedTime = (Integer) payload.get("workout_estimated_time");
+        String workoutDescription = (String) payload.get("workout_description");
+        String equipments = (String) payload.get("equipments");
+        Double calorieBurnPerUnitTime = (Double) payload.get("calories_burn_per_unit_time");
+        Integer intensityLevel = (Integer) payload.get("intensity_level");
 
-        entityManager.createNativeQuery("INSERT INTO workout(workoutID, trainerID, workout_title, workout_count, workout_estimated_time, workout_description, workout_type, calorie_burn_per_unit_time, workout_intensity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
-            .setParameter(1, workout.getWorkoutID())
-            .setParameter(2, workout.getTrainerID())
-            .setParameter(3, workout.getWorkoutTitle())
-            .setParameter(4, workout.getWorkoutCount())
-            .setParameter(5, workout.getWorkoutEstimatedTime())
-            .setParameter(6, workout.getWorkoutDescription())
-            .setParameter(7, workout.getWorkoutType())
-            .setParameter(8, workout.getCalorieBurnPerUnitTime())
-            .setParameter(9, workout.getIntensityLevel())
-            .executeUpdate();
+        // Call the repository method to add the workout
+        workoutRepository.addWorkout(trainerID, workoutTitle, workoutType, targetAudience, workoutCount,
+                workoutEstimatedTime, workoutDescription, equipments, calorieBurnPerUnitTime, intensityLevel);
     }
-
+    
     @Transactional
     public void deleteWorkout(Long workoutID){
         Optional<Workout> workoutOptionalId = workoutRepository.findWorkoutByID(workoutID);
@@ -138,3 +132,6 @@ public class WorkoutService {
         return workoutRepository.findWorkoutsByEquipment(equipment);
     }
 }
+
+
+

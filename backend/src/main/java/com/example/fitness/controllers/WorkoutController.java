@@ -2,6 +2,8 @@ package com.example.fitness.controllers;
 
 import org.hibernate.boot.registry.classloading.spi.ClassLoaderService.Work;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +22,15 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
-@RequestMapping("workout")
+@RequestMapping("/workouts")
 
 public class WorkoutController {
 
@@ -44,11 +48,10 @@ public class WorkoutController {
         return workoutService.getAllWorkouts();
     }
     
-    @PostMapping
-    public Workout addWorkout( @RequestBody Workout workout){
-        workoutService.addWorkout(workout);
-        return workout;
-
+    @PostMapping("/{trainerID}/createWorkout")
+    public ResponseEntity<Void> addWorkout(@PathVariable Long trainerID, @RequestBody Map<String, Object> payload) {
+        workoutService.addWorkout(trainerID, payload);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path="{workoutID}")

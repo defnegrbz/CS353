@@ -2,18 +2,9 @@ package com.example.fitness.components;
 
 import jakarta.persistence.*;
 
-@Entity(name = "Workout")
-@Table(
-        name = "workout",
-        uniqueConstraints = {
-            @UniqueConstraint(name = "workoutID_unique", columnNames = "workoutID"),
-            @UniqueConstraint(name = "workoutTitle_unique", columnNames = "workout_title")
-        }
-)
+@Entity
+@Table(name = "workout")
 public class Workout {
-    public static Long WorkoutID = 1000L;
-
-    // properties
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "workoutID")
@@ -32,10 +23,10 @@ public class Workout {
     private String targetAudience;
 
     @Column(name = "workout_count")
-    private int workoutCount;
+    private Integer workoutCount;
 
     @Column(name = "workout_estimated_time")
-    private int workoutEstimatedTime;
+    private Integer workoutEstimatedTime;
 
     @Column(name = "workout_description", columnDefinition = "TEXT")
     private String workoutDescription;
@@ -44,17 +35,16 @@ public class Workout {
     private String equipments;
 
     @Column(name = "calorie_burn_per_unit_time")
-    private double calorieBurnPerUnitTime;
+    private Double calorieBurnPerUnitTime;
 
     @Column(name = "intensity_level")
-    private int intensityLevel;
+    private Integer intensityLevel;
 
-    // constructors
     public Workout() {
     }
 
-    public Workout(Long trainerID, String workoutTitle, String workoutType, String targetAudience, int workoutCount,
-                   int workoutEstimatedTime, String workoutDescription, String equipments, double calorieBurnPerUnitTime, int intensityLevel) {
+    public Workout(Long trainerID, String workoutTitle, String workoutType, String targetAudience, Integer workoutCount,
+                   Integer workoutEstimatedTime, String workoutDescription, String equipments, Double calorieBurnPerUnitTime, Integer intensityLevel) {
         this.trainerID = trainerID;
         this.workoutTitle = workoutTitle;
         this.workoutType = workoutType;
@@ -156,4 +146,3 @@ public class Workout {
         this.intensityLevel = intensityLevel;
     }
 }
-
