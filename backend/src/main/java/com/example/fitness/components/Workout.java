@@ -7,14 +7,14 @@ import jakarta.persistence.*;
 public class Workout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "workoutID")
+    @Column(name = "workoutid")
     private Long workoutID;
 
-    @Column(name = "trainerID")
+    @Column(name = "trainerid")
     private Long trainerID;  // This field will be stored in the Workout table
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trainerID", referencedColumnName = "userID", insertable = false, updatable = false)
+    @JoinColumn(name = "trainerid", referencedColumnName = "userid", insertable = false, updatable = false)
     private Trainer trainer;  // This field establishes the foreign key relationship
 
     @Column(name = "workout_title", nullable = false)

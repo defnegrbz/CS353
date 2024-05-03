@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fitness.components.Workout;
 import com.example.fitness.repositories.WorkoutRepository;
+import com.example.fitness.requests.WorkoutRequest;
 import com.example.fitness.services.WorkoutService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,9 +50,9 @@ public class WorkoutController {
     }
     
     @PostMapping("/{trainerID}/createWorkout")
-    public ResponseEntity<Void> addWorkout(@PathVariable Long trainerID, @RequestBody Map<String, Object> payload) {
-        workoutService.addWorkout(trainerID, payload);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Void> addWorkout(@RequestBody WorkoutRequest request) {
+    workoutService.addWorkout(request);
+    return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(path="{workoutID}")

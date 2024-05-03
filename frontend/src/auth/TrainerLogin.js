@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { trainerLogin } from '../../api/axiosConfig'; 
+import { trainerLogin } from '../api/axiosConfig'; 
 
 const TrainerLogin = () => {
 
@@ -36,16 +36,16 @@ const TrainerLogin = () => {
     return (
         <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '500px', margin: '0 auto' }}>
       <h2 style={{ textAlign: 'center', color: '#333' }}>Login As Trainer</h2>
-      <form onSubmit={handleSubmit} style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
+      <form onSubmit={handleLogin} style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
       <label style={{ display: 'block', marginBottom: '10px' }}>
         <span style={{ fontWeight: 'bold' }}>Email:</span>
-        <input type="text" value={workout_title} onChange={(e) => setWorkoutTitle(e.target.value)} />
+        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
       </label>
       <label style={{ display: 'block', marginBottom: '10px' }}>
         <span style={{ fontWeight: 'bold' }}>Password:</span>
-        <input type="text" value={workout_type} onChange={(e) => setWorkoutType(e.target.value)} />
+        <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
-        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Create Workout</button>
+        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Login</button>
       </form>
     </div>
     );

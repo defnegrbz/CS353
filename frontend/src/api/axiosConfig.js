@@ -1,5 +1,4 @@
 import axios from 'axios';
-import MemberLogin from '../auth/MemberLogin';
 
 export const baseURL = 'http://localhost:8080';
 
@@ -32,14 +31,14 @@ export const trainerRegister = (firstName, lastName, email, userName, password, 
 
 
 //Logins 
-export const MemberLogin = (email, password) => (
+export const memberLogin = (email, password) => (
     axios.post(`${baseURL}/users/login/member-login`, {
         email,
         password
     })
 );
 
-export const TrainerLogin = (email, password) => (
+export const trainerLogin = (email, password) => (
     axios.post(`${baseURL}/users/login/trainer-login`, {
         email,
         password
@@ -57,8 +56,29 @@ export const getWorkouts = () => (
 );
 
 // Add the addWorkout function
-export const addWorkout = (trainerID, workoutData) => (
-    api.post(`${baseURL}/workouts/${trainerID}/createWorkout`, workoutData)
+export const addWorkout = (trainerID,
+    workout_title,
+    workout_type,
+    target_audience,
+    workout_count,
+    workout_estimated_time,
+    workout_description,
+    equipments,
+    calories_burn_per_unit_time,
+    intensity_level) => (
+
+    api.post(`${baseURL}/workouts/${trainerID}/createWorkout`, {
+        trainerID,
+        workout_title,
+        workout_type,
+        target_audience,
+        workout_count,
+        workout_estimated_time,
+        workout_description,
+        equipments,
+        calories_burn_per_unit_time,
+        intensity_level
+    })
 );
 
 // Function to filter workouts based on type

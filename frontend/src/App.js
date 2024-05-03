@@ -6,8 +6,9 @@ import MemberLoginPage from './auth/MemberLogin';
 import TrainerLoginPage from './auth/TrainerLogin';
 import TrainerRegisterPage from './auth/RegisterTrainer';
 import MemberRegisterPage from './auth/RegisterMember';
-import HealthDataCreatePage from './components/workout/HealthDataCreatePage';
-import HealthDataPage from './components/workout/HealthDataPage';
+import HealthDataCreatePage from './components/users/HealthDataCreatePage';
+import HealthDataPage from './components/users/HealthDataPage';
+import NutritionsPage from './components/nutritions/NutritionsPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/users/register/member" element={<MemberRegisterPage />} />
         <Route path="/healthdatas/:userId/create" element={<HealthDataCreatePage />} />
         <Route path="/healthdatas/:userId" element={<HealthDataPage />} />
+        <Route path="/nutritionalPlan/:userId" element={<HealthDataPage />} />
       </Routes>
     </Router>
   );
