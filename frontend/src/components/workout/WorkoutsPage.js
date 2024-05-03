@@ -5,18 +5,8 @@ import { useNavigate, Link } from 'react-router-dom';
 const Workout = () => {
   const [workouts, setWorkouts] = useState([]);
 
-  useEffect(() => {
-    fetchWorkouts();
-  }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount
-
-  const fetchWorkouts = async () => {
-    try {
-      const response = await axios.get('/workout'); // Assuming '/workout' is the endpoint to fetch workouts
-      setWorkouts(response.data);
-    } catch (error) {
-      console.error('Error fetching workout data:', error);
-    }
-  };
+ 
+  
 
   return (
     <div>

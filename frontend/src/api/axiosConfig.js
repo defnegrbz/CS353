@@ -1,4 +1,5 @@
 import axios from 'axios';
+import MemberLogin from '../auth/MemberLogin';
 
 export const baseURL = 'http://localhost:8080';
 
@@ -6,10 +7,49 @@ const api = axios.create({
     baseURL: baseURL
 });
 
+//User Info
+
+//Registers
+export const memberRegister = (firstName, LastName, email, userName, password) => (
+    axios.post(`${baseURL}/users/register/member`, { firstName, LastName, email, userName, password})
+);
+
+export const trainerRegister = (firstName, lastName, email, userName, password, certificateFile) => {
+    const formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('userName', userName);
+    formData.append('password', password);
+    formData.append('certificate', certificateFile); // Append certificate file
+
+    return axios.post(`${baseURL}/users/register/trainer`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+};
+
+
+//Logins 
+export const MemberLogin = (email, password) => (
+    axios.post(`${baseURL}/users/login/member-login`, {
+        email,
+        password
+    })
+);
+
+export const TrainerLogin = (email, password) => (
+    axios.post(`${baseURL}/users/login/trainer-login`, {
+        email,
+        password
+    })
+);
+
 //Workout info
 
 export const getWorkout = (id) => (
-    axios.get(`${baseURL}/workout/${id}`)
+    axios.get(`${baseURL}/workouts/${id}`)
 );
 
 export const getWorkouts = () => (

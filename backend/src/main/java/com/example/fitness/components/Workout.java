@@ -11,7 +11,11 @@ public class Workout {
     private Long workoutID;
 
     @Column(name = "trainerID")
-    private Long trainerID;
+    private Long trainerID;  // This field will be stored in the Workout table
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trainerID", referencedColumnName = "userID", insertable = false, updatable = false)
+    private Trainer trainer;  // This field establishes the foreign key relationship
 
     @Column(name = "workout_title", nullable = false)
     private String workoutTitle;
@@ -72,6 +76,14 @@ public class Workout {
 
     public void setTrainerID(Long trainerID) {
         this.trainerID = trainerID;
+    }
+
+    public Trainer getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
     }
 
     public String getWorkoutTitle() {
