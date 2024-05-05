@@ -24,6 +24,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +36,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/workouts")
 
 public class WorkoutController {
+
+    private static final Logger logger = LogManager.getLogger(WorkoutController.class);
 
     private final WorkoutService workoutService;
     private final WorkoutRepository workoutRepository;
@@ -50,9 +54,14 @@ public class WorkoutController {
     }
     
     @PostMapping("/{trainerID}/createWorkout")
-    public ResponseEntity<Void> addWorkout(@RequestBody WorkoutRequest request) {
-    workoutService.addWorkout(request);
-    return new ResponseEntity<>(HttpStatus.CREATED);
+    public Workout addWorkout(@PathVariable Long trainerID, @RequestBody Workout workout) {
+        logger.debug("Received request to create workout for trainer ID: {}", trainerID);
+        logger.debug("Received workout details: {}", workout);
+
+        Workout createdWorkout = workoutService.addWorkout(trainerID, workout);
+        
+        logger.debug("Workout created successfully: {}", createdWorkout);
+        return createdWorkout;
     }
 
     @DeleteMapping(path="{workoutID}")
@@ -64,7 +73,7 @@ public class WorkoutController {
 
     @PutMapping(path="{workoutID}")
     public Workout updateWorkout(@PathVariable("workoutID") Long workoutID, @RequestBody Workout workout) {
-        workoutService.updateWorkout(workoutID, workout.getTrainerID(), workout.getWorkoutTitle(), workout.getWorkoutType(), workout.getTargetAudience(), workout.getWorkoutCount(), workout.getWorkoutEstimatedTime(), workout.getWorkoutDescription(), workout.getEquipments(), workout.getCalorieBurnPerUnitTime(), workout.getIntensityLevel());
+        workoutService.updateWorkout(workoutID, workout.getTrainerID(), workout.getWorkoutTitle(), workout.getWorkoutType(), workout.getTargetAudience(), workout.getWorkoutEstimatedTime(), workout.getWorkoutDescription(), workout.getEquipments(), workout.getCalorieBurnPerUnitTime(), workout.getIntensityLevel());
         return workout;
     }
 }

@@ -8,8 +8,14 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Trainer")
-public class Trainer extends User{
+@Table(name = "trainer")
+public class Trainer {
+
+    // Reference to the User entity with userID column
+    @Id
+    @OneToOne
+    @JoinColumn(name = "userID")
+    private User user;
 
     @Column(name = "trainerDescription", columnDefinition = "TEXT")
     private String trainerDescription;
@@ -32,5 +38,5 @@ public class Trainer extends User{
     @Column(name = "busydAtes")
     private List<LocalDate> busyDates;
 
-
 }
+

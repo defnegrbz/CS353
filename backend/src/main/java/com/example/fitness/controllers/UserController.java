@@ -51,4 +51,15 @@ public class UserController {
         userService.deleteById((userId));
     }
 
+    // Register a new user
+    //@PostMapping("/register/member")
+    //@PostMapping("/register/trainer")
+    //Member ve trainer registerleri PostMapping kısmi bu şekilde olmalı react için
+    
+    // Login
+    //@PostMapping("/login/member-login")
+    //@PostMapping("/login/trainer-login")
+    //Member ve trainer loginleri PostMapping kısmi bu şekilde olmalı react için
+    
+
 }

@@ -43,16 +43,7 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
     
 
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO workout (trainerid, workout_title, workout_type, target_audience, workout_count, workout_estimated_time, workout_description, equipments, calorie_burn_per_unit_time, intensity_level) " +
-                   "VALUES (:trainerid, :workout_title, :workout_type, :target_audience, :workout_count, :workout_estimated_time, :workout_description, :equipments, :calorie_burn_per_unit_time, :intensity_level)",
-                   nativeQuery = true)
-    void addWorkout(@Param("trainerid") Long trainerid, @Param("workout_title") String workout_title, @Param("workout_type") String workout_type,
-                    @Param("target_audience") String target_audience, @Param("workout_count") Integer workout_count,
-                    @Param("workout_estimated_time") Integer workout_estimated_time, @Param("workout_description") String workout_description,
-                    @Param("equipments") String equipments, @Param("calorie_burn_per_unit_time") Double calorie_burn_per_unit_time,
-                    @Param("intensity_level") Integer intensity_level);
+   
 }
 
 

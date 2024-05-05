@@ -3,6 +3,8 @@ package com.example.fitness.services;
 import com.example.fitness.components.Workout;
 import com.example.fitness.repositories.WorkoutRepository;
 import com.example.fitness.requests.WorkoutRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -18,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class WorkoutService {
+    private static final Logger logger = LogManager.getLogger(WorkoutService.class);
+
 
     private final WorkoutRepository workoutRepository;
 
@@ -29,35 +33,30 @@ public class WorkoutService {
         this.workoutRepository = workoutRepository;
     }
 
-    public void addWorkout( WorkoutRequest request) {
+    public Workout addWorkout( Long trainerID, Workout workout) {
+        logger.debug("Adding workout for trainer ID: {}", trainerID);
+        logger.debug("Received workout details: {}", workout);
+
         /*if (!trainerRepository.existsById(trainerID)) {
             throw new TrainerNotFoundException("Trainer with ID " + trainerID + " not found");
         }*/
 
-        Workout workout = new Workout();
-        workout.setTrainerID(request.getTrainerid());
-        workout.setWorkoutTitle(request.getWorkoutTitle());
-        workout.setWorkoutType(request.getWorkoutType());
-        workout.setTargetAudience(request.getTargetAudience());
-        workout.setWorkoutCount(request.getWorkoutCount());
-        workout.setWorkoutEstimatedTime(request.getWorkoutEstimatedTime());
-        workout.setWorkoutDescription(request.getWorkoutDescription());
-        workout.setEquipments(request.getEquipments());
-        workout.setCalorieBurnPerUnitTime(request.getCaloriesBurnPerUnitTime());
-        workout.setIntensityLevel(request.getIntensityLevel());
+        // Assuming you have a workout entity and repository
+        entityManager.createNativeQuery("INSERT INTO workout (trainer_id, workout_title, workout_type, target_audience, workout_estimated_time, workout_description, equipments, calorie_burn_per_unit_time, intensity_level) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+        .setParameter(1, trainerID)
+        .setParameter(2, workout.getWorkoutTitle())
+        .setParameter(3, workout.getWorkoutType())
+        .setParameter(4, workout.getTargetAudience())
+        .setParameter(5, workout.getWorkoutEstimatedTime())
+        .setParameter(6, workout.getWorkoutDescription())
+        .setParameter(7, workout.getEquipments())
+        .setParameter(8, workout.getCalorieBurnPerUnitTime())
+        .setParameter(9, workout.getIntensityLevel())
+        .executeUpdate();
 
-        workoutRepository.addWorkout(
-            request.getTrainerid(),
-            request.getWorkoutTitle(),
-            request.getWorkoutType(),
-            request.getTargetAudience(),
-            request.getWorkoutCount(),
-            request.getWorkoutEstimatedTime(),
-            request.getWorkoutDescription(),
-            request.getEquipments(),
-            request.getCaloriesBurnPerUnitTime(),
-            request.getIntensityLevel()
-        );
+        logger.debug("Workout added successfully for trainer ID: {}", trainerID);
+        return workout;
     }
     
     @Transactional
@@ -70,7 +69,7 @@ public class WorkoutService {
     }
 
     @Transactional
-    public void updateWorkout(Long workoutID, Long trainerID, String workoutTitle, String workoutType, String targetAudience, int workoutCount,
+    public void updateWorkout(Long workoutID, Long trainerID, String workoutTitle, String workoutType, String targetAudience,
                               int workoutEstimatedTime, String workoutDescription, String equipments, double calorieBurnPerUnitTime, int intensityLevel){
 
         Optional<Workout> workoutOptional = workoutRepository.findWorkoutByID(workoutID);
@@ -91,10 +90,6 @@ public class WorkoutService {
 
         if (targetAudience!=null && !Objects.equals(targetAudience, workout.getTargetAudience())) {
             workout.setTargetAudience(targetAudience);
-        }
-
-        if (workoutCount > 0 && !Objects.equals(workoutCount, workout.getWorkoutCount())) {
-            workout.setWorkoutCount(workoutCount);
         }
 
         if (workoutEstimatedTime > 0 && !Objects.equals(workoutEstimatedTime, workout.getWorkoutEstimatedTime())) {

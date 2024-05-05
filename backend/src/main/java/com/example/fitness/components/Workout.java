@@ -1,10 +1,13 @@
 package com.example.fitness.components;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "Workout")
 @Table(name = "workout")
 public class Workout {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "workoutid")
@@ -25,9 +28,6 @@ public class Workout {
 
     @Column(name = "target_audience", nullable = false)
     private String targetAudience;
-
-    @Column(name = "workout_count")
-    private Integer workoutCount;
 
     @Column(name = "workout_estimated_time")
     private Integer workoutEstimatedTime;
@@ -53,7 +53,6 @@ public class Workout {
         this.workoutTitle = workoutTitle;
         this.workoutType = workoutType;
         this.targetAudience = targetAudience;
-        this.workoutCount = workoutCount;
         this.workoutEstimatedTime = workoutEstimatedTime;
         this.workoutDescription = workoutDescription;
         this.equipments = equipments;
@@ -108,14 +107,6 @@ public class Workout {
 
     public void setTargetAudience(String targetAudience) {
         this.targetAudience = targetAudience;
-    }
-
-    public int getWorkoutCount() {
-        return workoutCount;
-    }
-
-    public void setWorkoutCount(int workoutCount) {
-        this.workoutCount = workoutCount;
     }
 
     public int getWorkoutEstimatedTime() {

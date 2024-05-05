@@ -4,10 +4,10 @@ import { addWorkout } from '../../api/axiosConfig';
 
 const WorkoutCreationPage = () => {
   const { trainerID } = useParams(); // Extract trainerID from URL params
+  const navigate = useNavigate();
   const [workout_title, setWorkoutTitle] = useState('');
   const [workout_type, setWorkoutType] = useState('');
   const [target_audience, setTargetAudience] = useState('');
-  const [workout_count, setWorkoutCount] = useState('');
   const [workout_estimated_time, setWorkoutEstimatedTime] = useState('');
   const [workout_description, setWorkoutDesription] = useState('');
   const [equipments, setEquipments] = useState('');
@@ -29,7 +29,6 @@ const WorkoutCreationPage = () => {
         workout_title,
         workout_type,
         target_audience,
-        workout_count,
         workout_estimated_time,
         workout_description,
         equipments,
@@ -40,6 +39,7 @@ const WorkoutCreationPage = () => {
       console.log('Workout created successfully!');
     } catch (error) {
       console.error('Error creating workout:', error);
+      alert('Failed to create workout. Please try again.');
     }
   };
 
@@ -58,10 +58,6 @@ const WorkoutCreationPage = () => {
         <label style={{ display: 'block', marginBottom: '10px' }}>
         <span style={{ fontWeight: 'bold' }}>Target Audience:</span>
         <input type="text" value={target_audience} onChange={(e) => setTargetAudience(e.target.value)} />
-        </label>
-        <label style={{ display: 'block', marginBottom: '10px' }}>
-        <span style={{ fontWeight: 'bold' }}>Workout Count:</span>
-        <input type="number" value={workout_count} onChange={(e) => setWorkoutCount(e.target.value)} />
         </label>
         <label style={{ display: 'block', marginBottom: '10px' }}>
         <span style={{ fontWeight: 'bold' }}>Estimated Time (minutes):</span>

@@ -2,7 +2,6 @@ package com.example.fitness.components;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,9 +29,4 @@ public class NutrientLog {
 
     @Column(columnDefinition = "nutrient_log_type")
     String nutrientLogType;
-
-    @DateTimeFormat //?
-    DateTimeFormat nutrientLogDate;
-
-
 }

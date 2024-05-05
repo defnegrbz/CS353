@@ -1,10 +1,9 @@
 package com.example.fitness.components;
+
 import java.time.LocalDate;
 import java.time.Period;
 
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,12 +20,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @JsonIgnore
     private Long id;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    @JsonIgnore
+    @JsonIgnoreProperties("user") // Ignore user field in HealthData during serialization
     private HealthData healthData;
 
     @Column(name = "fullName")
@@ -47,14 +45,11 @@ public class User {
     @Column(name = "birthdate")
     private LocalDate birthdate;
 
-    @Transient
-    private Integer age;
-
     @Column(name = "profilePicture")
     private String profilePicture;
 
-
-    // Getter method for age attribute
+    // Calculate age dynamically
+    @Transient
     public Integer getAge() {
         if (birthdate == null) {
             return null;
@@ -62,6 +57,6 @@ public class User {
         LocalDate currentDate = LocalDate.now();
         return Period.between(birthdate, currentDate).getYears();
     }
-
 }
+
 

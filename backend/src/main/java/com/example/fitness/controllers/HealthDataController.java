@@ -32,7 +32,7 @@ public class HealthDataController {
         this.healthDataService = healthDataService;
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping("/{userId}/create")
     public HealthData createHealthData(@PathVariable Long userId, @RequestBody HealthData newHealthData){
         User user = userService.getOneUser(userId);
         newHealthData.setUser(user);
