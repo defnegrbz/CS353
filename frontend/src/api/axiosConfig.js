@@ -79,6 +79,35 @@ export const addWorkout = (
     }, config) // Pass config object here
 );
   
+// Function to delete a workout
+export const deleteWorkout = (id) => (
+    api.delete(`${baseURL}/workouts/${id}`)
+);
+
+// Function to update a workout
+export const updateWorkout = (
+    id,
+    trainerID,
+    workoutTitle,
+    workoutType,
+    targetAudience,
+    workoutEstimatedTime,
+    workoutDescription,
+    calorieBurnPerUnitTime, // Corrected parameter name
+    intensityLevel,
+    config // Pass config as the last argument
+) => (
+    api.put(`${baseURL}/workouts/${id}`, {
+      trainerID,
+      workoutTitle: workoutTitle,
+      workoutType: workoutType,
+      targetAudience: targetAudience,
+      workoutEstimatedTime: workoutEstimatedTime,
+      workoutDescription: workoutDescription,
+      calorieBurnPerUnitTime: calorieBurnPerUnitTime, // Corrected parameter name
+      intensityLevel: intensityLevel
+    }, config) // Pass config object here
+);
 
 // Function to filter workouts based on type
 export const filterWorkoutsByType = (type) => (
