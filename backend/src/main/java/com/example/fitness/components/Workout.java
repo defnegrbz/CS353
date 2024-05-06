@@ -1,6 +1,7 @@
 package com.example.fitness.components;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 
@@ -16,9 +17,9 @@ public class Workout {
     @Column(name = "trainerid")
     private Long trainerID;  // This field will be stored in the Workout table
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "trainerid", referencedColumnName = "userid", insertable = false, updatable = false)
-    private Trainer trainer;  // This field establishes the foreign key relationship
+    private Trainer trainer;    
 
     @Column(name = "workout_title", nullable = false)
     private String workoutTitle;
@@ -39,16 +40,16 @@ public class Workout {
     private String equipments;
 
     @Column(name = "calorie_burn_per_unit_time")
-    private Double calorieBurnPerUnitTime;
-
+    private Integer calorieBurnPerUnitTime;
+    
     @Column(name = "intensity_level")
     private Integer intensityLevel;
 
     public Workout() {
     }
 
-    public Workout(Long trainerID, String workoutTitle, String workoutType, String targetAudience, Integer workoutCount,
-                   Integer workoutEstimatedTime, String workoutDescription, String equipments, Double calorieBurnPerUnitTime, Integer intensityLevel) {
+    public Workout(Long trainerID, String workoutTitle, String workoutType, String targetAudience,
+                   Integer workoutEstimatedTime, String workoutDescription, String equipments, Integer calorieBurnPerUnitTime, Integer intensityLevel) {
         this.trainerID = trainerID;
         this.workoutTitle = workoutTitle;
         this.workoutType = workoutType;
@@ -109,12 +110,8 @@ public class Workout {
         this.targetAudience = targetAudience;
     }
 
-    public int getWorkoutEstimatedTime() {
+    public Integer getWorkoutEstimatedTime() {
         return workoutEstimatedTime;
-    }
-
-    public void setWorkoutEstimatedTime(int workoutEstimatedTime) {
-        this.workoutEstimatedTime = workoutEstimatedTime;
     }
 
     public String getWorkoutDescription() {
@@ -133,19 +130,24 @@ public class Workout {
         this.equipments = equipments;
     }
 
-    public double getCalorieBurnPerUnitTime() {
+    public Integer getCalorieBurnPerUnitTime() {
         return calorieBurnPerUnitTime;
     }
 
-    public void setCalorieBurnPerUnitTime(double calorieBurnPerUnitTime) {
+    public void setCalorieBurnPerUnitTime(Integer calorieBurnPerUnitTime) {
         this.calorieBurnPerUnitTime = calorieBurnPerUnitTime;
     }
 
-    public int getIntensityLevel() {
+    public Integer getIntensityLevel() {
         return intensityLevel;
     }
 
-    public void setIntensityLevel(int intensityLevel) {
+    public void setWorkoutEstimatedTime(Integer workoutEstimatedTime) {
+        this.workoutEstimatedTime = workoutEstimatedTime;
+    }
+    
+    public void setIntensityLevel(Integer intensityLevel) {
         this.intensityLevel = intensityLevel;
     }
+    
 }

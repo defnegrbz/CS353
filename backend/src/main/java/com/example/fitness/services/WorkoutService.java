@@ -33,31 +33,53 @@ public class WorkoutService {
         this.workoutRepository = workoutRepository;
     }
 
-    public Workout addWorkout( Long trainerID, Workout workout) {
-        logger.debug("Adding workout for trainer ID: {}", trainerID);
-        logger.debug("Received workout details: {}", workout);
+    @Transactional
+public Workout addWorkout(Long trainerID, Workout workout) {
+    logger.debug("Adding workout for trainer ID: {}", trainerID);
+    logger.debug("Received workout details: {}", workout);
 
-        /*if (!trainerRepository.existsById(trainerID)) {
-            throw new TrainerNotFoundException("Trainer with ID " + trainerID + " not found");
-        }*/
+    if (workout == null) {
+        logger.error("Workout details are null");
+        throw new IllegalArgumentException("Workout details must not be null");
+    }
 
-        // Assuming you have a workout entity and repository
-        entityManager.createNativeQuery("INSERT INTO workout (trainer_id, workout_title, workout_type, target_audience, workout_estimated_time, workout_description, equipments, calorie_burn_per_unit_time, intensity_level) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-        .setParameter(1, trainerID)
-        .setParameter(2, workout.getWorkoutTitle())
-        .setParameter(3, workout.getWorkoutType())
-        .setParameter(4, workout.getTargetAudience())
-        .setParameter(5, workout.getWorkoutEstimatedTime())
-        .setParameter(6, workout.getWorkoutDescription())
-        .setParameter(7, workout.getEquipments())
-        .setParameter(8, workout.getCalorieBurnPerUnitTime())
-        .setParameter(9, workout.getIntensityLevel())
-        .executeUpdate();
+    // Check for required fields
+    if (workout.getCalorieBurnPerUnitTime() == null || 
+        workout.getWorkoutTitle() == null || 
+        workout.getWorkoutType() == null || 
+        workout.getTargetAudience() == null || 
+        workout.getWorkoutEstimatedTime() == null || 
+        workout.getWorkoutDescription() == null) {
+        
+        logger.error("Critical workout information is missing");
+        throw new IllegalArgumentException("All critical workout information must be provided");
+    }
+
+    try {
+        // Execute native SQL query to insert workout data
+        entityManager.createNativeQuery("INSERT INTO workout (trainerid, workout_title, workout_type, target_audience, workout_estimated_time, workout_description, calorie_burn_per_unit_time, intensity_level, equipments) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+            .setParameter(1, trainerID)
+            .setParameter(2, workout.getWorkoutTitle())
+            .setParameter(3, workout.getWorkoutType())
+            .setParameter(4, workout.getTargetAudience())
+            .setParameter(5, workout.getWorkoutEstimatedTime())
+            .setParameter(6, workout.getWorkoutDescription())
+            .setParameter(7, workout.getCalorieBurnPerUnitTime())
+            .setParameter(8, workout.getIntensityLevel())
+            .setParameter(9, workout.getEquipments())
+            .executeUpdate();
 
         logger.debug("Workout added successfully for trainer ID: {}", trainerID);
-        return workout;
+    } catch (Exception e) {
+        logger.error("Error adding workout: {}", e.getMessage(), e);
+        throw new RuntimeException("Failed to add workout", e);
     }
+
+    return workout; // Consider refreshing the workout entity to ensure it contains the generated ID and any other defaults set by the database.
+}
+
+    
     
     @Transactional
     public void deleteWorkout(Long workoutID){
@@ -70,7 +92,7 @@ public class WorkoutService {
 
     @Transactional
     public void updateWorkout(Long workoutID, Long trainerID, String workoutTitle, String workoutType, String targetAudience,
-                              int workoutEstimatedTime, String workoutDescription, String equipments, double calorieBurnPerUnitTime, int intensityLevel){
+                              int workoutEstimatedTime, String workoutDescription, String equipments, int calorieBurnPerUnitTime, int intensityLevel){
 
         Optional<Workout> workoutOptional = workoutRepository.findWorkoutByID(workoutID);
         if (!workoutOptional.isPresent()) {
@@ -120,7 +142,16 @@ public class WorkoutService {
     }
 
     public List<Workout> getAllWorkouts() {
-        return workoutRepository.findAll();
+        List<Workout> workouts = workoutRepository.findAll();
+        
+        // Iterate over each workout and handle null intensity level
+        workouts.forEach(workout -> {
+            if (workout.getIntensityLevel() == null) {
+                // Handle null intensity level, e.g., provide a default value
+                workout.setIntensityLevel(0); // Default intensity level
+            }
+        });
+        return workouts;
     }
 
     public Optional<Workout> getWorkoutsByTrainerId(Long trainerId) {

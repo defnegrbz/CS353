@@ -53,31 +53,32 @@ export const getWorkout = (id) => (
 
 export const getWorkouts = () => (
     axios.get(`${baseURL}/workouts`)
-);
+);  
 
 // Add the addWorkout function
-export const addWorkout = (trainerID,
-    workout_title,
-    workout_type,
-    target_audience,
-    workout_estimated_time,
-    workout_description,
-    equipments,
-    calories_burn_per_unit_time,
-    intensity_level) => (
-
+export const addWorkout = (
+    trainerID,
+    workoutTitle,
+    workoutType,
+    targetAudience,
+    workoutEstimatedTime,
+    workoutDescription,
+    calorieBurnPerUnitTime, // Corrected parameter name
+    intensityLevel,
+    config // Pass config as the third argument
+) => (
     api.post(`${baseURL}/workouts/${trainerID}/createWorkout`, {
-        trainerID,
-        workout_title,
-        workout_type,
-        target_audience,
-        workout_estimated_time,
-        workout_description,
-        equipments,
-        calories_burn_per_unit_time,
-        intensity_level
-    })
+      trainerID,
+      workoutTitle: workoutTitle,
+      workoutType: workoutType,
+      targetAudience: targetAudience,
+      workoutEstimatedTime: workoutEstimatedTime,
+      workoutDescription: workoutDescription,
+      calorieBurnPerUnitTime: calorieBurnPerUnitTime, // Corrected parameter name
+      intensityLevel: intensityLevel
+    }, config) // Pass config object here
 );
+  
 
 // Function to filter workouts based on type
 export const filterWorkoutsByType = (type) => (
