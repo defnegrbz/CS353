@@ -58,7 +58,7 @@ public Workout addWorkout(Long trainerID, Workout workout) {
     try {
         // Execute native SQL query to insert workout data
         entityManager.createNativeQuery("INSERT INTO workout (trainerid, workout_title, workout_type, target_audience, workout_estimated_time, workout_description, calorie_burn_per_unit_time, intensity_level, equipments) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
             .setParameter(1, trainerID)
             .setParameter(2, workout.getWorkoutTitle())
             .setParameter(3, workout.getWorkoutType())
@@ -68,6 +68,7 @@ public Workout addWorkout(Long trainerID, Workout workout) {
             .setParameter(7, workout.getCalorieBurnPerUnitTime())
             .setParameter(8, workout.getIntensityLevel())
             .setParameter(9, workout.getEquipments())
+            
             .executeUpdate();
 
         logger.debug("Workout added successfully for trainer ID: {}", trainerID);

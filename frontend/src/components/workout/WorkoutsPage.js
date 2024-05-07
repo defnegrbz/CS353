@@ -18,7 +18,6 @@ import { deleteWorkout } from '../../api/axiosConfig';
 const Workout = () => {
   const [workouts, setWorkouts] = useState([]);
   const [open, setOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
 
   useEffect(() => {
@@ -41,9 +40,10 @@ const Workout = () => {
 
   const handleCloseDialog = () => {
     setOpen(false);
-    setEditOpen(false);
     fetchWorkouts(); // Fetch updated workouts
   };
+
+
 
   const handleDelete = (id) => {
     // Call the deleteWorkout function with the workout ID
@@ -59,12 +59,8 @@ const Workout = () => {
         console.error('Error deleting workout:', error);
         fetchWorkouts();
       });
+      
   };
-
-  const handleEdit = () => {
-    setEditOpen(true);
-  }
-  
 
   // Define columns for the Data Grid
   const columns = [
@@ -72,7 +68,9 @@ const Workout = () => {
     { field: 'workoutTitle', headerName: 'Title', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'trainerID', headerName: 'Trainer ID', width: 100, align: 'center', headerAlign: 'center' },
     { field: 'workoutType', headerName: 'Type', width: 150, align: 'center', headerAlign: 'center' },
-    { field: 'targetAudience', headerName: 'Target Audience', width: 200, align: 'center', headerAlign: 'center' },
+    { field: 'workoutDescription', headerName: 'Description', width: 150, align: 'center', headerAlign: 'center'},
+    { field: 'equipments', headerName: 'Equipments', width: 150, align: 'center', headerAlign: 'center'},
+    { field: 'targetAudience', headerName: 'Target Audience', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'workoutEstimatedTime', headerName: 'Estimated Time', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'caloriesBurnPerUnitTime', headerName: 'Calories Burnt', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'intensityLevel', headerName: 'Intensity Level', width: 130, align: 'center', headerAlign: 'center' },
@@ -86,15 +84,10 @@ const Workout = () => {
           <h1 style={{ textAlign: 'center' }}>Workouts</h1>
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
-          <Dialog open={open || editOpen} onClose={() => handleCloseDialog()}>
-            <WorkoutCreatePage
-              trainerId={1}
-              workoutData={selectedWorkout}
-              onClose={() => handleCloseDialog()}
-            />
+          <Dialog open={open} onClose={() => setOpen(false)}>
+            <WorkoutCreatePage trainerId={1} onClose={() => handleCloseDialog()} />
           </Dialog>
           <button onClick={() => setOpen(true)} style={{ padding: '10px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}>Create Workout</button>
-          
         </Grid>
       </Grid>
       <div style={{ height: 400, width: '80%', margin: '0 auto', textAlign: 'center' }}>
@@ -114,14 +107,6 @@ const Workout = () => {
       </div>
       <Grid container>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleEdit}
-            disabled={!selectedWorkout}
-          >
-            Edit Workout
-          </Button>
           <Button
             variant="contained"
             color="secondary"

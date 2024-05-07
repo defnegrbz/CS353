@@ -1,81 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { updateWorkout } from '../../api/axiosConfig'; 
+import { addWorkout, updateWorkout } from '../../api/axiosConfig'; 
 
-const WorkoutCreationPage = ({ trainerId, onClose, workoutData }) => {
+const WorkoutCreationPage = ({ trainerId, onClose, workoutData }) => { 
   const navigate = useNavigate();
-  const [workoutTitle, setWorkoutTitle] = useState('');
-  const [workoutType, setWorkoutType] = useState('');
-  const [targetAudience, setTargetAudience] = useState('');
-  const [workoutEstimatedTime, setWorkoutEstimatedTime] = useState('');
-  const [workoutDescription, setWorkoutDescription] = useState('');
-  const [equipments, setEquipments] = useState('');
-  const [caloriesBurnPerUnitTime, setCaloriesBurnPerUnitTime] = useState('');
-  const [intensityLevel, setIntensityLevel] = useState('');
-
-  useEffect(() => {
-    if (workoutData) {
-      const {
-        title,
-        type,
-        audience,
-        estimatedTime,
-        description,
-        equipments,
-        caloriesBurnPerUnitTime,
-        intensityLevel,
-      } = workoutData;
-
-      setWorkoutTitle(title || ''); // Set initial values or empty string if not provided
-      setWorkoutType(type || '');
-      setTargetAudience(audience || '');
-      setWorkoutEstimatedTime(estimatedTime || '');
-      setWorkoutDescription(description || '');
-      setEquipments(equipments || '');
-      setCaloriesBurnPerUnitTime(caloriesBurnPerUnitTime || '');
-      setIntensityLevel(intensityLevel || '');
-    }
-  }, [workoutData]);
+  const [workoutTitle, setWorkoutTitle] = useState(workoutData ? workoutData.title : '');
+  const [workoutType, setWorkoutType] = useState(workoutData ? workoutData.type : '');
+  const [targetAudience, setTargetAudience] = useState(workoutData ? workoutData.audience : '');
+  const [workoutEstimatedTime, setWorkoutEstimatedTime] = useState(workoutData ? workoutData.estimatedTime : '');
+  const [workoutDescription, setWorkoutDescription] = useState(workoutData ? workoutData.description : '');
+  const [equipments, setEquipments] = useState(workoutData ? workoutData.equipments : '');
+  const [caloriesBurnPerUnitTime, setCaloriesBurnPerUnitTime] = useState(workoutData ? workoutData.caloriesBurnPerUnitTime : '');
+  const [intensityLevel, setIntensityLevel] = useState(workoutData ? workoutData.intensityLevel : '');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       // Form validation
       if (!caloriesBurnPerUnitTime) {
         alert('Please enter the calorie burn per unit time.');
         return;
       }
-
+  
       const config = {
         headers: {
           'Content-Type': 'application/json'
         }
       };
-
-      await updateWorkout(
-        workoutData.id, // Pass workout ID for updating
-        trainerId,
-        workoutTitle,
-        workoutType,
-        targetAudience,
-        workoutEstimatedTime,
-        workoutDescription,
-        caloriesBurnPerUnitTime,
-        intensityLevel,
-        config
-      );
-      console.log('Workout updated successfully!');
+        await addWorkout(
+          trainerId,
+          workoutTitle,
+          workoutType,
+          targetAudience,
+          workoutEstimatedTime,
+          workoutDescription,
+          equipments,
+          caloriesBurnPerUnitTime,
+          intensityLevel,
+          config
+        );
+        console.log('Workout created successfully!');
     } catch (error) {
-      console.error('Error updating workout:', error);
-      alert('Failed to update workout. Please try again.');
+      console.error('Error:', error);
+      alert('Failed to perform the operation. Please try again.');
     }
-    onClose(); // Close the dialog
+    onClose();
   };
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '500px', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', color: '#333' }}>{workoutData ? 'Edit Workout' : 'Create a New Workout'}</h2>
+      <h2 style={{ textAlign: 'center', color: '#333' }}>Create a New Workout</h2>
       <form onSubmit={handleSubmit} style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
         <label style={{ display: 'block', marginBottom: '10px' }}>
           <span style={{ fontWeight: 'bold' }}>Workout Title:</span>
@@ -112,7 +87,7 @@ const WorkoutCreationPage = ({ trainerId, onClose, workoutData }) => {
         <button type="button" onClick={() => onClose()} style={{ backgroundColor: '#f9f9f9', color: '#333', padding: '8px 16px', borderRadius: '5px', border: '1px solid #333', cursor: 'pointer', marginRight: '10px' }}>Cancel</button>
         <button type="reset" style={{ backgroundColor: '#f9f9f9', color: '#333', padding: '8px 16px', borderRadius: '5px', border: '1px solid #333', cursor: 'pointer', marginRight: '10px' }}>Reset</button>
 
-        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>{workoutData ? 'Edit' : 'Create'}</button>
+        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Create Workout</button>
       </form>
     </div>
   );
