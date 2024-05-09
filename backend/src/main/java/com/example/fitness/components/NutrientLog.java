@@ -1,5 +1,7 @@
 package com.example.fitness.components;
 
+import java.time.LocalDate;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +24,8 @@ import lombok.Data;
 @Data
 public class NutrientLog {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "nutrient_log_id")
     Long nutrientLogId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,11 +34,11 @@ public class NutrientLog {
     @JsonIgnore
     Member member;
 
-    @Column(columnDefinition = "nutrient_log_type")
+    @Column(name = "nutrient_log_type")
     String nutrientLogType;
 
-    @DateTimeFormat //?
-    DateTimeFormat nutrientLogDate;
+    @Column(name = "nutrient_log_date")
+    LocalDate nutrientLogDate;
 
 
 }

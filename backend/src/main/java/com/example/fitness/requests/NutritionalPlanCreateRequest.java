@@ -1,5 +1,7 @@
 package com.example.fitness.requests;
 
+import com.example.fitness.components.Member;
+
 import lombok.Data;
 
 @Data

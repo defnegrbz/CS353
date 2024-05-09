@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fitness.components.Nutrient;
-import com.example.fitness.repositories.NutrientRepository;
 import com.example.fitness.services.NutrientService;
 
 @RestController
@@ -21,8 +20,8 @@ import com.example.fitness.services.NutrientService;
 public class NutrientController {
     private NutrientService nutrientService;
 
-    public NutrientController(NutrientRepository nutrientRepository){
-            this.nutrientService = nutrientService;
+    public NutrientController(NutrientService nutrientService){
+        this.nutrientService = nutrientService;
     }
 
     @GetMapping
