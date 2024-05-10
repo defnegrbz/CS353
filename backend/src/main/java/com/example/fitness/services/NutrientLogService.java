@@ -21,12 +21,12 @@ public class NutrientLogService {
         this.memberService = memberService;
     }
 
-    public List<NutrientLog> getAllNutrientLogs(Optional<Long> member_id) {
-        if(member_id.isPresent()){
-            return nutrientLogRepository.findByMemberId(member_id);
-        }
-        return nutrientLogRepository.findAll();
-    }
+    // public List<NutrientLog> getAllNutrientLogs(Optional<Long> member_id) {
+    //     if(member_id.isPresent()){
+    //         return nutrientLogRepository.findByMemberId(member_id);
+    //     }
+    //     return nutrientLogRepository.findAll();
+    // }
 
     public NutrientLog getOneNutrientLogById(Long nutrientLogId) {
         return nutrientLogRepository.findById(nutrientLogId).orElse(null);
