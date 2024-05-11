@@ -23,7 +23,6 @@ public class HealthDataService {
     }
 
     public HealthData getOneHealthData(Long userId) {
-        // return new HealthData();
         return healthDataRepository.findById(userId).orElse(null);
     }
 

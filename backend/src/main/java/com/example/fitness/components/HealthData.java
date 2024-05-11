@@ -43,7 +43,7 @@ public class HealthData {
     private String medications;
 
     @Transient
-    private Integer BMI;
+    private Double BMI;
 
     // Getter method for BMI attribute
     public Double getBMI() {

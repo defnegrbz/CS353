@@ -29,7 +29,7 @@ public class Trainer extends User{
     // Storing busy dates of the trainer as a LocalDate list
     @ElementCollection
     @CollectionTable(name = "trainer_busyDates", joinColumns = @JoinColumn(name = "userID"))
-    @Column(name = "busydAtes")
+    @Column(name = "busyDates")
     private List<LocalDate> busyDates;
 
 
