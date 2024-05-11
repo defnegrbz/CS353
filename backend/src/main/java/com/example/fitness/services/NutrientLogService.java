@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.fitness.components.NutrientLog;
+import com.example.fitness.components.User;
 import com.example.fitness.repositories.NutrientLogRepository;
 import com.example.fitness.requests.NutrientLogCreateRequest;
 import com.example.fitness.requests.NutrientLogUpdateRequest;
@@ -13,35 +14,35 @@ import com.example.fitness.requests.NutrientLogUpdateRequest;
 @Service
 public class NutrientLogService {
     private NutrientLogRepository nutrientLogRepository;
-    private MemberService memberService;
+    private UserService memberService;
 
-    public NutrientLogService(NutrientLogRepository nutrientLogRepository, MemberService memberService) {
+    public NutrientLogService(NutrientLogRepository nutrientLogRepository, UserService memberService) {
         this.nutrientLogRepository = nutrientLogRepository;
         this.memberService = memberService;
     }
 
-    public List<NutrientLog> getAllNutrientLogs(Optional<Long> member_id) {
-        if(member_id.isPresent()){
-            return nutrientLogRepository.findByMemberId(member_id);
-        }
-        return nutrientLogRepository.findAll();
-    }
+    // public List<NutrientLog> getAllNutrientLogs(Optional<Long> member_id) {
+    //     if(member_id.isPresent()){
+    //         return nutrientLogRepository.findByMemberId(member_id);
+    //     }
+    //     return nutrientLogRepository.findAll();
+    // }
 
     public NutrientLog getOneNutrientLogById(Long nutrientLogId) {
         return nutrientLogRepository.findById(nutrientLogId).orElse(null);
     }
 
     public NutrientLog createOneNutrientLog(NutrientLogCreateRequest newNutrientLogRequest) {
-        Member member = memberService.getOneMember(newNutrientLogRequest.getMemberId());
+        //User member = memberService.getOneMember(newNutrientLogRequest.getUserId());
         
-        if(member == null){
+        /*if(member == null){
             return null;
-        }
+        }*/
 
         NutrientLog toSave = new NutrientLog();
         toSave.setNutrientLogId(newNutrientLogRequest.getNutrientLogId());
-        toSave.setMember(newNutrientLogRequest.getMember());
-        toSave.setNutrientLogDate(newNutrientLogRequest.getNutrientLogDate());
+        //toSave.setUser(newNutrientLogRequest.getMember());
+        //toSave.setNutrientLogDate(newNutrientLogRequest.getNutrientLogDate());
         toSave.setNutrientLogType(newNutrientLogRequest.getNutrientLogType());
     
         
@@ -52,8 +53,8 @@ public class NutrientLogService {
         Optional<NutrientLog> nutLog = nutrientLogRepository.findById(nutrientLogId);
         if(nutLog.isPresent()){
             NutrientLog toUpdate = nutLog.get();
-            toUpdate.setMember(updateNutLog.getMember());
-            toUpdate.setNutrientLogDate(updateNutLog.getNutrientLogDate());
+            //toUpdate.setMember(updateNutLog.getMember());
+            //toUpdate.setNutrientLogDate(updateNutLog.getNutrientLogDate());
             toUpdate.setNutrientLogType(updateNutLog.getNutrientLogType());
             toUpdate.setNutrientLogId(updateNutLog.getNutrientLogId()); 
             nutrientLogRepository.save(toUpdate);

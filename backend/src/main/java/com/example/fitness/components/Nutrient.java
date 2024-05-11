@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class Nutrient {
     @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "nutrient_id")
     Long nutrientID;
     
     @Column(columnDefinition = "nutrient_name")

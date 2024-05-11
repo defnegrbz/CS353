@@ -1,6 +1,10 @@
 package com.example.fitness.requests;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
+
+import com.example.fitness.components.Member;
+
+import com.example.fitness.components.User;
 
 import lombok.Data;
 
@@ -8,7 +12,7 @@ import lombok.Data;
 public class NutrientLogCreateRequest {
     
     Long nutrientLogId;
-    Member member;
+    User member;
     String nutrientLogType;
-    DateTimeFormat nutrientLogDate;
+    LocalDate nutrientLogDate;
 }

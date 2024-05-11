@@ -14,10 +14,10 @@ import com.example.fitness.requests.NutritionalPlanUpdateRequest;
 public class NutritionalPlanService {
 
     private NutritionalPlanRepository nutritionalPlanRepository;
-    private MemberService memberService;
+    private UserService memberService;
 
     
-    public NutritionalPlanService(NutritionalPlanRepository nutritionalPlanRepository, MemberService memberService) {
+    public NutritionalPlanService(NutritionalPlanRepository nutritionalPlanRepository, UserService memberService) {
         this.nutritionalPlanRepository = nutritionalPlanRepository;
         this.memberService = memberService;
     }
@@ -27,14 +27,14 @@ public class NutritionalPlanService {
     }
 
     public NutritionalPlan createOneNutritionalPlan(NutritionalPlanCreateRequest newNutrientPlanRequest) {
-        Member member memberService.getOneMember(newNutrientPlanRequest.getMemberId());
+        //Member member memberService.getOneMember(newNutrientPlanRequest.getMemberId());
 
-        if(member == null){
+        /*if(member == null){
             return null;
-        }
+        }*/
 
         NutritionalPlan toSave = new NutritionalPlan();
-        toSave.setMember(newNutrientPlanRequest.getMember());
+        //toSave.setMember(newNutrientPlanRequest.getMember());
         toSave.setNutritionalPlanId(newNutrientPlanRequest.getNutritionalPlanId());
         toSave.setTotalCalorie(newNutrientPlanRequest.getTotalCalorie());
        
@@ -46,7 +46,7 @@ public class NutritionalPlanService {
 
         if(nutPlan.isPresent()){
             NutritionalPlan toUpdate = nutPlan.get();
-            toUpdate.setMember(updateNutPlan.getMember());
+            //toUpdate.setMember(updateNutPlan.getMember());
             toUpdate.setNutritionalPlanId(updateNutPlan.getNutritionalPlanId());
             toUpdate.setTotalCalorie(updateNutPlan.getTotalCalorie());
             nutritionalPlanRepository.save(toUpdate);

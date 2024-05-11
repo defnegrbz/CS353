@@ -41,16 +41,9 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     @Query(value = "DELETE FROM workout w WHERE w.workoutID = ?1", nativeQuery = true)
     void deleteById(Long workoutID);
 
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO workout (trainer_id, workout_title, workout_type, target_audience, workout_count, workout_estimated_time, workout_description, equipments, calories_burn_per_unit_time, intensity_level) " +
-                   "VALUES (:trainerID, :workoutTitle, :workoutType, :targetAudience, :workoutCount, :workoutEstimatedTime, :workoutDescription, :equipments, :caloriesBurnPerUnitTime, :intensityLevel)",
-                   nativeQuery = true)
-    void addWorkout(@Param("trainerID") Long trainerID, @Param("workoutTitle") String workoutTitle, @Param("workoutType") String workoutType,
-                    @Param("targetAudience") String targetAudience, @Param("workoutCount") Integer workoutCount,
-                    @Param("workoutEstimatedTime") Integer workoutEstimatedTime, @Param("workoutDescription") String workoutDescription,
-                    @Param("equipments") String equipments, @Param("caloriesBurnPerUnitTime") Double caloriesBurnPerUnitTime,
-                    @Param("intensityLevel") Integer intensityLevel);
+    
+
+   
 }
 
 

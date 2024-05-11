@@ -15,7 +15,7 @@ import com.example.fitness.requests.NutritionalPlanUpdateRequest;
 import com.example.fitness.services.NutritionalPlanService;
 
 @RestController
-@RequestMapping("/{nutritionalPlan}")
+@RequestMapping("/nutritionalPlan")
 public class NutritionalPlanController {
     private NutritionalPlanService nutritionalPlanService;
 
