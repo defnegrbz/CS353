@@ -33,20 +33,20 @@ public class NutrientLogService {
     }
 
     public NutrientLog createOneNutrientLog(NutrientLogCreateRequest newNutrientLogRequest) {
-        //User member = memberService.getOneMember(newNutrientLogRequest.getUserId());
+        User member = memberService.getOneMember(newNutrientLogRequest.getMemberId());
         
-        /*if(member == null){
+        if(member == null){
             return null;
-        }*/
+        }
 
-        NutrientLog toSave = new NutrientLog();
-        toSave.setNutrientLogId(newNutrientLogRequest.getNutrientLogId());
-        //toSave.setUser(newNutrientLogRequest.getMember());
-        //toSave.setNutrientLogDate(newNutrientLogRequest.getNutrientLogDate());
-        toSave.setNutrientLogType(newNutrientLogRequest.getNutrientLogType());
+        // NutrientLog toSave = new NutrientLog();
+        // toSave.setNutrientLogId(newNutrientLogRequest.getNutrientLogId());
+        // toSave.setMember(newNutrientLogRequest.getMember());
+        // toSave.setNutrientLogDate(newNutrientLogRequest.getNutrientLogDate());
+        // toSave.setNutrientLogType(newNutrientLogRequest.getNutrientLogType());
     
         
-        return nutrientLogRepository.save(toSave); 
+        return nutrientLogRepository.saveOneNutrientLog(newNutrientLogRequest.getMemberId(), newNutrientLogRequest.getNutrientLogDate(), newNutrientLogRequest.getNutrientLogType()); 
     }
 
     public NutrientLog updateOneNutrientLogById(Long nutrientLogId, NutrientLogUpdateRequest updateNutLog) {

@@ -22,7 +22,7 @@ public class NutrientService {
     }
 
     public Nutrient saveOneNutrient(Nutrient newNutrient) {
-        return nutrientRepository.save(newNutrient);
+        return nutrientRepository.saveOneNutrient(newNutrient.getNutrientCalorie(), newNutrient.getNutrientName(), newNutrient.getNutrientQuantity());
     }
 
     public Nutrient getOneNutrient(Long nutrientId) {

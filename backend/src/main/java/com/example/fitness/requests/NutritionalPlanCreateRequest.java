@@ -2,13 +2,15 @@ package com.example.fitness.requests;
 
 import com.example.fitness.components.Member;
 import com.example.fitness.components.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
 @Data
 public class NutritionalPlanCreateRequest {
+    @JsonIgnore
     Long nutritionalPlanId;
-    User member;
+    Long memberId;
     int totalCalorie;
 
 }

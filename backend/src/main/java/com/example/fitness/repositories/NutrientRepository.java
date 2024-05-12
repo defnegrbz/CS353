@@ -17,22 +17,30 @@ public interface NutrientRepository extends JpaRepository<Nutrient, Long>{
     @Query(value = "SELECT * FROM nutrient n", nativeQuery = true)
     List<Nutrient> findAll();
 
-    @Query(value = "SELECT * FROM nutrient n WHERE n.nutrientID = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM nutrient n WHERE n.nutrient_id = ?1", nativeQuery = true)
     Optional<Nutrient> findById(Long nutrientID);
 
-    @Query(value = "SELECT * FROM nutrient n WHERE n.nutrientName = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM nutrient n WHERE n.nutrient_name = ?1", nativeQuery = true)
     Optional<Nutrient> findNutrientByName(String name);
 
-    @Query("SELECT n FROM Nutrient n WHERE n.nutrientCalorie <= :nutrientCalorie")
-    List<Nutrient> findNNutrientByCalorie(@Param("nutrientCalorie") int nutrientCalorie);
+    @Query(value = "SELECT n FROM nutrient n WHERE n.nutrient_calorie = ?1", nativeQuery = true)
+    List<Nutrient> findNNutrientByCalorie(int nutrientCalorie);
 
-    @Query("SELECT n FROM Nutrient n WHERE n.nutrientQuantity <= :nutrientQuantity")
-    List<Nutrient> findNNutrientByQuantity(@Param("nutrientQuantity") int nutrientQuantity);
+    @Query(value = "SELECT n FROM nutrient n WHERE n.nutrient_quantity = ?1", nativeQuery = true)
+    List<Nutrient> findNNutrientByQuantity(int nutrientQuantity);
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM nutrient n WHERE n.nutrientID = ?1", nativeQuery = true)
+    @Query(value = "DELETE FROM nutrient n WHERE n.nutrient_id = ?1", nativeQuery = true)
     void deleteById(Long nutrientID);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO nutrient (nutrient_calorie, nutrient_name, nutrient_quantity) " +
+                    "VALUES (:nutrient_calorie, :nutrient_name, :nutrient_quantity)", nativeQuery = true)
+    Nutrient saveOneNutrient(@Param("nutrient_calorie") Integer nutrient_calorie, @Param("nutrient_name") String nutrient_name, @Param("nutrient_quantity") Integer nutrient_quantity);
+
+
 
     
 }

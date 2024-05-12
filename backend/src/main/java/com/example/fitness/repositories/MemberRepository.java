@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.fitness.components.Member;
-import com.example.fitness.components.Workout;
+
 
 import jakarta.transaction.Transactional;
 

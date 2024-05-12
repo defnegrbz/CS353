@@ -23,6 +23,7 @@ public class NutritionalPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nutritional_plan_id")
+    @JsonIgnore
     Long nutritionalPlanId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,7 +32,7 @@ public class NutritionalPlan {
     @JsonIgnore
     Member member;
 
-    @Column(columnDefinition = "total_calorie")
+    @Column(name = "total_calorie")
     int totalCalorie;
 
 }

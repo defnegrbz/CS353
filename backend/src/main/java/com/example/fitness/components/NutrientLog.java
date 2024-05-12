@@ -1,6 +1,7 @@
 package com.example.fitness.components;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +15,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -25,7 +28,16 @@ public class NutrientLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nutrient_log_id")
+    @JsonIgnore
     Long nutrientLogId;
+
+    @ManyToMany
+    @JoinTable(
+    name = "nutrient_log_has", 
+    joinColumns = @JoinColumn(name = "nutrient_log_id"), 
+    inverseJoinColumns = @JoinColumn(name = "nutrient_id"))
+    List<Nutrient> includedNutrients;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)

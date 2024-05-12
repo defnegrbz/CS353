@@ -11,10 +11,6 @@ import lombok.Data;
 @Table(name = "Member")
 public class Member extends User{
 
-    // public Member(String fullname, String username, String password, String gender, String mail, LocalDate birthDate,
-    //         String profilePicture, List<String> fitnessGoals2, Integer sugCalorieIntake2) {
-    // }
-
     // Storing fitness goals as a string array
     @ElementCollection
     @CollectionTable(name = "member_fitnessGoals", joinColumns = @JoinColumn(name = "userID"))

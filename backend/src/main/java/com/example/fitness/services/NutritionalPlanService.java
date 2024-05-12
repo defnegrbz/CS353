@@ -33,12 +33,12 @@ public class NutritionalPlanService {
             return null;
         }*/
 
-        NutritionalPlan toSave = new NutritionalPlan();
-        //toSave.setMember(newNutrientPlanRequest.getMember());
-        toSave.setNutritionalPlanId(newNutrientPlanRequest.getNutritionalPlanId());
-        toSave.setTotalCalorie(newNutrientPlanRequest.getTotalCalorie());
+        // NutritionalPlan toSave = new NutritionalPlan();
+        // //toSave.setMember(newNutrientPlanRequest.getMember());
+        // toSave.setNutritionalPlanId(newNutrientPlanRequest.getNutritionalPlanId());
+        // toSave.setTotalCalorie(newNutrientPlanRequest.getTotalCalorie());
        
-        return nutritionalPlanRepository.save(toSave);
+        return nutritionalPlanRepository.saveOneNutritionalPlan(newNutrientPlanRequest.getMemberId(), newNutrientPlanRequest.getTotalCalorie());
     }
 
     public NutritionalPlan updateOneNutritionalPlanById(Long nutritionalPlanId, NutritionalPlanUpdateRequest updateNutPlan){

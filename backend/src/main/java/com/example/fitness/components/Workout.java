@@ -18,7 +18,7 @@ public class Workout {
     private Long trainerID;  // This field will be stored in the Workout table
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "trainerid", referencedColumnName = "userid", insertable = false, updatable = false)
+    @JoinColumn(name = "trainerid", referencedColumnName = "id", insertable = false, updatable = false) // referencedColumnName = "userid" / Trainer trainer 
     private Trainer trainer;    
 
     @Column(name = "workout_title", nullable = false)

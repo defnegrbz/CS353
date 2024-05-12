@@ -11,6 +11,12 @@ import lombok.Data;
 @Table(name = "Trainer")
 public class Trainer extends User{
 
+    // Storing busy dates of the trainer as a LocalDate list
+    @ElementCollection
+    @CollectionTable(name = "trainer_busyDates", joinColumns = @JoinColumn(name = "userID"))
+    @Column(name = "busyDates")
+    private List<LocalDate> busyDates;
+
     @Column(name = "trainerDescription", columnDefinition = "TEXT")
     private String trainerDescription;
 
@@ -26,11 +32,6 @@ public class Trainer extends User{
     @Column(name = "trainerRating")
     private Double trainerRating;
 
-    // Storing busy dates of the trainer as a LocalDate list
-    @ElementCollection
-    @CollectionTable(name = "trainer_busyDates", joinColumns = @JoinColumn(name = "userID"))
-    @Column(name = "busyDates")
-    private List<LocalDate> busyDates;
-
+    
 
 }
