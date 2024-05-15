@@ -2,13 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WorkoutPage from './components/workout/WorkoutsPage';
 import WorkoutCreatePage from './components/workout/WorkoutCreatePage';
-import MemberLoginPage from './auth/MemberLogin';
-import TrainerLoginPage from './auth/TrainerLogin';
-import TrainerRegisterPage from './auth/RegisterTrainer';
-import MemberRegisterPage from './auth/RegisterMember';
+import MemberLoginPage from './components/auth/MemberLogin';
+import TrainerLoginPage from './components/auth/TrainerLogin';
+import TrainerRegisterPage from './components/auth/RegisterTrainer';
+import MemberRegisterPage from './components/auth/RegisterMember';
 import HealthDataCreatePage from './components/users/HealthDataCreatePage';
 import HealthDataPage from './components/users/HealthDataPage';
-import NutritionsPage from './components/nutritions/NutritionsPage';
+import InitialPage from './components/auth/InitialPage';
+
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/healthdatas/:userId/create" element={<HealthDataCreatePage />} />
         <Route path="/healthdatas/:userId" element={<HealthDataPage />} />
         <Route path="/nutritionalPlan/:userId" element={<HealthDataPage />} />
+        <Route path="/" element={<InitialPage />} />
       </Routes>
     </Router>
   );

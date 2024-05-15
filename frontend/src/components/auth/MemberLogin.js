@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { memberLogin } from '../api/axiosConfig'; 
+import { memberLogin } from '../../api/axiosConfig';
 
 const MemberLogin = () => {
 
@@ -30,7 +30,7 @@ const MemberLogin = () => {
         }
       } catch (err) {
         setError(err.response?.data?.message || 'An error occured. Please try again.');
-      }
+      }
     }
     
     return (

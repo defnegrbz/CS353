@@ -32,7 +32,7 @@ export const trainerRegister = (firstName, lastName, email, userName, password, 
 
 //Logins 
 export const memberLogin = (email, password) => (
-    axios.post(`${baseURL}/users/login/member-login`, {
+    axios.post(`${baseURL}/members`, {
         email,
         password
     })
