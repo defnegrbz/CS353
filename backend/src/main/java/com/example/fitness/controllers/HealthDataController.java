@@ -33,10 +33,10 @@ public class HealthDataController {
     }
 
     @PostMapping("/{userId}")
-    public HealthData createHealthData(@PathVariable Long userId, @RequestBody HealthData newHealthData){
+    public void createHealthData(@PathVariable Long userId, @RequestBody HealthData newHealthData){
         User user = userService.getOneUser(userId);
         newHealthData.setUser(user);
-        return healthDataService.saveOneHealthData(newHealthData);
+        healthDataService.saveOneHealthData(userId, newHealthData);
     }
 
     @GetMapping("/{userId}") 
