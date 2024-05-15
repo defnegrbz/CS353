@@ -48,4 +48,19 @@ public interface WorkoutLogRepository extends JpaRepository<WorkoutLog, Long> {
                    nativeQuery = true)
     void addWorkoutLog(@Param("memberId") Long memberId, @Param("date") String date, @Param("duration") String duration,
                     @Param("status") String status, @Param("caloriesBurnt") String caloriesBurnt);
+
+
+
+    
+    
+
 }
+
+
+
+
+
+
+
+
+
