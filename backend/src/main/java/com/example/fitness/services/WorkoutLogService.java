@@ -8,6 +8,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ import java.util.Optional;
 
 @Service
 public class WorkoutLogService {
+
+    
+    private static final Logger logger = LogManager.getLogger(WorkoutLogService.class);
 
     private final WorkoutLogRepository workoutLogRepository;
 
@@ -61,16 +67,34 @@ public class WorkoutLogService {
     }
 
     @Transactional
-    public WorkoutLog addWorkoutLog(Long memberId, String date, String duration, String status, String caloriesBurnt){
-        entityManager.createNativeQuery("INSERT INTO workoutlog (member_id, workout_log_date, workout_log_duration, workout_log_status, workout_log_totalcaloriesburnt) " +
-            "VALUES (?, ?, ?, ?, ?)")
-            .setParameter(1, memberId)
-            .setParameter(2, date)
-            .setParameter(3, duration)
-            .setParameter(4, status)
-            .setParameter(5, caloriesBurnt)
-            .executeUpdate();
-        return new WorkoutLog();
+    public WorkoutLog addWorkoutLog(Long memberId, WorkoutLog workoutLog) {
+        logger.debug("Adding workout log for member ID: {}", memberId);
+        logger.debug("Received workout log details: {}", workoutLog);
+
+        if (
+            memberId == null) {
+            logger.error("memberId is null");
+            throw new IllegalArgumentException("All critical workout log information must be provided");
+        }
+
+
+        try {
+            entityManager.createNativeQuery("INSERT INTO workoutlog (member_id, workout_log_date, workout_log_duration, workout_log_status, workout_log_totalcaloriesburnt, workout_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?)")
+                .setParameter(1, memberId)
+                .setParameter(2, workoutLog.getWorkoutLogDate())
+                .setParameter(3, workoutLog.getWorkoutLogDuration())
+                .setParameter(4, workoutLog.getWorkoutLogStatus())
+                .setParameter(5, workoutLog.getWorkoutLogTotalCaloriesBurnt())
+                .setParameter(6, workoutLog.getWorkoutId())
+                .executeUpdate();
+                logger.debug("Workout log added successfully for member ID: {}", memberId);
+            } catch (Exception e) {
+                logger.error("Error adding workout log: {}", e.getMessage(), e);
+                throw new RuntimeException("Failed to add workout log", e);
+            }
+
+        return workoutLog;
     }
 
    

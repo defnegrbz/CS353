@@ -10,13 +10,14 @@ import HealthDataCreatePage from './components/users/HealthDataCreatePage';
 import HealthDataPage from './components/users/HealthDataPage';
 import InitialPage from './components/auth/InitialPage';
 import WorkoutLogs from './components/workoutLog/workoutLogList';
+import WorkoutLogForm from './components/workoutLog/workoutLogForm';
 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/workouts" element={<WorkoutPage />} />
+        <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
         <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
         <Route path="/users/login/member-login" element={<MemberLoginPage />} />
         <Route path="/users/login/trainer-login" element={<TrainerLoginPage />} />
@@ -26,7 +27,8 @@ function App() {
         <Route path="/healthdatas/:userId" element={<HealthDataPage />} />
         <Route path="/nutritionalPlan/:userId" element={<HealthDataPage />} />
         <Route path="/" element={<InitialPage />} />
-        <Route path="/workoutlogs" element={<WorkoutLogs />} />
+        <Route path="/workoutlogs/:userId" element={<WorkoutLogs />} />
+        <Route path="/workoutlogs/:userId/createWorkoutLog" element={<WorkoutLogForm />} />
       </Routes>
     </Router>
   );

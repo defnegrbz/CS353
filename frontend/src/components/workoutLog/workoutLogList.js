@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
-import { getWorkoutLogs, deleteWorkoutLog } from '../../api/axiosConfig'; // Import API functions
+import { getWorkoutLogsByMember, deleteWorkoutLog } from '../../api/axiosConfig'; // Ensure these are correctly defined
 import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
 import Dialog from '@mui/material/Dialog';
@@ -11,39 +12,48 @@ const WorkoutLog = () => {
   const [workoutLogs, setWorkoutLogs] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedWorkoutLog, setSelectedWorkoutLog] = useState(null);
+  const userId  = useParams().userId; // Now properly imported and used
+
+
 
   useEffect(() => {
-    fetchWorkoutLogs();
+    console.log("Member ID:", userId);  // Check the output in your console
+    
+      fetchWorkoutLogs(userId);
+    
   }, []);
 
-  const fetchWorkoutLogs = async () => {
+  const fetchWorkoutLogs = async (userId) => {
     try {
-      const response = await getWorkoutLogs(); // Call the getWorkoutLogs function
-      const logsWithIds = response.data.map((log, index) => ({
+      const response = await getWorkoutLogsByMember(userId);
+      const logsWithIds = response.data.map(log => ({
         ...log,
-        id: index + 1 // Generate unique ID (assuming index starts from 0)
+        id: log.id // Assuming log.id is the unique identifier provided by the server
       }));
-      setWorkoutLogs(logsWithIds); // Set the workout logs state with the data from the response
+      setWorkoutLogs(logsWithIds);
     } catch (error) {
       console.error('Error fetching workout logs:', error);
     }
   };
+  
 
   const handleCloseDialog = () => {
     setOpen(false);
-    fetchWorkoutLogs(); // Fetch updated workout logs
+    if (userId) {
+      fetchWorkoutLogs(userId); // Now correctly refetches with userId
+    }
   };
 
-  const handleDelete = (id) => {
-    deleteWorkoutLog(id)
-      .then(response => {
-        console.log('Workout log deleted successfully:', response);
-        fetchWorkoutLogs();
-      })
-      .catch(error => {
-        console.error('Error deleting workout log:', error);
-        fetchWorkoutLogs();
-      });
+  const handleDelete = async (id) => {
+    try {
+      await deleteWorkoutLog(id);
+      console.log('Deletion successful');
+      if (userId) {
+        fetchWorkoutLogs(userId); // Refresh the list after deletion
+      }
+    } catch (error) {
+      console.error('Failed to delete workout log:', error);
+    }
   };
 
   const columns = [
@@ -63,19 +73,18 @@ const WorkoutLog = () => {
           <h1 style={{ textAlign: 'center' }}>Workout Logs</h1>
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
-          <Dialog open={open} onClose={() => setOpen(false)}>
-            <WorkoutLogForm onClose={handleCloseDialog} />
+          <Dialog open={open} onClose={handleCloseDialog}>
+            <WorkoutLogForm userId={userId} onClose={handleCloseDialog} />
           </Dialog>
-          <button onClick={() => setOpen(true)} style={{ padding: '10px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}>Create Workout Log</button>
+          <Button onClick={() => setOpen(true)} variant="contained" color="primary" style={{ margin: '10px' }}>
+            Create Workout Log
+          </Button>
         </Grid>
       </Grid>
       <div style={{ height: 400, width: '80%', margin: '0 auto', textAlign: 'center' }}>
         <DataGrid
           rows={workoutLogs}
-          columns={columns.map((column) => ({
-            ...column,
-            align: 'center' // Set alignment to center for all columns
-          }))}
+          columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5, 10, 20]}
           onRowClick={(row) => {
@@ -89,7 +98,7 @@ const WorkoutLog = () => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => handleDelete(selectedWorkoutLog?.row.logID)}
+            onClick={() => handleDelete(selectedWorkoutLog?.id)}
             disabled={!selectedWorkoutLog}
           >
             Delete Workout Log

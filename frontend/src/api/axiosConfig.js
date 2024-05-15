@@ -55,31 +55,6 @@ export const getWorkouts = () => (
     axios.get(`${baseURL}/workouts`)
 );  
 
-// Add the addWorkout function
-export const addWorkout = (
-    trainerID,
-    workoutTitle,
-    workoutType,
-    targetAudience,
-    workoutEstimatedTime,
-    equipments,
-    workoutDescription,
-    calorieBurnPerUnitTime, // Corrected parameter name
-    intensityLevel,
-    config // Pass config as the third argument
-) => (
-    api.post(`${baseURL}/workouts/${trainerID}/createWorkout`, {
-      trainerID,
-      workoutTitle: workoutTitle,
-      workoutType: workoutType,
-      equipments: equipments,
-      targetAudience: targetAudience,
-      workoutEstimatedTime: workoutEstimatedTime,
-      workoutDescription: workoutDescription,
-      calorieBurnPerUnitTime: calorieBurnPerUnitTime, 
-      intensityLevel: intensityLevel
-    }, config) 
-);
   
 // Function to delete a workout
 export const deleteWorkout = (id) => (
@@ -137,18 +112,65 @@ export const filterWorkoutsByIntensityLevel = (minIntensity, maxIntensity) => (
 );
 
 
-
-export const getWorkoutLogs = () => (
-    api.get(`/workoutlogs/memberId`)
-);
     
+export const getWorkoutLogsByMember = async (userId) => {
+    api.get(`${baseURL}/workoutlogs/${userId}`);
+};
 
-export const addWorkoutLog = (log) => (
-    api.post(`/workoutlogs`, log)
+// Add the addWorkout function
+export const addWorkout = (
+    trainerID,
+    workoutTitle,
+    workoutType,
+    targetAudience,
+    workoutEstimatedTime,
+    equipments,
+    workoutDescription,
+    calorieBurnPerUnitTime, // Corrected parameter name
+    intensityLevel,
+    config // Pass config as the third argument
+) => (
+    api.post(`${baseURL}/workouts/${trainerID}/createWorkout`, {
+      trainerID,
+      workoutTitle: workoutTitle,
+      workoutType: workoutType,
+      equipments: equipments,
+      targetAudience: targetAudience,
+      workoutEstimatedTime: workoutEstimatedTime,
+      workoutDescription: workoutDescription,
+      calorieBurnPerUnitTime: calorieBurnPerUnitTime, 
+      intensityLevel: intensityLevel
+    }, config) 
 );
 
-export const deleteWorkoutLog = (id) => (
-    axios.delete(`/workoutlogs/${id}`)
+export const addWorkoutLog = (
+    userId,
+    date,
+    duration,
+    status,
+    caloriesBurnt,
+    workoutId,
+    config
+) => (api.post(`${baseURL}/workoutlogs/${userId}/createworkoutlog`, {
+        userId,
+        date: date,
+        duration: duration,
+        status: status,
+        caloriesBurnt: caloriesBurnt,
+        workoutId: workoutId
+    }, config)
 );
+
+export const deleteWorkoutLog = async (id) => {
+  try {
+    const response = await axios.delete(`/api/workoutLogs/${id}`);
+    console.log('Workout log deleted successfully:', response.data);
+    return response.data; // You might want to return some part of the response to the caller
+  } catch (error) {
+    console.error('Error deleting workout log:', error);
+    throw error; // Rethrow the error if you want the caller to handle it
+  }
+};
+
 
 export default api
