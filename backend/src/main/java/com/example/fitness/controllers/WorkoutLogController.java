@@ -1,6 +1,7 @@
 package com.example.fitness.controllers;
 
 import com.example.fitness.components.WorkoutLog;
+import com.example.fitness.requests.WorkoutLogRequest;
 import com.example.fitness.services.WorkoutLogService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,13 @@ public class WorkoutLogController {
         this.workoutLogService = workoutLogService;
     }
 
-    @GetMapping("/member/{memberId}")
+    @GetMapping
+    public ResponseEntity<List<WorkoutLog>> getAllWorkoutLogs() {
+        List<WorkoutLog> workoutLogs = workoutLogService.findAllWorkoutLogs();
+        return ResponseEntity.ok().body(workoutLogs);
+    }
+
+    @GetMapping("/{memberId}")
     public ResponseEntity<List<WorkoutLog>> getWorkoutLogsByMember(@PathVariable Long memberId) {
         List<WorkoutLog> workoutLogs = workoutLogService.findWorkoutLogsByMember(memberId);
         return ResponseEntity.ok().body(workoutLogs);
@@ -35,10 +42,22 @@ public class WorkoutLogController {
     }
 
     @PostMapping
-    public ResponseEntity<WorkoutLog> addWorkoutLog(@RequestBody Long memberId, @RequestBody String date, @RequestBody String duration, @RequestBody String status, @RequestBody String caloriesBurnt) {
-        WorkoutLog newWorkoutLog = workoutLogService.addWorkoutLog(memberId, date, duration, status, caloriesBurnt);
+    public ResponseEntity<WorkoutLog> addWorkoutLog(@RequestBody WorkoutLogRequest workoutLogRequest) {
+        WorkoutLog newWorkoutLog = workoutLogService.addWorkoutLog(
+            workoutLogRequest.getMemberId(),
+            workoutLogRequest.getDate(),
+            workoutLogRequest.getDuration(),
+            workoutLogRequest.getStatus(),
+            workoutLogRequest.getCaloriesBurnt()
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(newWorkoutLog);
     }
 
-    // Other endpoints for workout log management, like adding a new log, updating, or deleting by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWorkoutLog(@PathVariable Long id) {
+        //workoutLogService.deleteWorkoutLog(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Other endpoints for workout log management, like updating logs, can be added here.
 }

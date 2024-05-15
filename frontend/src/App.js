@@ -9,6 +9,7 @@ import MemberRegisterPage from './components/auth/RegisterMember';
 import HealthDataCreatePage from './components/users/HealthDataCreatePage';
 import HealthDataPage from './components/users/HealthDataPage';
 import InitialPage from './components/auth/InitialPage';
+import WorkoutLogs from './components/workoutLog/workoutLogList';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/healthdatas/:userId" element={<HealthDataPage />} />
         <Route path="/nutritionalPlan/:userId" element={<HealthDataPage />} />
         <Route path="/" element={<InitialPage />} />
+        <Route path="/workoutlogs" element={<WorkoutLogs />} />
       </Routes>
     </Router>
   );

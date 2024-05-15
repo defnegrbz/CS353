@@ -136,4 +136,19 @@ export const filterWorkoutsByIntensityLevel = (minIntensity, maxIntensity) => (
     api.get(`/workouts?minIntensity=${minIntensity}&maxIntensity=${maxIntensity}`)
 );
 
+
+
+export const getWorkoutLogs = () => (
+    api.get(`/workoutlogs/memberId`)
+);
+    
+
+export const addWorkoutLog = (log) => (
+    api.post(`/workoutlogs`, log)
+);
+
+export const deleteWorkoutLog = (id) => (
+    axios.delete(`/workoutlogs/${id}`)
+);
+
 export default api
