@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, DialogContent, Button, List, ListItem, ListItemTex
 import { getWorkouts, addWorkoutLog } from '../../api/axiosConfig';
 import { useParams } from 'react-router-dom';
 
-const WorkoutLogForm = ({ onClose }) => {
+const WorkoutLogForm = ({ onClose, userId}) => {
   const [date, setDate] = useState('');
   const [duration, setDuration] = useState('');
   const [status, setStatus] = useState('');
@@ -12,7 +12,6 @@ const WorkoutLogForm = ({ onClose }) => {
   const [openSelectWorkout, setOpenSelectWorkout] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [workoutId, setWorkoutId] = useState(null);
-  const { userId } = useParams();  // Assuming your route parameter is named `userId`
 
   const calculateCaloriesBurnt = () => {
     if (duration && selectedWorkout) {
@@ -35,10 +34,13 @@ const WorkoutLogForm = ({ onClose }) => {
 
   const handleSelectWorkout = (workout) => {
     setSelectedWorkout(workout);
-    setWorkoutId(workout.id);
+    console.log('Selected workout:', workout);
+    console.log('Selected workout ID:', workout.workoutID);
+    setWorkoutId(workout.workoutID);
     setOpenSelectWorkout(false);
     calculateCaloriesBurnt();
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,12 +49,18 @@ const WorkoutLogForm = ({ onClose }) => {
       return;
     }
     try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+            };
       await addWorkoutLog(userId,
         date,
         duration,
         status,
-        totalCalories, // Use totalCalories instead of caloriesBurnt
-        workoutId
+        totalCalories,
+        workoutId,
+        config
       );
       console.log('Workout log created successfully!');
       resetForm();
@@ -95,7 +103,7 @@ const WorkoutLogForm = ({ onClose }) => {
           <List>
             {workouts.map(workout => (
               <ListItem key={workout.id} button onClick={() => handleSelectWorkout(workout)}>
-                <ListItemText primary={workout.title} />
+                <ListItemText primary={workout.workoutTitle} />
               </ListItem>
             ))}
           </List>

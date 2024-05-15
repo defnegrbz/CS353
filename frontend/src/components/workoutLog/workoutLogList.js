@@ -12,31 +12,35 @@ const WorkoutLog = () => {
   const [workoutLogs, setWorkoutLogs] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedWorkoutLog, setSelectedWorkoutLog] = useState(null);
-  const { memberId } = useParams(); // Now properly imported and used
+  const userId  = useParams().userId; // Now properly imported and used
+
+
 
   useEffect(() => {
-    if (memberId) {
-      fetchWorkoutLogs(memberId);
-    }
-  }, [memberId]);
+    console.log("Member ID:", userId);  // Check the output in your console
+    
+      fetchWorkoutLogs(userId);
+    
+  }, []);
 
-  const fetchWorkoutLogs = async (memberId) => {
+  const fetchWorkoutLogs = async (userId) => {
     try {
-      const response = await getWorkoutLogsByMember(memberId); // Assuming this is correctly defined
-      const logsWithIds = response.data.map((log, index) => ({
+      const response = await getWorkoutLogsByMember(userId);
+      const logsWithIds = response.data.map(log => ({
         ...log,
-        id: index + 1
+        id: log.id // Assuming log.id is the unique identifier provided by the server
       }));
       setWorkoutLogs(logsWithIds);
     } catch (error) {
       console.error('Error fetching workout logs:', error);
     }
   };
+  
 
   const handleCloseDialog = () => {
     setOpen(false);
-    if (memberId) {
-      fetchWorkoutLogs(memberId); // Now correctly refetches with memberId
+    if (userId) {
+      fetchWorkoutLogs(userId); // Now correctly refetches with userId
     }
   };
 
@@ -44,8 +48,8 @@ const WorkoutLog = () => {
     try {
       await deleteWorkoutLog(id);
       console.log('Deletion successful');
-      if (memberId) {
-        fetchWorkoutLogs(memberId); // Refresh the list after deletion
+      if (userId) {
+        fetchWorkoutLogs(userId); // Refresh the list after deletion
       }
     } catch (error) {
       console.error('Failed to delete workout log:', error);
@@ -70,7 +74,7 @@ const WorkoutLog = () => {
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           <Dialog open={open} onClose={handleCloseDialog}>
-            <WorkoutLogForm onClose={handleCloseDialog} />
+            <WorkoutLogForm userId={userId} onClose={handleCloseDialog} />
           </Dialog>
           <Button onClick={() => setOpen(true)} variant="contained" color="primary" style={{ margin: '10px' }}>
             Create Workout Log

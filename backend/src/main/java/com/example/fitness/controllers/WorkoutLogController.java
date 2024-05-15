@@ -16,13 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import java.util.List;
 
 @CrossOrigin
@@ -64,28 +57,15 @@ public class WorkoutLogController {
 
     @Transactional
     @PostMapping("/{memberId}/createworkoutlog")
-    public WorkoutLog addWorkoutLog(Long memberId, WorkoutLog workoutLog) {
+    public WorkoutLog addWorkoutLog(@PathVariable Long memberId, @RequestBody WorkoutLog workoutLog) {
         logger.debug("Adding workout log for member ID: {}", memberId);
         logger.debug("Received workout log details: {}", workoutLog);
 
-        try {
-            entityManager.createNativeQuery("INSERT INTO workoutlog (member_id, workout_log_date, workout_log_duration, workout_log_status, workout_log_totalcaloriesburnt, workout_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?)")
-                .setParameter(1, memberId)
-                .setParameter(2, workoutLog.getWorkoutLogDate())
-                .setParameter(3, workoutLog.getWorkoutLogDuration())
-                .setParameter(4, workoutLog.getWorkoutLogStatus())
-                .setParameter(5, workoutLog.getWorkoutLogTotalCaloriesBurnt())
-                .setParameter(6, workoutLog.getWorkoutId())
-                .executeUpdate();
+        WorkoutLog createdWorkoutLog = workoutLogService.addWorkoutLog(memberId, workoutLog);
 
-            logger.debug("Workout log added successfully for member ID: {}", memberId);
-        } catch (Exception e) {
-            logger.error("Error adding workout log: {}", e.getMessage(), e);
-            throw new RuntimeException("Failed to add workout log", e);
-        }
+        logger.debug("Workout log created successfully: {}", createdWorkoutLog);
 
-        return workoutLog;
+        return createdWorkoutLog;
     }
 
 

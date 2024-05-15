@@ -113,14 +113,9 @@ export const filterWorkoutsByIntensityLevel = (minIntensity, maxIntensity) => (
 
 
     
-export const getWorkoutLogsByMember = async (memberId) => {
-    try {
-      const response = await axios.get(`/api/workoutLogs/${memberId}`);
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  };
+export const getWorkoutLogsByMember = async (userId) => {
+    api.get(`${baseURL}/workoutlogs/${userId}`);
+};
 
 // Add the addWorkout function
 export const addWorkout = (
