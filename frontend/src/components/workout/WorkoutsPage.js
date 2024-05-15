@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridActionsCell } from '@mui/x-data-grid'; // Import Material-UI Data Grid
 import { getWorkouts } from '../../api/axiosConfig'; // Import getWorkouts function
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
 import Dialog from '@mui/material/Dialog';
@@ -19,9 +19,13 @@ const Workout = () => {
   const [workouts, setWorkouts] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const trainerId = useParams(); // Now properly imported and used
+  const trainerID = trainerId.trainerID;
 
   useEffect(() => {
     fetchWorkouts();
+    console.log("Trainer ID:", trainerID);  // Check the output in your console
+
   }, []); // Fetch workouts on component mount
 
   const fetchWorkouts = async () => {
@@ -85,7 +89,7 @@ const Workout = () => {
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           <Dialog open={open} onClose={() => setOpen(false)}>
-            <WorkoutCreatePage trainerId={1} onClose={() => handleCloseDialog()} />
+            <WorkoutCreatePage trainerId={trainerID} onClose={() => handleCloseDialog()} />
           </Dialog>
           <button onClick={() => setOpen(true)} style={{ padding: '10px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}>Create Workout</button>
         </Grid>
