@@ -12,25 +12,30 @@ const WorkoutLog = () => {
   const [workoutLogs, setWorkoutLogs] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedWorkoutLog, setSelectedWorkoutLog] = useState(null);
-  const userId  = useParams().userId; // Now properly imported and used
-
-
+  const { userId } = useParams(); // Destructured correctly from useParams
 
   useEffect(() => {
     console.log("Member ID:", userId);  // Check the output in your console
-    
+    if (userId) {
       fetchWorkoutLogs(userId);
-    
-  }, []);
+    }
+  }, [userId]);
 
   const fetchWorkoutLogs = async (userId) => {
     try {
       const response = await getWorkoutLogsByMember(userId);
-      const logsWithIds = response.data.map(log => ({
-        ...log,
-        id: log.id // Assuming log.id is the unique identifier provided by the server
-      }));
-      setWorkoutLogs(logsWithIds);
+      console.log('API response:', response);
+  
+      if (response && response.data) {
+        const logsWithIds = response.data.map(log => ({
+          ...log,
+          id: log.workoutLogId // Renaming workoutLogId to id
+        }));
+        setWorkoutLogs(logsWithIds);
+        console.log('Workout logs:', logsWithIds);
+      } else {
+        console.error('No data found in the response');
+      }
     } catch (error) {
       console.error('Error fetching workout logs:', error);
     }
@@ -57,7 +62,7 @@ const WorkoutLog = () => {
   };
 
   const columns = [
-    { field: 'logID', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
+    { field: 'id', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' }, // Changed to 'id'
     { field: 'date', headerName: 'Date', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'duration', headerName: 'Duration', width: 100, align: 'center', headerAlign: 'center' },
     { field: 'status', headerName: 'Status', width: 150, align: 'center', headerAlign: 'center' },
@@ -88,7 +93,7 @@ const WorkoutLog = () => {
           pageSize={5}
           rowsPerPageOptions={[5, 10, 20]}
           onRowClick={(row) => {
-            setSelectedWorkoutLog(row);
+            setSelectedWorkoutLog(row.row); // Fixed to set the row data correctly
             console.log('Row clicked:', row);
           }}
         />
