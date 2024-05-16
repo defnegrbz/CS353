@@ -24,6 +24,9 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long>{
     @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid WHERE u.id = ?1", nativeQuery = true)
     Optional<Trainer> findTrainerById(Long id);
 
+    @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid WHERE u.username = ?1", nativeQuery = true)
+    Optional<Trainer> findTrainerByUsername(String username);
+
     // ADD TRAINER QUERIES
     @Modifying
     @Transactional

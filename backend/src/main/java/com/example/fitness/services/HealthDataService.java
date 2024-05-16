@@ -18,8 +18,8 @@ public class HealthDataService {
         this.healthDataRepository = healthDataRepository;
     }
 
-    public HealthData saveOneHealthData(HealthData newHealthData) {
-        return healthDataRepository.save(newHealthData);
+    public void saveOneHealthData(Long userId, HealthData newHealthData) {
+        healthDataRepository.addHealthData(userId, newHealthData.getAllergies(), newHealthData.getDiseases(), newHealthData.getMedications(), newHealthData.getHeight(), newHealthData.getWeight());
     }
 
     public HealthData getOneHealthData(Long userId) {

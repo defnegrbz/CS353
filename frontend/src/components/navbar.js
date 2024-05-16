@@ -15,6 +15,7 @@ const Navbar = () => {
         <Button component={Link} to="/" color="inherit">Home</Button>
         <Button component={Link} to="/workouts" color="inherit">Workouts</Button>
         <Button component={Link} to="/about" color="inherit">About</Button>
+        <Button component={Link} to="/workoutLogs" color="inherit">Workout Logs</Button>
         {/* Add more buttons for other routes as needed */}
       </Toolbar>
     </AppBar>
