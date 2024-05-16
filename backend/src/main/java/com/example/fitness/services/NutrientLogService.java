@@ -21,12 +21,18 @@ public class NutrientLogService {
         this.memberService = memberService;
     }
 
-    // public List<NutrientLog> getAllNutrientLogs(Optional<Long> member_id) {
-    //     if(member_id.isPresent()){
-    //         return nutrientLogRepository.findByMemberId(member_id);
-    //     }
-    //     return nutrientLogRepository.findAll();
-    // }
+    public List<NutrientLog> getAllNutrientLogs(Long member_id) {
+
+        if(memberService.getOneMember(member_id) != null){
+            return nutrientLogRepository.findByMemberId(member_id);
+        }
+        return null;
+        //return nutrientLogRepository.findAll();
+    }
+
+    public List<NutrientLog> getAllNutrientLogs() {
+        return nutrientLogRepository.findAll();
+    }
 
     public NutrientLog getOneNutrientLogById(Long nutrientLogId) {
         return nutrientLogRepository.findById(nutrientLogId).orElse(null);
@@ -39,25 +45,21 @@ public class NutrientLogService {
             return null;
         }
 
-        // NutrientLog toSave = new NutrientLog();
-        // toSave.setNutrientLogId(newNutrientLogRequest.getNutrientLogId());
-        // toSave.setMember(newNutrientLogRequest.getMember());
-        // toSave.setNutrientLogDate(newNutrientLogRequest.getNutrientLogDate());
-        // toSave.setNutrientLogType(newNutrientLogRequest.getNutrientLogType());
+        NutrientLog toSave = new NutrientLog();
+        toSave.setNutrientLogId(newNutrientLogRequest.getNutrientLogId());
+        toSave.setMember(memberService.getOneMember(newNutrientLogRequest.getMemberId()));
+        toSave.setNutrientLogDate(newNutrientLogRequest.getNutrientLogDate());
     
-        
-        return nutrientLogRepository.saveOneNutrientLog(newNutrientLogRequest.getMemberId(), newNutrientLogRequest.getNutrientLogDate(), newNutrientLogRequest.getNutrientLogType()); 
+        nutrientLogRepository.saveOneNutrientLog(newNutrientLogRequest.getMemberId(), newNutrientLogRequest.getNutrientLogDate()); 
+        return toSave;
     }
 
     public NutrientLog updateOneNutrientLogById(Long nutrientLogId, NutrientLogUpdateRequest updateNutLog) {
         Optional<NutrientLog> nutLog = nutrientLogRepository.findById(nutrientLogId);
         if(nutLog.isPresent()){
             NutrientLog toUpdate = nutLog.get();
-            //toUpdate.setMember(updateNutLog.getMember());
-            //toUpdate.setNutrientLogDate(updateNutLog.getNutrientLogDate());
-            toUpdate.setNutrientLogType(updateNutLog.getNutrientLogType());
-            toUpdate.setNutrientLogId(updateNutLog.getNutrientLogId()); 
-            nutrientLogRepository.save(toUpdate);
+            toUpdate.setNutrientLogDate(updateNutLog.getNutrientLogDate());
+            nutrientLogRepository.saveOneNutrientLog(updateNutLog.getMemberId(), updateNutLog.getNutrientLogDate());
             return toUpdate;
         }
         return null;

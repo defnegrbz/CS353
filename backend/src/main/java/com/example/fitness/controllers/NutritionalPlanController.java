@@ -40,6 +40,6 @@ public class NutritionalPlanController {
 
     @DeleteMapping("/{nutritionalPlanId}")
     public void deleteOneNutritionalPlan(@PathVariable Long nutritionalPlanId){
-        nutritionalPlanService.deleteOneNutritionalPlan(nutritionalPlanId);
+        nutritionalPlanService.deleteById(nutritionalPlanId);
     }
 }

@@ -27,10 +27,10 @@ public class NutrientLogController {
         this.nutrientLogService = nutrientLogService;
     }
     
-    // @GetMapping
-    // public List<NutrientLog> getAllNutrientLogs(@RequestParam Optional<Long> member_id){
-    //     return nutrientLogService.getAllNutrientLogs(member_id);
-    // }
+    @GetMapping
+    public List<NutrientLog> getAllNutrientLogs(@RequestParam Long member_id){
+        return nutrientLogService.getAllNutrientLogs(member_id);
+    }
 
     @GetMapping("/{nutrientLogId}")
     public NutrientLog getOneNutrientLog(@PathVariable Long nutrientLogId){

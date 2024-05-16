@@ -36,9 +36,9 @@ public interface NutrientRepository extends JpaRepository<Nutrient, Long>{
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO nutrient (nutrient_calorie, nutrient_name, nutrient_quantity) " +
-                    "VALUES (:nutrient_calorie, :nutrient_name, :nutrient_quantity)", nativeQuery = true)
-    Nutrient saveOneNutrient(@Param("nutrient_calorie") Integer nutrient_calorie, @Param("nutrient_name") String nutrient_name, @Param("nutrient_quantity") Integer nutrient_quantity);
+    @Query(value = "INSERT INTO nutrient (nutrient_name, nutrient_quantity, nutrient_calorie) " +
+                    "VALUES (:nutrient_name, :nutrient_quantity, :nutrient_calorie)", nativeQuery = true)
+    void addOneNutrient(@Param("nutrient_name") String nutrient_name, @Param("nutrient_quantity") Integer nutrient_quantity, @Param("nutrient_calorie") Integer nutrient_calorie);
 
 
 

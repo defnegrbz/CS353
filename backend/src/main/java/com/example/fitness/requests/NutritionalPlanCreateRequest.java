@@ -12,5 +12,6 @@ public class NutritionalPlanCreateRequest {
     Long nutritionalPlanId;
     Long memberId;
     int totalCalorie;
-
+    String nutPlanDescription;
+    String nutPlanTitle;
 }

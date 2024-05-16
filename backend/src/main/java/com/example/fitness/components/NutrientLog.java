@@ -45,9 +45,6 @@ public class NutrientLog {
     @JsonIgnore
     Member member;
 
-    @Column(name = "nutrient_log_type")
-    String nutrientLogType;
-
     @Column(name = "nutrient_log_date")
     LocalDate nutrientLogDate;
 

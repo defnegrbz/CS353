@@ -16,7 +16,7 @@ public class Nutrient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nutrient_id")
     @JsonIgnore
-    Long nutrientID;
+    Long nutrientId;
     
     @Column(name = "nutrient_name")
     String nutrientName;
