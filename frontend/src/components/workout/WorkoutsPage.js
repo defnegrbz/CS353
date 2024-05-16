@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid, GridActionsCell } from '@mui/x-data-grid'; // Import Material-UI Data Grid
-import { getWorkouts } from '../../api/axiosConfig'; // Import getWorkouts function
+import { DataGrid, GridActionsCell } from '@mui/x-data-grid';
+import { getWorkouts } from '../../api/axiosConfig';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
@@ -12,31 +12,33 @@ import { DialogActions } from '@mui/material';
 import { DialogTitle } from '@mui/material';
 import { DialogContentText } from '@mui/material';
 import { GridToolbar } from '@mui/x-data-grid';
-import { set } from 'react-hook-form';
 import { deleteWorkout } from '../../api/axiosConfig';
 
 const Workout = () => {
   const [workouts, setWorkouts] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const trainerId = useParams(); // Now properly imported and used
+  const [filterTargetAudience, setFilterTargetAudience] = useState(''); // State for filtering target audience
+  const trainerId = useParams();
   const trainerID = trainerId.trainerID;
 
   useEffect(() => {
     fetchWorkouts();
-    console.log("Trainer ID:", trainerID);  // Check the output in your console
-
-  }, []); // Fetch workouts on component mount
+  }, [filterTargetAudience]); // Refetch workouts when filter changes
 
   const fetchWorkouts = async () => {
     try {
-      const response = await getWorkouts(); // Call the getWorkouts function
-      // Add unique IDs to each row
+      const response = await getWorkouts(); 
       const workoutsWithIds = response.data.map((workout, index) => ({
         ...workout,
-        id: index + 1 // Generate unique ID (assuming index starts from 0)
+        id: index + 1
       }));
-      setWorkouts(workoutsWithIds); // Set the workouts state with the data from the response
+      let filteredWorkouts = workoutsWithIds;
+      // Apply filter based on target audience
+      if (filterTargetAudience) {
+        filteredWorkouts = workoutsWithIds.filter(workout => workout.targetAudience === filterTargetAudience);
+      }
+      setWorkouts(filteredWorkouts);
     } catch (error) {
       console.error('Error fetching workouts:', error);
     }
@@ -44,29 +46,21 @@ const Workout = () => {
 
   const handleCloseDialog = () => {
     setOpen(false);
-    fetchWorkouts(); // Fetch updated workouts
+    fetchWorkouts();
   };
 
-
-
   const handleDelete = (id) => {
-    // Call the deleteWorkout function with the workout ID
     deleteWorkout(id)
       .then(response => {
-        // Handle successful deletion
         console.log('Workout deleted successfully:', response);
-        // Fetch updated list of workouts
         fetchWorkouts();
       })
       .catch(error => {
-        // Handle error
         console.error('Error deleting workout:', error);
         fetchWorkouts();
       });
-      
   };
 
-  // Define columns for the Data Grid
   const columns = [
     { field: 'workoutID', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
     { field: 'workoutTitle', headerName: 'Title', width: 150, align: 'center', headerAlign: 'center' },
@@ -95,17 +89,29 @@ const Workout = () => {
         </Grid>
       </Grid>
       <div style={{ height: 400, width: '80%', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ marginBottom: '10px' }}>
+          <span style={{ marginRight: '10px' }}>Filter by Target Audience:</span>
+          <select value={filterTargetAudience} onChange={(e) => setFilterTargetAudience(e.target.value)}>
+            <option value="">All</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
         <DataGrid
           rows={workouts}
           columns={columns.map((column) => ({
             ...column,
-            align: 'center' // Set alignment to center for all columns
+            align: 'center'
           }))}
           pageSize={5}
           rowsPerPageOptions={[5, 10, 20]}
           onRowClick={(row) => {
             setSelectedWorkout(row);
             console.log('Row clicked:', row);
+          }}
+          components={{
+            Toolbar: GridToolbar,
           }}
         />
       </div>
