@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, Button, List, ListItem, ListItemText } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Button, List, ListItem, ListItemText, TextField } from '@mui/material';
 import { getWorkouts, addWorkoutLog } from '../../api/axiosConfig';
-import { useParams } from 'react-router-dom';
 
-const WorkoutLogForm = ({ onClose, userId}) => {
+const WorkoutLogForm = ({ onClose, userId }) => {
   const [date, setDate] = useState('');
   const [duration, setDuration] = useState('');
   const [status, setStatus] = useState('');
-  const [totalCalories, setTotalCalories] = useState('');
+  const [totalCalories, setTotalCalories] = useState(0);
   const [workouts, setWorkouts] = useState([]);
   const [openSelectWorkout, setOpenSelectWorkout] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const [workoutId, setWorkoutId] = useState(null);
-
-  const calculateCaloriesBurnt = () => {
-    if (duration && selectedWorkout) {
-        const caloriesBurnt = duration * selectedWorkout.calorieBurnPerUnitTime;
-        setTotalCalories(caloriesBurnt);
-    }
-  };
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -34,13 +25,19 @@ const WorkoutLogForm = ({ onClose, userId}) => {
 
   const handleSelectWorkout = (workout) => {
     setSelectedWorkout(workout);
-    console.log('Selected workout:', workout);
-    console.log('Selected workout ID:', workout.workoutID);
-    setWorkoutId(workout.workoutID);
     setOpenSelectWorkout(false);
-    calculateCaloriesBurnt();
+    if (duration) {
+      setTotalCalories(duration * workout.calorieBurnPerUnitTime);
+    }
   };
 
+  const handleDurationChange = (e) => {
+    const newDuration = e.target.value;
+    setDuration(newDuration);
+    if (selectedWorkout) {
+      setTotalCalories(newDuration * selectedWorkout.calorieBurnPerUnitTime);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,19 +46,7 @@ const WorkoutLogForm = ({ onClose, userId}) => {
       return;
     }
     try {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-            };
-      await addWorkoutLog(userId,
-        date,
-        duration,
-        status,
-        totalCalories,
-        workoutId,
-        config
-      );
+      await addWorkoutLog(userId, date, duration, status, totalCalories, selectedWorkout.workoutID);
       console.log('Workout log created successfully!');
       resetForm();
       onClose();
@@ -75,7 +60,7 @@ const WorkoutLogForm = ({ onClose, userId}) => {
     setDate('');
     setDuration('');
     setStatus('');
-    setTotalCalories('');
+    setTotalCalories(0);
     setSelectedWorkout(null);
   };
 
@@ -86,23 +71,51 @@ const WorkoutLogForm = ({ onClose, userId}) => {
         <div>
           <span>Workout:</span>
           <Button onClick={() => setOpenSelectWorkout(true)}>
-            {selectedWorkout ? selectedWorkout.title : 'Select Workout'}
+            {selectedWorkout ? selectedWorkout.workoutTitle : 'Select Workout'}
           </Button>
         </div>
-        <input type="date" value={date} onChange={e => setDate(e.target.value)} required />
-        <input type="text" value={duration} onChange={e => setDuration(e.target.value)} required />
-        <input type="text" value={status} onChange={e => setStatus(e.target.value)} required />
-        <input type="number" value={totalCalories} onChange={e => setTotalCalories(e.target.value)} required />
-        <Button type="submit">Create Workout Log</Button>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={resetForm}>Reset</Button>
+        <TextField
+          type="date"
+          value={date}
+          onChange={e => setDate(e.target.value)}
+          required
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          type="number"
+          label="Duration"
+          value={duration}
+          onChange={handleDurationChange}
+          required
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          type="text"
+          label="Status"
+          value={status}
+          onChange={e => setStatus(e.target.value)}
+          required
+          fullWidth
+          margin="normal"
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Create Workout Log
+        </Button>
+        <Button onClick={onClose} variant="contained" color="secondary" style={{ marginLeft: '10px' }}>
+          Cancel
+        </Button>
+        <Button onClick={resetForm} variant="contained" style={{ marginLeft: '10px' }}>
+          Reset
+        </Button>
       </form>
       <Dialog open={openSelectWorkout} onClose={() => setOpenSelectWorkout(false)}>
         <DialogTitle>Select a Workout</DialogTitle>
         <DialogContent>
           <List>
             {workouts.map(workout => (
-              <ListItem key={workout.id} button onClick={() => handleSelectWorkout(workout)}>
+              <ListItem key={workout.workoutID} button onClick={() => handleSelectWorkout(workout)}>
                 <ListItemText primary={workout.workoutTitle} />
               </ListItem>
             ))}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
-import { getWorkoutLogsByMember, deleteWorkoutLog } from '../../api/axiosConfig'; // Ensure these are correctly defined
+import { getWorkoutLogsByMember, deleteWorkoutLog } from '../../api/axiosConfig';
 import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
 import Dialog from '@mui/material/Dialog';
@@ -12,10 +12,10 @@ const WorkoutLog = () => {
   const [workoutLogs, setWorkoutLogs] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedWorkoutLog, setSelectedWorkoutLog] = useState(null);
-  const { userId } = useParams(); // Destructured correctly from useParams
+  const { userId } = useParams();
 
   useEffect(() => {
-    console.log("Member ID:", userId);  // Check the output in your console
+    console.log("Member ID:", userId);
     if (userId) {
       fetchWorkoutLogs(userId);
     }
@@ -25,14 +25,19 @@ const WorkoutLog = () => {
     try {
       const response = await getWorkoutLogsByMember(userId);
       console.log('API response:', response);
-  
+      console.log('Data:', response.data);
       if (response && response.data) {
         const logsWithIds = response.data.map(log => ({
           ...log,
-          id: log.workoutLogId // Renaming workoutLogId to id
+          id: log.workoutLogId, // Use workoutLogId as the unique identifier
+          date: log.workoutLogDate,
+          duration: log.workoutLogDuration,
+          status: log.workoutLogStatus,
+          totalCalories: log.workoutLogTotalCaloriesBurnt,
+          member: log.memberId
         }));
+        console.log('Mapped logs:', logsWithIds);
         setWorkoutLogs(logsWithIds);
-        console.log('Workout logs:', logsWithIds);
       } else {
         console.error('No data found in the response');
       }
@@ -40,12 +45,11 @@ const WorkoutLog = () => {
       console.error('Error fetching workout logs:', error);
     }
   };
-  
 
   const handleCloseDialog = () => {
     setOpen(false);
     if (userId) {
-      fetchWorkoutLogs(userId); // Now correctly refetches with userId
+      fetchWorkoutLogs(userId);
     }
   };
 
@@ -54,7 +58,7 @@ const WorkoutLog = () => {
       await deleteWorkoutLog(id);
       console.log('Deletion successful');
       if (userId) {
-        fetchWorkoutLogs(userId); // Refresh the list after deletion
+        fetchWorkoutLogs(userId);
       }
     } catch (error) {
       console.error('Failed to delete workout log:', error);
@@ -62,7 +66,7 @@ const WorkoutLog = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' }, // Changed to 'id'
+    { field: 'id', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
     { field: 'date', headerName: 'Date', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'duration', headerName: 'Duration', width: 100, align: 'center', headerAlign: 'center' },
     { field: 'status', headerName: 'Status', width: 150, align: 'center', headerAlign: 'center' },
@@ -93,7 +97,7 @@ const WorkoutLog = () => {
           pageSize={5}
           rowsPerPageOptions={[5, 10, 20]}
           onRowClick={(row) => {
-            setSelectedWorkoutLog(row.row); // Fixed to set the row data correctly
+            setSelectedWorkoutLog(row.row);
             console.log('Row clicked:', row);
           }}
         />
