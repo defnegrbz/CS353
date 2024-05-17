@@ -55,7 +55,6 @@ export const getWorkouts = () => (
     axios.get(`${baseURL}/workouts`)
 );  
 
-  
 // Function to delete a workout
 export const deleteWorkout = (id) => (
     api.delete(`${baseURL}/workouts/${id}`)
@@ -86,14 +85,10 @@ export const updateWorkout = (
     }, config) // Pass config object here
 );
 
-// Function to filter workouts based on type
-export const filterWorkoutsByType = (type) => (
-    api.get(`/workouts?type=${type}`)
-);
 
 // Function to filter workouts based on calories per unit time
 export const filterWorkoutsByCalories = (minCalories, maxCalories) => (
-    api.get(`/workouts?minCalories=${minCalories}&maxCalories=${maxCalories}`)
+    api.get(`/workouts/minCalories=${minCalories}&maxCalories=${maxCalories}`)
 );
 
 // Function to filter workouts based on equipments
@@ -103,16 +98,19 @@ export const filterWorkoutsByEquipments = (equipments) => (
 
 // Function to filter workouts based on target audience
 export const filterWorkoutsByTargetAudience = (targetAudience) => (
-    api.get(`/workouts?targetAudience=${targetAudience}`)
+    api.get(`/workouts/targetAudience=${targetAudience}`)
+);
+
+// Function to filter workouts based on target audience
+export const filterWorkoutsByType = (workout_type) => (
+    api.get(`/workouts/workout_type=${workout_type}`)
 );
 
 // Function to filter workouts based on intensity level
-export const filterWorkoutsByIntensityLevel = (minIntensity, maxIntensity) => (
-    api.get(`/workouts?minIntensity=${minIntensity}&maxIntensity=${maxIntensity}`)
+export const filterWorkoutsByIntensityLevel = (intensity) => (
+    api.get(`/workouts/intensity=${intensity}`)
 );
 
-
-    
 export const getWorkoutLogsByMember = async (userId) => {
     return api.get(`/workoutlogs/${userId}`);
   };
@@ -171,6 +169,5 @@ export const deleteWorkoutLog = async (id) => {
     throw error; // Rethrow the error if you want the caller to handle it
   }
 };
-
 
 export default api

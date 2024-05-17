@@ -52,6 +52,27 @@ public class WorkoutController {
     public List<Workout> getWorkouts(){
         return workoutService.getAllWorkouts();
     }
+
+    @GetMapping("/targetAudience={targetAudience}")
+    public List<Workout> getWorkoutsByTargetAudience(@PathVariable String targetAudience) {
+        return workoutService.getWorkoutsByTargetAudience(targetAudience);
+    }
+
+    @GetMapping("/workout_type={workout_type}")
+    public List<Workout> getWorkoutsByType(@PathVariable String workout_type) {
+        return workoutService.getWorkoutsByType(workout_type);
+    }
+
+    @GetMapping("/minCalories={minCalories}&maxCalories={maxCalories}")
+    public List<Workout> getWorkoutsByCalorieBurn(@PathVariable double minCalories, @PathVariable double maxCalories) {
+        return workoutService.getWorkoutsByCaloriesBurnt(minCalories, maxCalories);
+    }
+
+    @GetMapping("/intensity={intensity}")
+    public List<Workout> getWorkoutsByIntensity(@PathVariable int intensity) {
+        return workoutService.getWorkoutsByIntensity(intensity);
+    }
+    
     
     @PostMapping("/{trainerID}/createWorkout")
     public Workout addWorkout(@PathVariable Long trainerID, @RequestBody Workout workout) {

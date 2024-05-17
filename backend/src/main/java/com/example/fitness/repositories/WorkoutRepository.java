@@ -27,11 +27,17 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     @Query(value = "SELECT * FROM workout w WHERE w.target_audience = :targetAudience", nativeQuery = true)
     List<Workout> findWorkoutsByTargetAudience(@Param("targetAudience") String targetAudience);
 
+    @Query(value = "SELECT * FROM workout w WHERE w.workout_type = :workout_type", nativeQuery = true)
+    List<Workout> findWorkoutsByType(@Param("workout_type") String targetAudience);
+
+    @Query("SELECT w FROM Workout w WHERE w.calorieBurnPerUnitTime >= :minCalories AND w.calorieBurnPerUnitTime <= :maxCalories")
+    List<Workout> findWorkoutsByCaloriesBurnt(@Param("minCalories") double minCalories, @Param("maxCalories") double maxCalories);
+
     @Query("SELECT w FROM Workout w WHERE w.workoutEstimatedTime <= :estimatedTime")
     List<Workout> findWorkoutsByEstimatedTime(@Param("estimatedTime") int estimatedTime);
 
-    @Query("SELECT w FROM Workout w WHERE w.calorieBurnPerUnitTime <= :caloriesBurnt")
-    List<Workout> findWorkoutsByCaloriesBurnt(@Param("caloriesBurnt") double caloriesBurnt);
+    @Query(value = "SELECT * FROM workout w WHERE w.intensity_level = :intensity", nativeQuery = true)
+    List<Workout> findWorkoutsByIntensity(@Param("intensity") int intensity);
 
     @Query("SELECT w FROM Workout w WHERE w.equipments LIKE %:equipment%")
     List<Workout> findWorkoutsByEquipment(@Param("equipment") String equipment);

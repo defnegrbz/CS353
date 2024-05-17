@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridActionsCell } from '@mui/x-data-grid';
-import { getWorkouts } from '../../api/axiosConfig';
+import { filterWorkoutsByCalories, filterWorkoutsByIntensityLevel, filterWorkoutsByTargetAudience, filterWorkoutsByType, getWorkouts } from '../../api/axiosConfig'; // Import the new function
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
@@ -11,34 +11,52 @@ import { DialogContent } from '@mui/material';
 import { DialogActions } from '@mui/material';
 import { DialogTitle } from '@mui/material';
 import { DialogContentText } from '@mui/material';
-import { GridToolbar } from '@mui/x-data-grid';
 import { deleteWorkout } from '../../api/axiosConfig';
 
 const Workout = () => {
   const [workouts, setWorkouts] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const [filterTargetAudience, setFilterTargetAudience] = useState(''); // State for filtering target audience
+  const [filterTargetAudience, setFilterTargetAudience] = useState(''); 
+  const [filterWorkoutType, setFilterWorkoutType] = useState(''); 
+  const [minCalories, setMinCalories] = useState('');
+  const [maxCalories, setMaxCalories] = useState('');
+  const [filterWorkoutIntensity, setFilterWorkoutIntensity] = useState('');
   const trainerId = useParams();
   const trainerID = trainerId.trainerID;
 
   useEffect(() => {
     fetchWorkouts();
-  }, [filterTargetAudience]); // Refetch workouts when filter changes
+    console.log("Intensity", filterWorkoutIntensity);
+  }, [filterTargetAudience, filterWorkoutType, minCalories, maxCalories, filterWorkoutIntensity]); // Refetch workouts when filter changes
 
   const fetchWorkouts = async () => {
     try {
-      const response = await getWorkouts(); 
+      let response;
+      if (filterTargetAudience) {
+        console.log(filterTargetAudience ," a");
+        response = await filterWorkoutsByTargetAudience(filterTargetAudience); // Use the filter function if target audience is selected
+      } 
+      else if(filterWorkoutType){
+        console.log(filterWorkoutType ," a");
+        response = await filterWorkoutsByType(filterWorkoutType); // Use the filter function if target audience is selected
+      }
+      else if (minCalories && maxCalories){
+        console.log(minCalories, "-" , maxCalories);
+        response = await filterWorkoutsByCalories(minCalories, maxCalories);
+      }
+      else if (filterWorkoutIntensity){
+        console.log("Intensity", filterWorkoutIntensity);
+        response = await filterWorkoutsByIntensityLevel(filterWorkoutIntensity);
+      }
+      else {
+        response = await getWorkouts(); // Otherwise, get all workouts
+      }
       const workoutsWithIds = response.data.map((workout, index) => ({
         ...workout,
         id: index + 1
       }));
-      let filteredWorkouts = workoutsWithIds;
-      // Apply filter based on target audience
-      if (filterTargetAudience) {
-        filteredWorkouts = workoutsWithIds.filter(workout => workout.targetAudience === filterTargetAudience);
-      }
-      setWorkouts(filteredWorkouts);
+      setWorkouts(workoutsWithIds);
     } catch (error) {
       console.error('Error fetching workouts:', error);
     }
@@ -97,6 +115,19 @@ const Workout = () => {
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
           </select>
+          <span style={{ marginRight: '10px' }}>Filter by Workout Type:</span>
+          <select value={filterWorkoutType} onChange={(e) => setFilterWorkoutType(e.target.value)}>
+            <option value="">All</option>
+            <option value="muscle gain">Muscle Gain</option>
+            <option value="lose weight">Lose Weight</option>
+            <option value="endurance training">Endurance Training</option>
+          </select>
+          <span style={{ marginRight: '10px', marginLeft: '20px' }}>Min Calories:</span>
+          <input type="number" value={minCalories} onChange={(e) => setMinCalories(e.target.value)} style={{ marginRight: '10px' }} />
+          <span style={{ marginRight: '10px' }}>Max Calories:</span>
+          <input type="number" value={maxCalories} onChange={(e) => setMaxCalories(e.target.value)} />
+          <span style={{ marginRight: '10px' }}>Intensity Level:</span>
+          <input type="number" value={filterWorkoutIntensity} onChange={(e) => setFilterWorkoutIntensity(e.target.value)} />
         </div>
         <DataGrid
           rows={workouts}
@@ -109,9 +140,6 @@ const Workout = () => {
           onRowClick={(row) => {
             setSelectedWorkout(row);
             console.log('Row clicked:', row);
-          }}
-          components={{
-            Toolbar: GridToolbar,
           }}
         />
       </div>
@@ -132,3 +160,4 @@ const Workout = () => {
 };
 
 export default Workout;
+

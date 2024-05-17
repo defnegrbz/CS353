@@ -155,8 +155,14 @@ public Workout addWorkout(Long trainerID, Workout workout) {
         return workouts;
     }
 
-    public Optional<Workout> getWorkoutsByTrainerId(Long trainerId) {
-        return workoutRepository.findWorkoutByTrainer(trainerId);
+    public List<Workout> getWorkoutsByTargetAudience(String targetAudience){
+        List<Workout> workouts = workoutRepository.findWorkoutsByTargetAudience(targetAudience);
+        return workouts;
+    }
+
+    public List<Workout> getWorkoutsByType(String workout_type){
+        List<Workout> workouts = workoutRepository.findWorkoutsByType(workout_type);
+        return workouts;
     }
 
     @Transactional
@@ -164,9 +170,18 @@ public Workout addWorkout(Long trainerID, Workout workout) {
         return workoutRepository.findWorkoutsByEstimatedTime(estimatedTime);
     }
 
+    public Optional<Workout> getWorkoutsByTrainerId(Long trainerId) {
+        return workoutRepository.findWorkoutByTrainer(trainerId);
+    }
+
     @Transactional
-    public List<Workout> getWorkoutsByCaloriesBurnt(double caloriesBurnt) {
-        return workoutRepository.findWorkoutsByCaloriesBurnt(caloriesBurnt);
+    public List<Workout> getWorkoutsByIntensity(int intensity) {
+        return workoutRepository.findWorkoutsByIntensity(intensity);
+    }
+
+    @Transactional
+    public List<Workout> getWorkoutsByCaloriesBurnt(double minCalories, double maxCalories) {
+        return workoutRepository.findWorkoutsByCaloriesBurnt(minCalories, maxCalories);
     }
 
     @Transactional
