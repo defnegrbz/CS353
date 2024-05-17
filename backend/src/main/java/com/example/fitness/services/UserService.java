@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.fitness.components.Member;
@@ -13,6 +15,7 @@ import com.example.fitness.components.User;
 import com.example.fitness.repositories.MemberRepository;
 import com.example.fitness.repositories.TrainerRepository;
 import com.example.fitness.repositories.UserRepository;
+import com.example.fitness.requests.RegisterRequest;
 
 @Service
 public class UserService {
@@ -100,6 +103,17 @@ public class UserService {
         Long insertedMemberId = memberRepository.getUserIdByUsername(newMember.getUsername());
         memberRepository.addMember(insertedMemberId, newMember.getSugCalorieIntake());
         memberRepository.addMemberFitnessGoals(insertedMemberId, newMember.getFitnessGoals());
+    }
+
+    public ResponseEntity<Long> registerMember(RegisterRequest request) {
+        memberRepository.addUser(request.getFullName(), request.getUsername(), request.getPassword(), 
+        request.getGender(), request.getMail(), request.getBirthdate(), request.getProfilePicture());
+
+        Long insertedMemberId = memberRepository.getUserIdByUsername(request.getUsername());
+        Integer sugCalorieIntake = 1000;
+        memberRepository.addMember(insertedMemberId, sugCalorieIntake);
+        memberRepository.addMemberFitnessGoals(insertedMemberId, request.getFitnessGoals());
+        return new ResponseEntity<> (insertedMemberId, HttpStatus.OK);
     }
 
     // public Member saveOneMember(Member newMember) {
