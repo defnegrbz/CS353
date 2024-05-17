@@ -31,19 +31,14 @@ export const trainerRegister = (firstName, lastName, email, userName, password, 
 
 
 //Logins 
-export const memberLogin = (email, password) => (
-    axios.post(`${baseURL}/members`, {
-        email,
+export const userLogin = (username, password) => (
+    axios.post(`${baseURL}/auth/login`, {
+        username,
         password
     })
 );
 
-export const trainerLogin = (email, password) => (
-    axios.post(`${baseURL}/users/login/trainer-login`, {
-        email,
-        password
-    })
-);
+
 
 //Workout info
 

@@ -38,40 +38,10 @@ public class MemberController{
         return userService.getAllMembers();
     }
 
-    // @PostMapping
-    // public ResponseEntity<Void> createMember(@RequestBody Map<String, Object> payload){
-    //     userService.saveOneMember(payload);
-    //     return new ResponseEntity<>(HttpStatus.CREATED);
-    // }
-
-    // @PostMapping
-    // public Member createMember(@RequestBody Member newMember){
-    //     return userService.saveOneMember(newMember);
-    // }
-
     @PostMapping
     public void createMember(@RequestBody Member newMember){
         userService.saveOneMember(newMember);
     }
-
-//     @PostMapping
-//     public User createMember(@RequestBody Member newMember,
-//                          @RequestParam("fullname") String fullname,
-//                          @RequestParam("username") String username,
-//                          @RequestParam("password") String password,
-//                          @RequestParam("gender") String gender,
-//                          @RequestParam("mail") String mail,
-//                          @RequestParam("birthDate") LocalDate birthDate,
-//                          @RequestParam("profilePicture") String profilePicture,
-//                          @RequestParam("fitnessGoals") List<String> fitnessGoals,
-//                          @RequestParam("sugCalorieIntake") Integer sugCalorieIntake) {
-//     // Create a new Member object using the parameters
-//     Member member = new Member(fullname, username, password, gender, mail, birthDate, profilePicture, fitnessGoals, sugCalorieIntake);
-    
-//     // Call the service method to save the member
-//     return userService.saveOneMember(member);
-// }
-
 
     @GetMapping("/{memberId}") 
     public Member getOneMember(@PathVariable Long memberId){
@@ -79,8 +49,8 @@ public class MemberController{
     }
 
     @PutMapping("/{memberId}")
-    public Member updateOneMember(@PathVariable Long memberId, @RequestBody Member newMember){
-        return userService.updateOneMember(memberId, newMember);
+    public void updateOneMember(@PathVariable Long memberId, @RequestBody Member newMember){
+        userService.updateOneMember(memberId, newMember);
     }
 
     @DeleteMapping("/{memberId}")
