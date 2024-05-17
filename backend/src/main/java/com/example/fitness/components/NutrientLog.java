@@ -19,6 +19,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -48,5 +49,15 @@ public class NutrientLog {
     @Column(name = "nutrient_log_date")
     LocalDate nutrientLogDate;
 
+    @Transient
+    int totalCalories;
+
+    public Integer getTotalCalories() {
+        int total = 0;
+        for (Nutrient nutrient : includedNutrients) {
+            total += nutrient.getNutrientCalorie()*nutrient.getNutrientQuantity();
+        }
+        return total;
+    }
 
 }

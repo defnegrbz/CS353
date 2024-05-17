@@ -17,7 +17,7 @@ import jakarta.transaction.Transactional;
 public interface NutrientLogRepository extends JpaRepository<NutrientLog, Long>{
 
     @Query(value = "SELECT * FROM nutrient_log nl WHERE nl.member_id = ?1", nativeQuery = true)
-    List<NutrientLog> findByMemberId(Long member_id);
+    List<NutrientLog> findByMemberId(Long memberId);
     
     @Query(value = "SELECT * FROM nutrient_log nl", nativeQuery = true)
     List<NutrientLog> findAll();

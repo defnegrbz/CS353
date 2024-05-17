@@ -110,8 +110,6 @@ export const filterWorkoutsByTargetAudience = (targetAudience) => (
 export const filterWorkoutsByIntensityLevel = (minIntensity, maxIntensity) => (
     api.get(`/workouts?minIntensity=${minIntensity}&maxIntensity=${maxIntensity}`)
 );
-
-
     
 export const getWorkoutLogsByMember = async (userId) => {
     api.get(`${baseURL}/workoutlogs/${userId}`);
@@ -171,6 +169,53 @@ export const deleteWorkoutLog = async (id) => {
     throw error; // Rethrow the error if you want the caller to handle it
   }
 };
+
+
+// nutrients
+export const getNutrient = (id) => (
+    axios.get(`${baseURL}/nutrients/${id}`)
+);
+
+export const getAllNutrients = () => (
+    axios.get(`${baseURL}/nutrients`)
+);
+
+export const deleteNutrient = (id) => (
+    api.delete(`${baseURL}/nutrients/${id}`)
+);
+
+export const filterNutrientsByName = (name) => (
+    api.get(`/nutrients?name=${name}`)
+);
+
+export const addNutrientLog = (
+    member,
+    includedNutrients,
+    nutrientLogDate,
+    totalCalories,
+    config
+) => (api.post(`${baseURL}/nutrientLogs/${member}/createNutrientLog`, {
+        member,
+        includedNutrients: includedNutrients,
+        nutrientLogDate: nutrientLogDate,
+        totalCalories: totalCalories,
+    }, config)
+);
+
+export const deleteNutrientLog = async (id) => {
+    try {
+      const response = await axios.delete(`/api/nutrientLogs/${id}`);
+      console.log('Nutrient log deleted successfully:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting nutrient log:', error);
+      throw error;
+    }
+  };
+
+  export const getNutrientLogs = async () => {
+    return await api.get('/nutrientLogs'); // Adjust the endpoint as needed
+  };
 
 
 export default api

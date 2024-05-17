@@ -5,26 +5,32 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.fitness.components.Nutrient;
 import com.example.fitness.components.NutrientLog;
 import com.example.fitness.components.User;
 import com.example.fitness.repositories.NutrientLogRepository;
+import com.example.fitness.repositories.NutrientRepository;
 import com.example.fitness.requests.NutrientLogCreateRequest;
 import com.example.fitness.requests.NutrientLogUpdateRequest;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class NutrientLogService {
     private NutrientLogRepository nutrientLogRepository;
+    private NutrientRepository nutrientRepository;
     private UserService memberService;
 
-    public NutrientLogService(NutrientLogRepository nutrientLogRepository, UserService memberService) {
+    public NutrientLogService(NutrientLogRepository nutrientLogRepository, UserService memberService, NutrientRepository nutrientRepository) {
         this.nutrientLogRepository = nutrientLogRepository;
         this.memberService = memberService;
+        this.nutrientRepository = nutrientRepository;
     }
 
-    public List<NutrientLog> getAllNutrientLogs(Long member_id) {
+    public List<NutrientLog> getAllNutrientLogs(Long memberId) {
 
-        if(memberService.getOneMember(member_id) != null){
-            return nutrientLogRepository.findByMemberId(member_id);
+        if(memberService.getOneMember(memberId) != null){
+            return nutrientLogRepository.findByMemberId(memberId);
         }
         return null;
         //return nutrientLogRepository.findAll();
@@ -70,5 +76,22 @@ public class NutrientLogService {
 
     }
 
+    @Transactional
+    public NutrientLog addNutrientsToLog(Long nutrientLogId, List<Long> nutrientIds) {
+        
+        Optional<NutrientLog> optionalNutrientLog = nutrientLogRepository.findById(nutrientLogId);
+        
+        if (optionalNutrientLog.isPresent()) {
+            NutrientLog nutrientLog = optionalNutrientLog.get();
+            List<Nutrient> nutrients = nutrientRepository.findAllById(nutrientIds);
+            nutrientLog.getIncludedNutrients().addAll(nutrients);
+            nutrientLogRepository.saveOneNutrientLog(nutrientLog.getMember().getId(), nutrientLog.getNutrientLogDate());
+            
+            return nutrientLog;
+        } else {
+            // Handle log not found case
+            return null;
+        }
+    }
     
 }

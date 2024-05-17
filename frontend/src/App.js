@@ -11,7 +11,7 @@ import HealthDataPage from './components/users/HealthDataPage';
 import InitialPage from './components/auth/InitialPage';
 import WorkoutLogs from './components/workoutLog/workoutLogList';
 import WorkoutLogForm from './components/workoutLog/workoutLogForm';
-
+import NutritionalLogAddPage from './components/nutritions/NutritionalLogAddPage';
 
 function App() {
   return (
@@ -29,6 +29,8 @@ function App() {
         <Route path="/" element={<InitialPage />} />
         <Route path="/workoutlogs/:userId" element={<WorkoutLogs />} />
         <Route path="/workoutlogs/:userId/createWorkoutLog" element={<WorkoutLogForm />} />
+        <Route path="/nutrientLogs/createNutrientLog" element={<NutritionalLogAddPage/>} />
+        <Route path="/nutrientLogs/:nutrientLogId/addNutrients" element={<NutritionalLogAddPage/>}/>
       </Routes>
     </Router>
   );

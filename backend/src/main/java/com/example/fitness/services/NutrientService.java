@@ -21,8 +21,8 @@ public class NutrientService {
         return nutrientRepository.findAll();
     }
 
-    public Nutrient addOneNutrient(Nutrient newNutrient) {
-        nutrientRepository.addOneNutrient(newNutrient.getNutrientName(), newNutrient.getNutrientQuantity(), newNutrient.getNutrientCalorie());
+    public Nutrient saveOneNutrient(Nutrient newNutrient) {
+        nutrientRepository.saveOneNutrient(newNutrient.getNutrientName(), newNutrient.getNutrientQuantity(), newNutrient.getNutrientCalorie());
         return newNutrient;
         
     }
@@ -39,7 +39,7 @@ public class NutrientService {
             found.setNutrientName(newNutrient.getNutrientName());
             found.setNutrientQuantity(newNutrient.getNutrientQuantity()); 
              
-            nutrientRepository.addOneNutrient(newNutrient.getNutrientName(), newNutrient.getNutrientQuantity(), newNutrient.getNutrientCalorie());
+            nutrientRepository.saveOneNutrient(newNutrient.getNutrientName(), newNutrient.getNutrientQuantity(), newNutrient.getNutrientCalorie());
             return found;
         }else{ //need exception
 
