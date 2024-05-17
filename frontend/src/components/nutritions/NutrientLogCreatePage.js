@@ -69,7 +69,6 @@ const NutrientLogCreatePage = ({ memberId, onClose }) => {
                 {nutrients.map((nutrient) => (
                   <ListItem key={nutrient.nutrientId} value={nutrient.nutrientId}>
                     {nutrient.nutrientName}
-                    <ListItemText primary={nutrient.nutrientName} />
                   </ListItem>
                 ))}
                 </List>
