@@ -38,8 +38,8 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public User getOneUser(Long userId) {
-        return userRepository.findById(userId).orElse(null);
+    public User getMember(Long userId) {
+        return userRepository.findMemberWithUserById(userId);
     }
 
     public User updateOneUser(Long userId, User newUser) {

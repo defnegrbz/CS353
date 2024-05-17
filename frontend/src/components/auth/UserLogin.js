@@ -14,24 +14,21 @@ const UserLogin = () => {
     const handleLogin = async (event) => {
       event.preventDefault(); // Prevent default form submission
       try {
-        console.log(username);
-        console.log(password);
         const response = await userLogin(username, password);
-        console.log(response.data);
+        const { userId, userType } = response.data;
         console.log("Login!!!")
-        const userId= response.data; 
-        console.log("id " + userId);
     
-        if (response.data == 0) {
-          setError("Password is incorrect");
-        }
-        else if (response.data == -1) {
-          setError("This username does not exist");
-        }
+        if (userId === 0) {
+          setError("Invalid username or password");
+        } 
         else {
-        // const userId = user.id
-         // navigate(`/member-profile/${userId}`); // Redirect to user's profile page
-         setMessage("Success");
+          if (userType === "member") {
+              navigate(`/users/member/${userId}`);
+          } else if (userType === "trainer") {
+              navigate(`/users/trainer/${userId}`);
+          } else {
+              setError("Invalid user type");
+          }
         }
       } catch (err) {
         setError(err.response?.data?.message || 'An error occured. Please try again.');

@@ -12,6 +12,9 @@ import com.example.fitness.components.User;
 import com.example.fitness.requests.LoginRequest;
 import com.example.fitness.services.LoginService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +30,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Long> userLogin(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, Object>> userLogin(@RequestBody LoginRequest request) {
         logger.debug("UsernameController: {}", request.getUsername());
         logger.debug("PasswordController: {}", request.getPassword());
         return loginService.userLogin(request);

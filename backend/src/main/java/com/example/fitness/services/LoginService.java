@@ -26,6 +26,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 public class LoginService {
@@ -70,7 +73,7 @@ public class LoginService {
     //     }
     // }
 
-    public ResponseEntity<Long> userLogin(LoginRequest request) { 
+    public ResponseEntity<Map<String, Object>> userLogin(LoginRequest request) { 
 
         logger.debug("Username: {}", request.getUsername());
         logger.debug("Password: {}", request.getPassword());
@@ -93,21 +96,28 @@ public class LoginService {
         logger.debug("Member List: {}", memberList);
         logger.debug("Trainer List: {}", trainerList);
 
-    
+        Map<String, Object> result = new HashMap<>();
+
         // Check if user is a member
         if (!memberList.isEmpty()) {
             Long memberId = memberList.get(0);
-            return new ResponseEntity<>(memberId, HttpStatus.OK);
+            result.put("userId", memberId);
+            result.put("userType", "member");
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     
         // Check if user is a trainer
         if (!trainerList.isEmpty()) {
             Long trainerId = trainerList.get(0);
-            return new ResponseEntity<>(trainerId, HttpStatus.OK);
+            result.put("userId", trainerId);
+            result.put("userType", "trainer");
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     
         // If user is neither a member nor a trainer
-        return new ResponseEntity<>(0L, HttpStatus.OK);
+        result.put("userId", 0L);
+        result.put("userType", "");
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
