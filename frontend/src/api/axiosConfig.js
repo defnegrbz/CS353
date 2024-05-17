@@ -6,11 +6,18 @@ const api = axios.create({
     baseURL: baseURL
 });
 
-//User Info
-
-//Registers
-export const memberRegister = (firstName, LastName, email, userName, password) => (
-    axios.post(`${baseURL}/users/register/member`, { firstName, LastName, email, userName, password})
+//member register
+export const memberRegister = (fullName, username, password, gender, mail, birthdate, profilePicture, fitnessGoals) => ( 
+  axios.post(`${baseURL}/register/member`, {
+        fullName,
+        username,
+        password,
+        gender,
+        mail,
+        birthdate,
+        profilePicture,
+        fitnessGoals
+    })
 );
 
 export const trainerRegister = (firstName, lastName, email, userName, password, certificateFile) => {
@@ -31,19 +38,14 @@ export const trainerRegister = (firstName, lastName, email, userName, password, 
 
 
 //Logins 
-export const memberLogin = (email, password) => (
-    axios.post(`${baseURL}/members`, {
-        email,
+export const userLogin = (username, password) => (
+    axios.post(`${baseURL}/auth/login`, {
+        username,
         password
     })
 );
 
-export const trainerLogin = (email, password) => (
-    axios.post(`${baseURL}/users/login/trainer-login`, {
-        email,
-        password
-    })
-);
+
 
 //Workout info
 
@@ -110,7 +112,6 @@ export const filterWorkoutsByType = (workout_type) => (
 export const filterWorkoutsByIntensityLevel = (intensity) => (
     api.get(`/workouts/intensity=${intensity}`)
 );
-
 export const getWorkoutLogsByMember = async (userId) => {
     return api.get(`/workoutlogs/${userId}`);
   };
@@ -141,23 +142,33 @@ export const addWorkout = (
     }, config) 
 );
 
-export const addWorkoutLog = (
-    userId,
-    date,
-    duration,
-    status,
-    caloriesBurnt,
-    workoutId,
-    config
-) => (api.post(`${baseURL}/workoutlogs/${userId}/createworkoutlog`, {
-        userId,
-        date: date,
-        duration: duration,
-        status: status,
-        caloriesBurnt: caloriesBurnt,
-        workoutId: workoutId
-    }, config)
-);
+export const addWorkoutLog = async (userId, date, duration, status, caloriesBurnt, workoutId) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      
+      const response = await api.post(
+        `${baseURL}/workoutlogs/${userId}/createworkoutlog`,
+        {
+          memberId: userId,
+          workoutLogDate: date,
+          workoutLogDuration: duration,
+          workoutLogStatus: status,
+          workoutLogTotalCaloriesBurnt: caloriesBurnt,
+          workoutId: workoutId
+        },
+        config
+      );
+      
+      return response.data; // Return the data for further use if needed
+    } catch (error) {
+      console.error('Error adding workout log:', error);
+      throw error; // Re-throw the error for the caller to handle
+    }
+  };
 
 export const deleteWorkoutLog = async (id) => {
   try {

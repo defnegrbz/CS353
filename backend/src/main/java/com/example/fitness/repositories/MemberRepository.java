@@ -72,66 +72,16 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
     void deleteUserById(Long memberId);
 
 
-    
-    // @Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO user (fullname, username, password, gender, mail, birthDate, profilePicture) " +
-    //                "VALUES (:fullname, :username, :password, :gender, :mail, :birthDate, :profilePicture) " +
-    //                "INSERT INTO member (fitnessGoals, sugCalorieIntake) " +
-    //                "VALUES (:fitnessGoals, :sugCalorieIntake)",
-    //                nativeQuery = true)
-    // Member addMember(@Param("fullname") String fullname, @Param("username") String username, 
-    // @Param("password") String password, @Param("gender") String gender, 
-    // @Param("mail") String mail, @Param("birthDate") LocalDate birthDate, @Param("profilePicture") String profilePicture, 
-    // @Param("fitnessGoals") List<String> fitnessGoals, @Param("sugCalorieIntake") Integer sugCalorieIntake);
-    
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE user u SET u.full_name = :full_name, u.username = :username, u.password = :password, u.gender = :gender, u.mail = :mail, u.birthdate = :birthdate, u.profile_picture = :profile_picture WHERE u.id = :id", nativeQuery = true)
+    void updateUser(@Param("id") Long id, @Param("full_name") String full_name, @Param("username") String username, @Param("password") String password,
+                    @Param("gender") String gender, @Param("mail") String mail, @Param("birthdate") LocalDate birthdate, @Param("profile_picture") String profile_picture);
 
-        //@Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO user (id, fullname, username, password, gender, mail, birthDate, profilePicture) " +
-    //                "VALUES (:id, :fullname, :username, :password, :gender, :mail, :birthDate, :profilePicture)"+
-    //                 "INSERT INTO member (id, sugCalorieIntake) " +
-    //                 "VALUES (:id, :sugCalorieIntake"+
-    //                 "INSERT INTO member_fitnessGoals (userid, fitnessGoals)" +
-    //                 "VALUES (:userid, :fitnessGoals)",
-    //                 nativeQuery = true)
-    // // Member addMember(Member member);
-    // Member addMember(@Param("id") Long id, @Param("id") Long userid, @Param("fullname") String fullname, @Param("username") String username, @Param("password") String password,
-    //                 @Param("gender") String gender, @Param("mail") String mail,
-    //                 @Param("birthDate") LocalDate birthDate, @Param("profilePicture") String profilePicture, 
-    //                 @Param("fitnessGoals") List<String> fitnessGoals, @Param("sugCalorieIntake") Integer sugCalorieIntake);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE member_fitness_goals f SET f.fitness_goals = :fitness_goals WHERE f.userid = :userid", nativeQuery = true)
+    void updateMember(@Param("userid") Long userid, @Param("fitness_goals") List<String> fitness_goals);
 
-       // @Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO user (fullname, username, password, gender, mail, birthDate, profilePicture) " +
-    //                "VALUES (:fullname, :username, :password, :gender, :mail, :birthDate, :profilePicture)"+
-    //                 "INSERT INTO member (fitnessGoals, sugCalorieIntake) " +
-    //                 "VALUES (:fitnessGoals, :sugCalorieIntake",
-    //                 nativeQuery = true)
-    // // Member addMember(Member member);
-    // void addMember(@Param("fullname") String fullname, @Param("username") String username, @Param("password") String password,
-    //                 @Param("gender") String gender, @Param("mail") String mail,
-    //                 @Param("birthDate") LocalDate birthDate, @Param("profilePicture") String profilePicture, 
-    //                 @Param("fitnessGoals") List<String> fitnessGoals, @Param("sugCalorieIntake") Integer sugCalorieIntake);
-
-    // @Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO user (full_name, username, password, gender, mail, birthdate, profile_picture) " +
-    //                "VALUES (:full_name, :username, :password, :gender, :mail, :birthdate, :profile_picture)", nativeQuery = true)
-    // void addUser(@Param("full_name") String full_name, @Param("username") String username, @Param("password") String password,
-    // @Param("gender") String gender, @Param("mail") String mail, @Param("birthdate") LocalDate birthdate, @Param("profile_picture") String profile_picture);
-    
-    // @Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO member (id, sug_calorie_intake) " +
-    //                 "VALUES (:id, :sug_calorie_intake", nativeQuery = true)
-    // void addMember(@Param("id") Long id, @Param("sug_calorie_intake") Integer sug_calorie_intake);
-
-    // @Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO member_fitness_goals (userid, fitness_goals) " +
-    //                 "VALUES (:userid, :fitness_goals)", nativeQuery = true)
-    // void addMemberFitnessGoals(@Param("userid") Long userid, @Param("fitness_goals") List<String> fitness_goals);
-
-
+           
 }

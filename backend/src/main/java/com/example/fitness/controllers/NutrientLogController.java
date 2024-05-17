@@ -18,6 +18,8 @@ import com.example.fitness.requests.NutrientLogCreateRequest;
 import com.example.fitness.requests.NutrientLogUpdateRequest;
 import com.example.fitness.services.NutrientLogService;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/nutrientLog")
 public class NutrientLogController {
@@ -50,5 +52,11 @@ public class NutrientLogController {
     @DeleteMapping("/{nutrientLogId}")
     public void deleteOneNutrienLog(@PathVariable Long nutrientLogId){
         nutrientLogService.deleteOneNutrienLogById(nutrientLogId);
+    }
+
+    @PostMapping("/{nutrientLogId}/addNutrients")
+    public NutrientLog addNutrientsToLog(@PathVariable Long nutrientLogId, @RequestBody List<Long> nutrientIds) {
+        NutrientLog updatedLog = nutrientLogService.addNutrientsToLog(nutrientLogId, nutrientIds);
+        return updatedLog;
     }
 }

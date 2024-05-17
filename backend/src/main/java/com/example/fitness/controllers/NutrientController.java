@@ -31,7 +31,7 @@ public class NutrientController {
 
     @PostMapping
     public Nutrient createNutrient(@RequestBody Nutrient newNutrient){
-        return nutrientService.addOneNutrient(newNutrient);
+        return nutrientService.saveOneNutrient(newNutrient);
     }
 
     @GetMapping("/{nutrientId}")
