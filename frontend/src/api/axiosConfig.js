@@ -6,11 +6,18 @@ const api = axios.create({
     baseURL: baseURL
 });
 
-//User Info
-
-//Registers
-export const memberRegister = (firstName, LastName, email, userName, password) => (
-    axios.post(`${baseURL}/users/register/member`, { firstName, LastName, email, userName, password})
+//member register
+export const memberRegister = (fullName, username, password, gender, mail, birthdate, profilePicture, fitnessGoals) => ( 
+  axios.post(`${baseURL}/register/member`, {
+        fullName,
+        username,
+        password,
+        gender,
+        mail,
+        birthdate,
+        profilePicture,
+        fitnessGoals
+    })
 );
 
 export const trainerRegister = (firstName, lastName, email, userName, password, certificateFile) => {
