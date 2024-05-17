@@ -35,4 +35,9 @@ public class NutritionalPlan {
     @Column(name = "total_calorie")
     int totalCalorie;
 
+    @Column(name = "nut_plan_description")
+    String nutPlanDescription;
+
+    @Column(name = "nut_plan_title")
+    String nutPlanTitle;
 }

@@ -109,8 +109,8 @@ export const filterWorkoutsByIntensityLevel = (minIntensity, maxIntensity) => (
 
     
 export const getWorkoutLogsByMember = async (userId) => {
-    api.get(`${baseURL}/workoutlogs/${userId}`);
-};
+    return api.get(`/workoutlogs/${userId}`);
+  };
 
 // Add the addWorkout function
 export const addWorkout = (
@@ -138,23 +138,33 @@ export const addWorkout = (
     }, config) 
 );
 
-export const addWorkoutLog = (
-    userId,
-    date,
-    duration,
-    status,
-    caloriesBurnt,
-    workoutId,
-    config
-) => (api.post(`${baseURL}/workoutlogs/${userId}/createworkoutlog`, {
-        userId,
-        date: date,
-        duration: duration,
-        status: status,
-        caloriesBurnt: caloriesBurnt,
-        workoutId: workoutId
-    }, config)
-);
+export const addWorkoutLog = async (userId, date, duration, status, caloriesBurnt, workoutId) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      
+      const response = await api.post(
+        `${baseURL}/workoutlogs/${userId}/createworkoutlog`,
+        {
+          memberId: userId,
+          workoutLogDate: date,
+          workoutLogDuration: duration,
+          workoutLogStatus: status,
+          workoutLogTotalCaloriesBurnt: caloriesBurnt,
+          workoutId: workoutId
+        },
+        config
+      );
+      
+      return response.data; // Return the data for further use if needed
+    } catch (error) {
+      console.error('Error adding workout log:', error);
+      throw error; // Re-throw the error for the caller to handle
+    }
+  };
 
 export const deleteWorkoutLog = async (id) => {
   try {

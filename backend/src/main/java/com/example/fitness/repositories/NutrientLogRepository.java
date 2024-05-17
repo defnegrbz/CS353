@@ -17,7 +17,7 @@ import jakarta.transaction.Transactional;
 public interface NutrientLogRepository extends JpaRepository<NutrientLog, Long>{
 
     @Query(value = "SELECT * FROM nutrient_log nl WHERE nl.member_id = ?1", nativeQuery = true)
-    Optional<NutrientLog> findByMemberId(Long member_id);
+    List<NutrientLog> findByMemberId(Long member_id);
     
     @Query(value = "SELECT * FROM nutrient_log nl", nativeQuery = true)
     List<NutrientLog> findAll();
@@ -28,11 +28,7 @@ public interface NutrientLogRepository extends JpaRepository<NutrientLog, Long>{
     @Query(value = "SELECT * FROM nutrient_log nl WHERE nl.nutrient_log_date = ?1", nativeQuery = true)
     Optional<NutrientLog> findByDate(LocalDate nutrientLogDate);
     
-    @Query(value = "SELECT * FROM nutrient_log nl WHERE nl.nutrient_log_type = ?1", nativeQuery = true)
-    List<NutrientLog> findByNutrientLogType(String nutrientLogType);
 
-    @Query(value = "SELECT nl FROM nutrient_log nl WHERE nl.member_id = ?1", nativeQuery = true)
-    List<NutrientLog> findByMember(Long memberId);
 
     @Modifying
     @Transactional
@@ -41,9 +37,9 @@ public interface NutrientLogRepository extends JpaRepository<NutrientLog, Long>{
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO nutrient_log (member_id, nutrient_log_date, nutrient_log_type) " +
-                   "VALUES (:member_id, :nutrient_log_date, :nutrient_log_type)", nativeQuery = true)
-    NutrientLog saveOneNutrientLog(@Param("member_id") Long member_id, @Param("nutrient_log_date") LocalDate nutrient_log_date,  @Param("nutrient_log_type") String nutrient_log_type);
+    @Query(value = "INSERT INTO nutrient_log (member_id, nutrient_log_date) " +
+                   "VALUES (:member_id, :nutrient_log_date)", nativeQuery = true)
+    void saveOneNutrientLog(@Param("member_id") Long member_id, @Param("nutrient_log_date") LocalDate nutrient_log_date);
     
     
 }

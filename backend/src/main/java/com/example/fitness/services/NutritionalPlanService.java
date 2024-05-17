@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.fitness.components.NutritionalPlan;
+import com.example.fitness.components.User;
 import com.example.fitness.repositories.NutritionalPlanRepository;
 import com.example.fitness.requests.NutritionalPlanCreateRequest;
 import com.example.fitness.requests.NutritionalPlanUpdateRequest;
@@ -27,18 +28,20 @@ public class NutritionalPlanService {
     }
 
     public NutritionalPlan createOneNutritionalPlan(NutritionalPlanCreateRequest newNutrientPlanRequest) {
-        //Member member memberService.getOneMember(newNutrientPlanRequest.getMemberId());
+        User member = memberService.getOneMember(newNutrientPlanRequest.getMemberId());
 
-        /*if(member == null){
-            return null;
-        }*/
+        if(member == null){
+          return null;
+        }
 
-        // NutritionalPlan toSave = new NutritionalPlan();
-        // //toSave.setMember(newNutrientPlanRequest.getMember());
-        // toSave.setNutritionalPlanId(newNutrientPlanRequest.getNutritionalPlanId());
-        // toSave.setTotalCalorie(newNutrientPlanRequest.getTotalCalorie());
+        NutritionalPlan toSave = new NutritionalPlan();
+        toSave.setMember(memberService.getOneMember(newNutrientPlanRequest.getMemberId()));
+        toSave.setTotalCalorie(newNutrientPlanRequest.getTotalCalorie());
+        toSave.setNutPlanDescription(newNutrientPlanRequest.getNutPlanDescription());
+        toSave.setNutPlanTitle(newNutrientPlanRequest.getNutPlanTitle());
        
-        return nutritionalPlanRepository.saveOneNutritionalPlan(newNutrientPlanRequest.getMemberId(), newNutrientPlanRequest.getTotalCalorie());
+        nutritionalPlanRepository.saveOneNutritionalPlan(newNutrientPlanRequest.getMemberId(), newNutrientPlanRequest.getTotalCalorie(), newNutrientPlanRequest.getNutPlanDescription(), newNutrientPlanRequest.getNutPlanTitle());
+        return toSave;
     }
 
     public NutritionalPlan updateOneNutritionalPlanById(Long nutritionalPlanId, NutritionalPlanUpdateRequest updateNutPlan){
@@ -46,16 +49,16 @@ public class NutritionalPlanService {
 
         if(nutPlan.isPresent()){
             NutritionalPlan toUpdate = nutPlan.get();
-            //toUpdate.setMember(updateNutPlan.getMember());
-            toUpdate.setNutritionalPlanId(updateNutPlan.getNutritionalPlanId());
             toUpdate.setTotalCalorie(updateNutPlan.getTotalCalorie());
-            nutritionalPlanRepository.save(toUpdate);
+            toUpdate.setNutPlanDescription(updateNutPlan.getNutPlanDescription());
+            toUpdate.setNutPlanTitle(updateNutPlan.getNutPlanTitle());
+            nutritionalPlanRepository.saveOneNutritionalPlan(updateNutPlan.getMemberId(), toUpdate.getTotalCalorie(), toUpdate.getNutPlanDescription(), toUpdate.getNutPlanTitle());
             return toUpdate;
         }
         return null;
     }
 
-    public void deleteOneNutritionalPlan(Long nutritionalPlanId) {
+    public void deleteById(Long nutritionalPlanId) {
         nutritionalPlanRepository.deleteById(nutritionalPlanId);
     }
     

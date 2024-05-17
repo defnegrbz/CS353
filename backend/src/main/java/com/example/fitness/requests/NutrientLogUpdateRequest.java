@@ -14,7 +14,6 @@ public class NutrientLogUpdateRequest {
     @JsonIgnore
     Long nutrientLogId;
     Long memberId;
-    String nutrientLogType;
     LocalDate nutrientLogDate;
  
 }

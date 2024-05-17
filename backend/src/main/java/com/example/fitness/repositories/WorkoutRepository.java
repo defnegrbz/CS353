@@ -24,6 +24,9 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     @Query(value = "SELECT * FROM workout w WHERE w.trainerID = ?1", nativeQuery = true)
     Optional<Workout> findWorkoutByTrainer(Long tid);
 
+    @Query(value = "SELECT * FROM workout w WHERE w.target_audience = :targetAudience", nativeQuery = true)
+    List<Workout> findWorkoutsByTargetAudience(@Param("targetAudience") String targetAudience);
+
     @Query("SELECT w FROM Workout w WHERE w.workoutEstimatedTime <= :estimatedTime")
     List<Workout> findWorkoutsByEstimatedTime(@Param("estimatedTime") int estimatedTime);
 

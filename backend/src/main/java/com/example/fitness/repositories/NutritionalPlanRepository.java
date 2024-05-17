@@ -25,15 +25,15 @@ public interface NutritionalPlanRepository extends JpaRepository<NutritionalPlan
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM nutritional_plan np WHERE nutritional_plan = ?1", nativeQuery = true)
-    void deleteById(Long nutritionalPlan);
+    @Query(value = "DELETE FROM nutritional_plan np WHERE nutritional_plan_id = ?1", nativeQuery = true)
+    void deleteById(Long nutritionalPlanId);
 
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO nutritional_plan (member_id, total_calorie) " +
-                   "VALUES (:member_id, :total_calorie)", nativeQuery = true)
-    NutritionalPlan saveOneNutritionalPlan(@Param("member_id") Long member_id,@Param("total_calorie")  int total_calorie);
+    @Query(value = "INSERT INTO nutritional_plan (member_id, total_calorie, nut_plan_description, nut_plan_title) " +
+                   "VALUES (:member_id, :total_calorie, :nut_plan_description, :nut_plan_title)", nativeQuery = true)
+    void saveOneNutritionalPlan(@Param("member_id") Long member_id, @Param("total_calorie")  int total_calorie, @Param("nut_plan_description") String nut_plan_description, @Param("nut_plan_title") String nut_plan_title);
 
 
 }

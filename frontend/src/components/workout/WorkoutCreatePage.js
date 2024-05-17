@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { addWorkout, updateWorkout } from '../../api/axiosConfig'; 
 
 const WorkoutCreationPage = ({ trainerId, onClose, workoutData }) => { 
   const navigate = useNavigate();
+
   const [workoutTitle, setWorkoutTitle] = useState(workoutData ? workoutData.title : '');
   const [workoutType, setWorkoutType] = useState(workoutData ? workoutData.type : '');
   const [targetAudience, setTargetAudience] = useState(workoutData ? workoutData.audience : '');
@@ -41,11 +42,11 @@ const WorkoutCreationPage = ({ trainerId, onClose, workoutData }) => {
           config
         );
         console.log('Workout created successfully!');
+        onClose();
     } catch (error) {
       console.error('Error:', error);
       alert('Failed to perform the operation. Please try again.');
     }
-    onClose();
   };
 
   return (
@@ -58,11 +59,21 @@ const WorkoutCreationPage = ({ trainerId, onClose, workoutData }) => {
         </label>
         <label style={{ display: 'block', marginBottom: '10px' }}>
           <span style={{ fontWeight: 'bold' }}>Workout Type:</span>
-          <input type="text" value={workoutType} onChange={(e) => setWorkoutType(e.target.value)} required />
+          <select value={workoutType} onChange={(e) => setWorkoutType(e.target.value)} required>
+            <option value="">Select Workout Type</option>
+            <option value="muscle gain">Muscle Gain</option>
+            <option value="lose weight">Lose Weight</option>
+            <option value="endurance training">Endurance Training</option>
+          </select>
         </label>
         <label style={{ display: 'block', marginBottom: '10px' }}>
           <span style={{ fontWeight: 'bold' }}>Target Audience:</span>
-          <input type="text" value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)} required />
+          <select value={targetAudience} onChange={(e) => setTargetAudience(e.target.value)} required>
+            <option value="">Select Target Audience</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
         </label>
         <label style={{ display: 'block', marginBottom: '10px' }}>
           <span style={{ fontWeight: 'bold' }}>Estimated Time:</span>
