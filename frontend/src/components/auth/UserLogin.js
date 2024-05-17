@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { memberLogin } from '../../api/axiosConfig';
+import { userLogin } from '../../api/axiosConfig';
 
-const MemberLogin = () => {
+const UserLogin = () => {
 
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(''); // State to handle any error
     const[message, setMessage] = useState(''); // State to handle any message [e.g. "You are banned."
@@ -14,19 +14,24 @@ const MemberLogin = () => {
     const handleLogin = async (event) => {
       event.preventDefault(); // Prevent default form submission
       try {
-        const response = await memberLogin(email, password);
+        console.log(username);
+        console.log(password);
+        const response = await userLogin(username, password);
         console.log(response.data);
         console.log("Login!!!")
-        const userId = response.data; 
+        const userId= response.data; 
+        console.log("id " + userId);
     
-        if (response.data === "Password is incorrect") {
+        if (response.data == 0) {
           setError("Password is incorrect");
         }
-        else if (response.data === "This email does not exist") {
-          setError("This email does not exist");
+        else if (response.data == -1) {
+          setError("This username does not exist");
         }
         else {
-          navigate(`/member-profile/${userId}`); // Redirect to user's profile page
+        // const userId = user.id
+         // navigate(`/member-profile/${userId}`); // Redirect to user's profile page
+         setMessage("Success");
         }
       } catch (err) {
         setError(err.response?.data?.message || 'An error occured. Please try again.');
@@ -35,20 +40,20 @@ const MemberLogin = () => {
     
     return (
         <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '500px', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', color: '#333' }}>Login As Member</h2>
+      <h2 style={{ textAlign: 'center', color: '#333' }}>Login</h2>
       <form onSubmit={handleLogin} style={{ backgroundColor: '#f9f9f9', padding: '20px', borderRadius: '8px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}>
       <label style={{ display: 'block', marginBottom: '10px' }}>
-        <span style={{ fontWeight: 'bold' }}>Email:</span>
-        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <span style={{ fontWeight: 'bold' }}>Username:</span>
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
       </label>
       <label style={{ display: 'block', marginBottom: '10px' }}>
         <span style={{ fontWeight: 'bold' }}>Password:</span>
         <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
-        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Create Workout</button>
+        <button type="submit" style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Login</button>
       </form>
     </div>
     );
 };
-export default MemberLogin;
+export default UserLogin;
       

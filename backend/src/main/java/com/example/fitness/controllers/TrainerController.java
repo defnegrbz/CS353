@@ -40,8 +40,8 @@ public class TrainerController{
     }
 
     @PutMapping("/{trainerId}")
-    public Trainer updateOneTrainer(@PathVariable Long trainerId, @RequestBody Trainer newTrainer){
-        return userService.updateOneTrainer(trainerId, newTrainer);
+    public void updateOneTrainer(@PathVariable Long trainerId, @RequestBody Trainer newTrainer){
+        userService.updateOneTrainer(trainerId, newTrainer);
     }
 
     @DeleteMapping("/{trainerId}")

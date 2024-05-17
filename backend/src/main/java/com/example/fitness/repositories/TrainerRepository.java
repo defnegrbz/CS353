@@ -69,30 +69,14 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long>{
     @Query(value = "DELETE FROM user u WHERE u.id = ?1", nativeQuery = true)
     void deleteUserById(Long trainerId);
 
-    // @Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO user (fullname, username, password, gender, mail, birthDate, profilePicture) " +
-    //                "VALUES (:fullname, :username, :password, :gender, :mail, :birthDate, :profilePicture)"+
-    //                 "INSERT INTO member (trainerDescription, specialization, trainerExperience, certificate, trainerRating, busyDates) " +
-    //                 "VALUES (:trainerDescription, :specialization, :trainerExperience, :certificate, :trainerRating, :busyDates",
-    //                 nativeQuery = true)
-    // Trainer addTrainer(Trainer newTrainer);
-    // void addTrainer(@Param("fullname") String fullname, @Param("username") String username, @Param("password") String password,
-    //                 @Param("gender") String gender, @Param("mail") String mail,
-    //                 @Param("birthDate") LocalDate birthDate, @Param("profilePicture") String profilePicture, 
-    //                 @Param("fitnessGoals") List<String> fitnessGoals, @Param("sugCalorieIntake") Integer sugCalorieIntake);
 
-    // @Modifying
-    // @Transactional
-    // @Query(value = "INSERT INTO user (fullname, username, password, gender, mail, birthDate, profilePicture) " +
-    //             "VALUES (:fullname, :username, :password, :gender, :mail, :birthDate, :profilePicture); " + // Note the semicolon to separate the statements
-    //             "INSERT INTO trainer (trainerDescription, specialization, trainerExperience, certificate, trainerRating, busyDates) " +
-    //             "VALUES (:trainerDescription, :specialization, :trainerExperience, :certificate, :trainerRating, :busyDates)",
-    //             nativeQuery = true)
-    // Trainer addTrainer(@Param("fullname") String fullname, @Param("username") String username, @Param("password") String password, 
-    // @Param("gender") String gender, @Param("mail") String mail, @Param("birthDate") LocalDate birthDate,
-    // @Param("profilePicture") String profilePicture, @Param("trainerDescription") String trainerDescription, 
-    // @Param("specialization") String specialization, @Param("trainerExperience") int trainerExperience, 
-    // @Param("certificate") String certificate, @Param("trainerRating") double trainerRating, @Param("busyDates") List<LocalDate> busyDates);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE trainer t SET t.specialization = :specialization, t.trainer_description = :trainer_description, t.trainer_experience = :trainer_experience WHERE t.id = :id", nativeQuery = true)
+    void updateTrainer(@Param("id") Long id, @Param("specialization") String specialization, @Param("trainer_description") String trainer_description, @Param("trainer_experience") Integer trainer_experience);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE trainer_busy_dates b SET b.busy_dates = :busy_dates WHERE b.userid = :userid", nativeQuery = true)
+    void updateTrainerBusyDates(@Param("userid") Long userid, @Param("busy_dates") List<LocalDate> busy_dates);
 }

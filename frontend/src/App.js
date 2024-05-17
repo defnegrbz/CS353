@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WorkoutPage from './components/workout/WorkoutsPage';
 import WorkoutCreatePage from './components/workout/WorkoutCreatePage';
-import MemberLoginPage from './components/auth/MemberLogin';
-import TrainerLoginPage from './components/auth/TrainerLogin';
+import UserLoginPage from './components/auth/UserLogin';
 import TrainerRegisterPage from './components/auth/RegisterTrainer';
 import MemberRegisterPage from './components/auth/RegisterMember';
 import HealthDataCreatePage from './components/users/HealthDataCreatePage';
@@ -19,8 +18,7 @@ function App() {
       <Routes>
         <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
         <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
-        <Route path="/users/login/member-login" element={<MemberLoginPage />} />
-        <Route path="/users/login/trainer-login" element={<TrainerLoginPage />} />
+        <Route path="/auth/login" element={<UserLoginPage />} />
         <Route path="/users/register/trainer" element={<TrainerRegisterPage />} />
         <Route path="/users/register/member" element={<MemberRegisterPage />} />
         <Route path="/healthdatas/:userId/create" element={<HealthDataCreatePage />} />
