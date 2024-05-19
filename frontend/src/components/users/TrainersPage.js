@@ -12,7 +12,6 @@ import { DialogTitle } from '@mui/material';
 import { DialogContentText } from '@mui/material';
 import ConsultationDate from './ConsultationDate';
 
-
 const Trainers = () => {
     const [trainers, setTrainers] = useState([]);
     const [searchTitle, setSearchTitle] = useState('');
@@ -25,10 +24,10 @@ const Trainers = () => {
     }, []);
 
     const fetchTrainers = async () => {
-        console.log(userId)
+        console.log(userId);
         try {
-            const response = await getTrainers(); 
-            console.log(response.data)
+            const response = await getTrainers();
+            console.log(response.data);
             const trainersWithIds = response.data.map((trainer, index) => ({
                 ...trainer,
                 id: index + 1
@@ -50,49 +49,59 @@ const Trainers = () => {
     };
 
     const columns = [
-        { field: 'trainerID', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
-        { field: 'trainerDescription', headerName: 'Description', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'fullName', headerName: 'Full Name', width: 150, align: 'center', headerAlign: 'center' },
+        {
+            field: 'trainerDescription',
+            headerName: 'Description',
+            width: 230,
+            align: 'center',
+            headerAlign: 'center',
+            renderCell: (params) => (
+                <div style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
+                    {params.value}
+                </div>
+            ),
+        },
         { field: 'specialization', headerName: 'Specialization', width: 150, align: 'center', headerAlign: 'center' },
         { field: 'trainerExperience', headerName: 'Experience', width: 150, align: 'center', headerAlign: 'center' },
-        { field: 'trainerRating', headerName: 'Rating', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'trainerRating', headerName: 'Rating', width: 100, align: 'center', headerAlign: 'center' },
         {
             field: 'actions',
             headerName: 'Actions',
             width: 150,
             renderCell: (params) => (
                 <Button variant="contained" color="primary" onClick={() => handleOpenDialog(params.row)}>
-                    Ask for Consultation
+                    Consultate
                 </Button>
-            )
-        }
+            ),
+        },
     ];
 
     return (
         <>
-          <Navbar />
-          <Grid container>
-            <Grid item xs={12}>
-              <h1 style={{ textAlign: 'center' }}>Trainers</h1>
+            <Navbar />
+            <Grid container>
+                <Grid item xs={12}>
+                    <h1 style={{ textAlign: 'center' }}>Trainers</h1>
+                </Grid>
             </Grid>
-          </Grid>
-          <div style={{ height: 400, width: '80%', margin: '0 auto', textAlign: 'center' }}>
-            <div style={{ marginBottom: '10px' }}>
-            <div>
-                <label>
-                  Search by Name:
-                  <input type="text" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder="Enter workout title" />
-                </label>
-              </div>
+            <div style={{ height: 400, width: '80%', margin: '0 auto', textAlign: 'center' }}>
+                <div style={{ marginBottom: '10px' }}>
+                    <div>
+                        <label>
+                            Search by Name:
+                            <input type="text" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder="Enter workout title" />
+                        </label>
+                    </div>
+                </div>
+                <DataGrid
+                    rows={trainers}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5, 10, 20]}
+                />
             </div>
-            <DataGrid
-                rows={trainers}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5, 10, 20]}
-                onRowClick={(row) => handleOpenDialog(row)}
-            />
-          </div>
-          <Dialog open={openDialog} onClose={handleCloseDialog}>
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>Consultation Date Selector</DialogTitle>
                 <DialogContent>
                     {selectedTrainer && (
@@ -107,7 +116,7 @@ const Trainers = () => {
                 </DialogContent>
             </Dialog>
         </>
-      );
-    };
-    
+    );
+};
+
 export default Trainers;

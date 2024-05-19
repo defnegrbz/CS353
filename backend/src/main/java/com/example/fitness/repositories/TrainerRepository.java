@@ -19,8 +19,9 @@ import jakarta.transaction.Transactional;
 public interface TrainerRepository extends JpaRepository<Trainer, Long>{
 
     // new findAllTrainers
-    @Query(value = "SELECT * FROM trainer t", nativeQuery = true)
+    @Query(value = "SELECT t.*, u.* FROM trainer t, user u WHERE t.id = u.id", nativeQuery = true)
     List<Trainer> findAllTrainers(); 
+    
 
     // new find trainer by id
     @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid WHERE u.id = ?1", nativeQuery = true)
