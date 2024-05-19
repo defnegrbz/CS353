@@ -39,8 +39,20 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
     @Query(value = "SELECT * FROM workout w WHERE w.intensity_level = :intensity", nativeQuery = true)
     List<Workout> findWorkoutsByIntensity(@Param("intensity") int intensity);
 
+    @Query(value = "SELECT * FROM workout w WHERE w.workout_title LIKE %:title%", nativeQuery = true)
+    List<Workout> findByWorkoutTitleContainingIgnoreCase(@Param("title") String title);
+
     @Query("SELECT w FROM Workout w WHERE w.equipments LIKE %:equipment%")
     List<Workout> findWorkoutsByEquipment(@Param("equipment") String equipment);
+
+    @Query(value= "SELECT w FROM workout w ORDER BY w.intensityLevel :order", nativeQuery=true)
+    List<Workout> sortWorkoutsByIntensity(@Param("order") String order);
+
+    @Query(value = "SELECT w FROM workout w ORDER BY w.workoutEstimatedTime :order", nativeQuery = true)
+    List<Workout> sortWorkoutsByEstimatedTime(@Param("order") String order);
+
+    @Query(value = "SELECT w FROM workout w ORDER BY w.calorieBurnPerUnitTime :order", nativeQuery = true)
+    List<Workout> sortWorkoutsByCaloriesBurnt(@Param("order") String order);
 
     @Query(value = "SELECT * FROM workout w", nativeQuery = true)
     List<Workout> findAll();

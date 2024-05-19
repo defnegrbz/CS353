@@ -122,8 +122,27 @@ export const filterWorkoutsByType = (workout_type) => (
 export const filterWorkoutsByIntensityLevel = (intensity) => (
     api.get(`/workouts/intensity=${intensity}`)
 );
+
+export const sortWorkoutsByTime = (order) => (
+  api.get(`/workouts/timesort/${order}`)
+);
+
+export const sortWorkoutsByCalorie = (order) => (
+  api.get(`/workouts/caloriesort/${order}`)
+);
+
+export const sortWorkoutsByIntensity = (order) => (
+  api.get(`/workouts/intensitysort/${order}`)
+);
+
 export const getWorkoutLogsByMember = async (userId) => {
     return api.get(`/workoutlogs/${userId}`);
+  };
+
+  export const searchWorkoutsByTitle = (title) => {
+    return api.get(`/workouts/search`, {
+      params: { title },
+    });
   };
 
 // Add the addWorkout function

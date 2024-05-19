@@ -185,6 +185,25 @@ public Workout addWorkout(Long trainerID, Workout workout) {
     public List<Workout> getWorkoutsByEquipment(String equipment) {
         return workoutRepository.findWorkoutsByEquipment(equipment);
     }
+
+    @Transactional
+    public List<Workout> getWorkoutsByIntensitySort(String order) {
+        return workoutRepository.sortWorkoutsByIntensity(order);
+    }
+
+    @Transactional
+    public List<Workout> getWorkoutsByTimeSort(String order) {
+        return workoutRepository.sortWorkoutsByEstimatedTime(order);
+    }
+
+    @Transactional
+    public List<Workout> getWorkoutsByCalorieSort(String order) {
+        return workoutRepository.sortWorkoutsByCaloriesBurnt(order);
+    }
+
+    public List<Workout> searchWorkoutsByTitle(String title) {
+        return workoutRepository.findByWorkoutTitleContainingIgnoreCase(title);
+    }
 }
 
 
