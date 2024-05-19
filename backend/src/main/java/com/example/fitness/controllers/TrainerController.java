@@ -31,7 +31,7 @@ public class TrainerController{
 
     @PostMapping
     public void createTrainer(@RequestBody Trainer newTrainer){
-        userService.saveOneTrainer(newTrainer);
+        //userService.saveOneTrainer(newTrainer);
     }
 
     @GetMapping("/{trainerId}") 
@@ -41,7 +41,7 @@ public class TrainerController{
 
     @PutMapping("/{trainerId}")
     public void updateOneTrainer(@PathVariable Long trainerId, @RequestBody Trainer newTrainer){
-        userService.updateOneTrainer(trainerId, newTrainer);
+        //userService.updateOneTrainer(trainerId, newTrainer);
     }
 
     @DeleteMapping("/{trainerId}")

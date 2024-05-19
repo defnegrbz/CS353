@@ -18,6 +18,7 @@ public class HealthData {
 
     @Id
     @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @MapsId
@@ -57,7 +58,4 @@ public class HealthData {
         BigDecimal roundedBMI = new BigDecimal(BMI).setScale(2, RoundingMode.HALF_UP);
         return roundedBMI.doubleValue();
     }
-
-   
-
 }

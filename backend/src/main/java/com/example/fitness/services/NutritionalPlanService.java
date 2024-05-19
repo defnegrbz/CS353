@@ -28,14 +28,14 @@ public class NutritionalPlanService {
     }
 
     public NutritionalPlan createOneNutritionalPlan(NutritionalPlanCreateRequest newNutrientPlanRequest) {
-        User member = memberService.getOneMember(newNutrientPlanRequest.getMemberId());
+        User member = memberService.getMember(newNutrientPlanRequest.getMemberId());
 
         if(member == null){
           return null;
         }
 
         NutritionalPlan toSave = new NutritionalPlan();
-        toSave.setMember(memberService.getOneMember(newNutrientPlanRequest.getMemberId()));
+        toSave.setMember(memberService.getMember(newNutrientPlanRequest.getMemberId()));
         toSave.setTotalCalorie(newNutrientPlanRequest.getTotalCalorie());
         toSave.setNutPlanDescription(newNutrientPlanRequest.getNutPlanDescription());
         toSave.setNutPlanTitle(newNutrientPlanRequest.getNutPlanTitle());

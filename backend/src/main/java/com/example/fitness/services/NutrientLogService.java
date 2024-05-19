@@ -29,7 +29,7 @@ public class NutrientLogService {
 
     public List<NutrientLog> getAllNutrientLogs(Long memberId) {
 
-        if(memberService.getOneMember(memberId) != null){
+        if(memberService.getMember(memberId) != null){
             return nutrientLogRepository.findByMemberId(memberId);
         }
         return null;
@@ -45,7 +45,7 @@ public class NutrientLogService {
     }
 
     public NutrientLog createOneNutrientLog(NutrientLogCreateRequest newNutrientLogRequest) {
-        User member = memberService.getOneMember(newNutrientLogRequest.getMemberId());
+        User member = memberService.getMember(newNutrientLogRequest.getMemberId());
         
         if(member == null){
             return null;
@@ -53,7 +53,7 @@ public class NutrientLogService {
 
         NutrientLog toSave = new NutrientLog();
         toSave.setNutrientLogId(newNutrientLogRequest.getNutrientLogId());
-        toSave.setMember(memberService.getOneMember(newNutrientLogRequest.getMemberId()));
+        toSave.setMember(memberService.getMember(newNutrientLogRequest.getMemberId()));
         toSave.setNutrientLogDate(newNutrientLogRequest.getNutrientLogDate());
     
         nutrientLogRepository.saveOneNutrientLog(newNutrientLogRequest.getMemberId(), newNutrientLogRequest.getNutrientLogDate()); 

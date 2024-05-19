@@ -22,6 +22,10 @@ public class RegisterRequest {
     private String gender;
     private String mail;
     private LocalDate birthdate;
-    private String profilePicture;
-    private List<String> fitnessGoals;
+    private Integer height;
+    private Double weight;
+    private String allergies;
+    private String diseases;
+    private String medications;
+    private String fitnessGoals;
 }

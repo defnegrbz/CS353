@@ -7,7 +7,7 @@ const api = axios.create({
 });
 
 //member register
-export const memberRegister = (fullName, username, password, gender, mail, birthdate, profilePicture, fitnessGoals) => ( 
+export const memberRegister = (fullName, username, password, gender, mail, birthdate, height, weight, allergies, diseases, medications, fitnessGoals) => ( 
   axios.post(`${baseURL}/register/member`, {
         fullName,
         username,
@@ -15,7 +15,11 @@ export const memberRegister = (fullName, username, password, gender, mail, birth
         gender,
         mail,
         birthdate,
-        profilePicture,
+        height,
+        weight,
+        allergies,
+        diseases,
+        medications,
         fitnessGoals
     })
 );
@@ -46,7 +50,7 @@ export const userLogin = (username, password) => (
 );
 
 export const getMember = (userId) => (
-  axios.get(`${baseURL}/users/member/${userId}`)
+  axios.get(`${baseURL}/members/${userId}`)
 );
 
 export const getUser = (userId) => (

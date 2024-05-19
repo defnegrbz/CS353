@@ -40,20 +40,20 @@ public class MemberController{
 
     @PostMapping
     public void createMember(@RequestBody Member newMember){
-        userService.saveOneMember(newMember);
+        //userService.saveOneMember(newMember);
     }
 
     @GetMapping("/{memberId}") 
-    public Member getOneMember(@PathVariable Long memberId){
-        return userService.getOneMember(memberId);
+    public User getOneMember(@PathVariable Long memberId){
+        return userService.getMember(memberId);
     }
 
-    @PutMapping("/{memberId}")
+    @PutMapping("/update/{memberId}")
     public void updateOneMember(@PathVariable Long memberId, @RequestBody Member newMember){
-        userService.updateOneMember(memberId, newMember);
+        //userService.updateOneMember(memberId, newMember);
     }
 
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping("/delete/{memberId}")
     public void deleteOneMember(@PathVariable Long memberId){
         userService.deleteByIdMember((memberId));
     }

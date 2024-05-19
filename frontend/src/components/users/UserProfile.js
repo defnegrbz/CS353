@@ -16,13 +16,13 @@ const UserProfile = () => {
   useEffect(() => {
     getMember(userId)
       .then(response => {
+        console.log(response.data)
         setUserData(response.data);
       })
       .catch(error => {
-        setError(error.response?.data?.message || 'Wrong password or email. Please try again.');
+        setError(error.response?.data?.message || 'An error occurred. Please try again.');
       });
   }, [userId]);
-
 
   return (
     <>
@@ -36,11 +36,11 @@ const UserProfile = () => {
         <Grid item xs={6}>
           {userData && (
             <div style={{ textAlign: 'center' }}>
-              <p>Name: {userData.full_name}</p>
-              <p>Email: {userData.email}</p>
-              <p>Age: {userData.age}</p>
-              {/* Display other user health data */}
-              <p>Goals: {userData.goals}</p>
+              <p>Height: {userData.height}</p>
+              <p>Weight: {userData.weight}</p>
+              <p>Allergies: {userData.allergies}</p>
+              <p>Diseases: {userData.diseases}</p>
+              <p>Medications: {userData.medications}</p>
             </div>
           )}
           <nav style={{ marginTop: '20px' }}>
@@ -66,7 +66,20 @@ const UserProfile = () => {
                   </Button>
                 </Link>
               </li>
-              {/* Add more links as needed */}
+              <li style={{ margin: '10px' }}>
+                <Link to="/nutritionLog" style={{ textDecoration: 'none' }}>
+                  <Button variant="contained" color="primary">
+                    Nutrition Log
+                  </Button>
+                </Link>
+              </li>
+              <li style={{ margin: '10px' }}>
+                <Link to="/member/setGoal" style={{ textDecoration: 'none' }}>
+                  <Button variant="contained" color="primary">
+                    Set Goal
+                  </Button>
+                </Link>
+              </li>
             </ul>
           </nav>
         </Grid>

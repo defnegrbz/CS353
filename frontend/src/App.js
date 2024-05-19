@@ -30,7 +30,7 @@ function App() {
         <Route path="/workoutlogs/:userId/createWorkoutLog" element={<WorkoutLogForm />} />
         <Route path="/nutrientLogs/createNutrientLog" element={<NutritionalLogAddPage/>} />
         <Route path="/nutrientLogs/:nutrientLogId/addNutrients" element={<NutritionalLogAddPage/>}/>
-        <Route path="/users/member/:userId" element={<UserPage/>}/>
+        <Route path="/members/:userId" element={<UserPage/>}/>
       </Routes>
     </Router>
   );

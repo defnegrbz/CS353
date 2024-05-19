@@ -1,9 +1,12 @@
 package com.example.fitness.controllers;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.fitness.components.Member;
 import com.example.fitness.requests.RegisterRequest;
 import com.example.fitness.services.UserService;
 
@@ -28,7 +31,7 @@ public class RegisterController {
     } */
 
     @PostMapping("/member")
-    public ResponseEntity<Long> registerMember(@RequestBody RegisterRequest request) {
+    public Member registerMember(@RequestBody RegisterRequest request) {
         return userService.registerMember(request);
     }
 }

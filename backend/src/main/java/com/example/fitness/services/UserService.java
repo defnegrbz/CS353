@@ -17,12 +17,18 @@ import com.example.fitness.repositories.TrainerRepository;
 import com.example.fitness.repositories.UserRepository;
 import com.example.fitness.requests.RegisterRequest;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService {
 
     UserRepository userRepository;
     MemberRepository memberRepository;
     TrainerRepository trainerRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UserService(UserRepository userRepository, MemberRepository memberRepository, TrainerRepository trainerRepository) {
         this.userRepository = userRepository;
@@ -51,7 +57,6 @@ public class UserService {
             foundUser.setFullName(newUser.getFullName());
             foundUser.setBirthdate(newUser.getBirthdate());
             foundUser.setMail(newUser.getMail());
-            foundUser.setProfilePicture(newUser.getProfilePicture());
             foundUser.setGender(newUser.getGender());
             userRepository.save(foundUser);
             return foundUser;
@@ -67,10 +72,6 @@ public class UserService {
     // MEMBER SERVICE
     public List<Member> getAllMembers() {
         return memberRepository.findAllMembers();
-    }
-
-    public Member getOneMember(Long memberId) {
-        return memberRepository.findMemberById(memberId).orElse(null);
     }
 
     // public void saveOneMember(Map<String, Object> payload) {
@@ -96,24 +97,69 @@ public class UserService {
     //     newMember.getFitnessGoals(), newMember.getSugCalorieIntake());
     // }
 
-    public void saveOneMember(Member newMember) {
+    /*public void saveOneMember(Member newMember) {
         memberRepository.addUser(newMember.getFullName(), newMember.getUsername(), newMember.getPassword(), 
         newMember.getGender(), newMember.getMail(), newMember.getBirthdate(), newMember.getProfilePicture());
 
         Long insertedMemberId = memberRepository.getUserIdByUsername(newMember.getUsername());
         memberRepository.addMember(insertedMemberId, newMember.getSugCalorieIntake());
         memberRepository.addMemberFitnessGoals(insertedMemberId, newMember.getFitnessGoals());
+    }*/
+
+    @Transactional
+    public Member registerMember(RegisterRequest request) {
+
+            String fullName = request.getFullName();
+            String username = request.getUsername();
+            String password = request.getPassword();
+            String gender = request.getGender();
+            String mail = request.getMail();
+            LocalDate birthdate = request.getBirthdate();
+            Integer height = request.getHeight();
+            Double weight = request.getWeight();
+            String allergies = request.getAllergies();
+            String diseases = request.getDiseases();
+            String medications = request.getMedications();
+            String fitnessGoals = request.getFitnessGoals();
+
+        try {
+            // Execute native SQL query to insert user data
+            entityManager.createNativeQuery("INSERT INTO user (fullName, username, password, gender, mail, birthdate) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)")
+                    .setParameter(1, fullName)
+                    .setParameter(2, username)
+                    .setParameter(3, password)
+                    .setParameter(4, gender)
+                    .setParameter(5, mail)
+                    .setParameter(6, birthdate)
+                    .executeUpdate();
+
+            // Execute native SQL query to retrieve the ID of the inserted user
+            Long userId = (Long) entityManager.createNativeQuery("SELECT LAST_INSERT_ID()").getSingleResult();
+
+            // Execute native SQL query to insert member data
+            entityManager.createNativeQuery("INSERT INTO member (userID, sugCalorieIntake, height, weight, allergies, diseases, medications, fitness_goals) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+                    .setParameter(1, userId.longValue())
+                    .setParameter(2, calculateSugCalorieIntake(weight, height))
+                    .setParameter(3, height)
+                    .setParameter(4, weight)
+                    .setParameter(5, allergies)
+                    .setParameter(6, diseases)
+                    .setParameter(7, medications)
+                    .setParameter(8, fitnessGoals)
+                    .executeUpdate();
+        } catch (Exception e) {
+            // Handle exception
+        }
+        // Return null or handle return value as needed
+        return null;
     }
 
-    public ResponseEntity<Long> registerMember(RegisterRequest request) {
-        memberRepository.addUser(request.getFullName(), request.getUsername(), request.getPassword(), 
-        request.getGender(), request.getMail(), request.getBirthdate(), request.getProfilePicture());
-
-        Long insertedMemberId = memberRepository.getUserIdByUsername(request.getUsername());
-        Integer sugCalorieIntake = 1000;
-        memberRepository.addMember(insertedMemberId, sugCalorieIntake);
-        memberRepository.addMemberFitnessGoals(insertedMemberId, request.getFitnessGoals());
-        return new ResponseEntity<> (insertedMemberId, HttpStatus.OK);
+    // Method to calculate suggested calorie intake 
+    private Integer calculateSugCalorieIntake(Double weight, Integer height) {
+        // Your calculation logic here
+        return (int) (weight * height); 
     }
 
     // public Member saveOneMember(Member newMember) {
@@ -164,12 +210,12 @@ public class UserService {
     //         {return null;}
     // }
 
-    public void updateOneMember(Long memberId, Member newMember) {
+    /*public void updateOneMember(Long memberId, Member newMember) {
         memberRepository.updateUser(memberId, newMember.getFullName(), newMember.getUsername(), newMember.getPassword(),
         newMember.getGender(), newMember.getMail(), newMember.getBirthdate(), newMember.getProfilePicture());
         memberRepository.updateMember(memberId, newMember.getFitnessGoals());
         
-    }
+    }*/
 
 
     // TRAINER SERVICE
@@ -181,7 +227,7 @@ public class UserService {
         return trainerRepository.findTrainerById(trainerId).orElse(null);
     }
 
-    public void saveOneTrainer(Trainer newTrainer) {
+    /*public void saveOneTrainer(Trainer newTrainer) {
         trainerRepository.addUser(newTrainer.getFullName(), newTrainer.getUsername(), newTrainer.getPassword(), 
         newTrainer.getGender(), newTrainer.getMail(), newTrainer.getBirthdate(), newTrainer.getProfilePicture());
 
@@ -189,7 +235,7 @@ public class UserService {
         trainerRepository.addTrainer(insertedTrainerId, newTrainer.getTrainerExperience(), newTrainer.getTrainerRating(), newTrainer.getCertificate(), 
         newTrainer.getSpecialization(), newTrainer.getTrainerDescription());
         trainerRepository.addTrainerBusyDates(insertedTrainerId, newTrainer.getBusyDates());
-    }
+    }*/
 
     // public Trainer updateOneTrainer(Long trainerId, Trainer newTrainer) {
     //     Optional<Trainer> trainer = trainerRepository.findById(trainerId);
@@ -209,12 +255,12 @@ public class UserService {
     //         {return null;}
     // }
 
-    public void updateOneTrainer(Long trainerId, Trainer newTrainer) {
+    /*public void updateOneTrainer(Long trainerId, Trainer newTrainer) {
         memberRepository.updateUser(trainerId, newTrainer.getFullName(), newTrainer.getUsername(), newTrainer.getPassword(),
         newTrainer.getGender(), newTrainer.getMail(), newTrainer.getBirthdate(), newTrainer.getProfilePicture());
         trainerRepository.updateTrainer(trainerId, newTrainer.getSpecialization(), newTrainer.getTrainerDescription(), newTrainer.getTrainerExperience());
         trainerRepository.updateTrainerBusyDates(trainerId, newTrainer.getBusyDates());
-    }
+    }*/
 
     public void deleteByIdTrainer(Long trainerId) {
         trainerRepository.deleteBusyDatesById(trainerId);

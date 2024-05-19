@@ -44,7 +44,7 @@ public class NutrientLog {
     @JoinColumn(name = "member_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    Member member;
+    User member;
 
     @Column(name = "nutrient_log_date")
     LocalDate nutrientLogDate;

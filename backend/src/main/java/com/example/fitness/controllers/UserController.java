@@ -36,11 +36,6 @@ public class UserController {
         return userService.saveOneUser(newUser);
     }
 
-    @GetMapping("/member/{userId}") 
-    public User getMember(@PathVariable Long userId){
-        return userService.getMember(userId);
-    }
-
     @PutMapping("/{userId}")
     public User updateOneUser(@PathVariable Long userId, @RequestBody User newUser){
         return userService.updateOneUser(userId, newUser);

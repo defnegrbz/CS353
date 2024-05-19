@@ -30,7 +30,7 @@ public class NutritionalPlan {
     @JoinColumn(name = "member_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    Member member;
+    User member;
 
     @Column(name = "total_calorie")
     int totalCalorie;

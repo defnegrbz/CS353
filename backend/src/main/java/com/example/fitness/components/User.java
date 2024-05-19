@@ -26,11 +26,6 @@ public class User {
     @JsonIgnore
     private Long id;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    @JsonIgnore
-    private HealthData healthData;
-
     @Column(name = "fullName")
     private String fullName;
 
@@ -52,11 +47,35 @@ public class User {
     @Transient
     private Integer age;
 
-    @Column(name = "profilePicture")
-    private String profilePicture;
+    // Getter methods
+    public Long getId() {
+        return id;
+    }
 
+    public String getFullName() {
+        return fullName;
+    }
 
-    // Getter method for age attribute
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
     public Integer getAge() {
         if (birthdate == null) {
             return null;

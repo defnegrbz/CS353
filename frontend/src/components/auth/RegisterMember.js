@@ -9,7 +9,11 @@ const RegisterMember = () => {
     const [gender, setGender] = useState('');
     const [mail, setMail] = useState('');
     const [birthdate, setBirthdate] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
+    const [height, setHeight] = useState('');
+    const [weight, setWeight] = useState('');
+    const [allergies, setAllergies] = useState('');
+    const [diseases, setDiseases] = useState('');
+    const [medications, setMedications] = useState('');
     const [fitnessGoals, setFitnessGoals] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
@@ -18,6 +22,14 @@ const RegisterMember = () => {
 
     const handleRegister = async (event) => {
         event.preventDefault();
+        // Convert birthdate to LocalDate format
+    const formattedBirthdate = new Date(birthdate).toISOString().split('T')[0];
+
+    // Parse height and weight to ensure they are numeric
+    const numericHeight = parseInt(height, 10);
+    const numericWeight = parseFloat(weight);
+
+
         try {
             const memberData = {
                 fullName,
@@ -26,16 +38,20 @@ const RegisterMember = () => {
                 gender,
                 mail,
                 birthdate,
-                profilePicture,
-                fitnessGoals: fitnessGoals.split(',').map(goal => goal.trim())
+                numericHeight,
+                numericWeight,
+                allergies,
+                diseases,
+                medications,
+                fitnessGoals
             };
-            console.log("gelirsin buraya");
+            console.log("Member Data:", memberData); 
             const response = await memberRegister(memberData);
-            console.log("Nah gelirsin buraya");
+            console.log("Response:", response); 
 
             if (response.data) {
                 setMessage("Registration successful");
-                navigate(`/member-profile/${response.data.id}`); // Redirect to member's profile page
+                navigate(`/members/${response.data.id}`); // Redirect to member's profile page
             }
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred. Please try again.');
@@ -101,21 +117,61 @@ const RegisterMember = () => {
                     />
                 </label>
                 <label style={{ display: 'block', marginBottom: '10px' }}>
-                    <span style={{ fontWeight: 'bold' }}>Profile Picture URL:</span>
+                    <span style={{ fontWeight: 'bold' }}>Fitness Goals:</span>
+                    <select value={fitnessGoals} onChange={(e) => setFitnessGoals(e.target.value)} required>
+                        <option value="">Select Fitness Goal</option>
+                        <option value="muscle gain">Muscle Gain</option>
+                        <option value="lose weight">Lose Weight</option>
+                        <option value="endurance training">Endurance Training</option>
+                    </select>
+                </label>
+                <label style={{ display: 'block', marginBottom: '10px' }}>
+                    <span style={{ fontWeight: 'bold' }}>Height:</span>
                     <input
-                        type="text"
-                        value={profilePicture}
-                        onChange={(e) => setProfilePicture(e.target.value)}
+                        type="number"
+                        value={height}
+                        onChange={(e) => setHeight(e.target.value)}
+                        placeholder="Enter height in cm"
                         style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
                     />
                 </label>
                 <label style={{ display: 'block', marginBottom: '10px' }}>
-                    <span style={{ fontWeight: 'bold' }}>Fitness Goals:</span>
+                    <span style={{ fontWeight: 'bold' }}>Weight:</span>
+                    <input
+                        type="number"
+                        value={weight}
+                        onChange={(e) => setWeight(e.target.value)}
+                        placeholder="Enter weight in kg"
+                        style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
+                    />
+                </label>
+                <label style={{ display: 'block', marginBottom: '10px' }}>
+                    <span style={{ fontWeight: 'bold' }}>Allergies:</span>
                     <input
                         type="text"
-                        value={fitnessGoals}
-                        onChange={(e) => setFitnessGoals(e.target.value)}
-                        placeholder="Enter goals separated by commas"
+                        value={allergies}
+                        onChange={(e) => setAllergies(e.target.value)}
+                        placeholder="Enter none if no allergies"
+                        style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
+                    />
+                </label>
+                <label style={{ display: 'block', marginBottom: '10px' }}>
+                    <span style={{ fontWeight: 'bold' }}>Diseases:</span>
+                    <input
+                        type="text"
+                        value={diseases}
+                        onChange={(e) => setDiseases(e.target.value)}
+                        placeholder="Enter none if no diseases"
+                        style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
+                    />
+                </label>
+                <label style={{ display: 'block', marginBottom: '10px' }}>
+                    <span style={{ fontWeight: 'bold' }}>Medications:</span>
+                    <input
+                        type="text"
+                        value={medications}
+                        onChange={(e) => setMedications(e.target.value)}
+                        placeholder="Enter none if no medications"
                         style={{ width: '100%', padding: '8px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
                     />
                 </label>
