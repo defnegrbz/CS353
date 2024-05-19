@@ -47,10 +47,11 @@ const UserProfile = () => {
 
         </Grid>
         <Button
+            
             variant="contained"
             color="primary"
             onClick={() => navigate(`/edit-profile/${userId}`)}
-          ></Button>
+          >Edit Profile</Button>
       </Grid>
     </>
   );
