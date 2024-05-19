@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public Member getMember(Long userId) {
-        return userRepository.findMemberWithUserById(userId);
+        return memberRepository.findMemberById(userId);
     }
 
     public User updateOneUser(Long userId, User newUser) {
