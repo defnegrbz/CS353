@@ -11,8 +11,15 @@ public class WorkoutLogRequest {
     private String workout_log_duration;
     private String workout_log_status;
     private String workout_log_totalcaloriesburnt;
+    private Long workout_id;
 
+    
     // Getters and setters
+
+    public Long getWorkoutId() {
+        return workout_id;
+    }
+
     public Long getMemberId() {
         return member_id;
     }
@@ -51,5 +58,9 @@ public class WorkoutLogRequest {
 
     public void setCaloriesBurnt(String caloriesBurnt) {
         this.workout_log_totalcaloriesburnt = caloriesBurnt;
+    }
+
+    public void setWorkoutId(Long workoutId) {
+        this.workout_id = workoutId;
     }
 }

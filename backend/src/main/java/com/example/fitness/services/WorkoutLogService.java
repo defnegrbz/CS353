@@ -3,6 +3,7 @@ package com.example.fitness.services;
 import com.example.fitness.components.Workout;
 import com.example.fitness.components.WorkoutLog;
 import com.example.fitness.repositories.WorkoutLogRepository;
+import com.example.fitness.requests.WorkoutLogRequest;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -97,5 +98,66 @@ public class WorkoutLogService {
         return workoutLog;
     }
 
-   
+
+    @Transactional
+    public void deleteWorkoutLog(Long id) {
+        logger.debug("Deleting workout log with ID: {}", id);
+
+        if (id == null) {
+            logger.error("Workout log ID is null");
+            throw new IllegalArgumentException("Workout log ID must be provided");
+        }
+
+        try {
+            int rowsAffected = entityManager.createNativeQuery("DELETE FROM workoutlog WHERE id = ?")
+                .setParameter(1, id)
+                .executeUpdate();
+            
+            if (rowsAffected > 0) {
+                logger.debug("Workout log deleted successfully for ID: {}", id);
+            } else {
+                logger.warn("No workout log found with ID: {}", id);
+            }
+        } catch (Exception e) {
+            logger.error("Error deleting workout log: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to delete workout log", e);
+        }
+    }
+
+    @Transactional
+    public WorkoutLog updateWorkoutLog(Long workoutLogId, WorkoutLogRequest workoutLogRequest) {
+        logger.debug("Updating workout log with ID: {}", workoutLogId);
+        logger.debug("Received updated workout log details: {}", workoutLogRequest);
+    
+        if (workoutLogId == null) {
+            logger.error("Workout log ID is null");
+            throw new IllegalArgumentException("Workout log ID must be provided");
+        }
+    
+        try {
+            int rowsAffected = entityManager.createNativeQuery("UPDATE workoutlog SET workout_log_date = ?, workout_log_duration = ?, workout_log_status = ?, workout_log_totalcaloriesburnt = ?, workout_id = ? WHERE workout_log_id = ?")
+                .setParameter(1, workoutLogRequest.getDate())
+                .setParameter(2, workoutLogRequest.getDuration())
+                .setParameter(3, workoutLogRequest.getStatus())
+                .setParameter(4, workoutLogRequest.getCaloriesBurnt())
+                .setParameter(5, workoutLogRequest.getWorkoutId())
+                .setParameter(6, workoutLogId)
+                .executeUpdate();
+            
+            if (rowsAffected > 0) {
+                logger.debug("Workout log updated successfully for ID: {}", workoutLogId);
+                // Fetch the updated workout log from the database
+                WorkoutLog updatedWorkoutLog = entityManager.find(WorkoutLog.class, workoutLogId);
+                return updatedWorkoutLog;
+            } else {
+                logger.warn("No workout log found with ID: {}", workoutLogId);
+                return null;
+            }
+        } catch (Exception e) {
+            logger.error("Error updating workout log with ID: {}: {}", workoutLogId, e.getMessage(), e);
+            throw new RuntimeException("Failed to update workout log", e);
+        }
+    }
+
 }
+

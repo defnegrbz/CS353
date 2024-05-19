@@ -69,11 +69,38 @@ public class WorkoutLogController {
     }
 
 
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWorkoutLog(@PathVariable Long id) {
-        //workoutLogService.deleteWorkoutLog(id);
+    @Transactional
+    @DeleteMapping("/{workout_log_id}")
+    public ResponseEntity<Void> deleteWorkoutLog(@PathVariable Long workout_log_id) {
+        logger.debug("Received request to delete workout log with ID: {}", workout_log_id);
+        int deletedCount = entityManager.createNativeQuery("DELETE FROM workoutlog WHERE workout_log_id = :workout_log_id")
+                                        .setParameter("workout_log_id", workout_log_id)
+                                        .executeUpdate();
+        if (deletedCount == 0) {
+            logger.warn("No workout log found with ID: {}", workout_log_id);
+            return ResponseEntity.notFound().build();
+        }
+        logger.info("Workout log deleted successfully with ID: {}", workout_log_id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{workout_log_id}")
+    @Transactional
+    public ResponseEntity<WorkoutLog> updateWorkoutLog(@PathVariable Long workout_log_id, @RequestBody WorkoutLogRequest workoutLogRequest) {
+        logger.debug("Received request to update workout log with ID: {}", workout_log_id);
+        logger.debug("Request body: {}", workoutLogRequest);
+        try {
+            WorkoutLog updatedWorkoutLog = workoutLogService.updateWorkoutLog(workout_log_id, workoutLogRequest);
+            if (updatedWorkoutLog == null) {
+                logger.warn("No workout log found with ID: {}", workout_log_id);
+                return ResponseEntity.notFound().build();
+            }
+            logger.info("Workout log updated successfully with ID: {}", workout_log_id);
+            return ResponseEntity.ok().body(updatedWorkoutLog);
+        } catch (Exception e) {
+            logger.error("Error updating workout log with ID: {}: {}", workout_log_id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
