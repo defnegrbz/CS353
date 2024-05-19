@@ -28,7 +28,7 @@ public class WorkoutLogController {
     private final WorkoutLogService workoutLogService;
 
     @Autowired
-    private jakarta.persistence.EntityManager entityManager; // Initialize the entityManager object
+    private jakarta.persistence.EntityManager entityManager;
 
    
 
@@ -76,5 +76,4 @@ public class WorkoutLogController {
         return ResponseEntity.noContent().build();
     }
 
-    // Other endpoints for workout log management, like updating logs, can be added here.
 }

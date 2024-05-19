@@ -43,7 +43,7 @@ public Workout addWorkout(Long trainerID, Workout workout) {
         throw new IllegalArgumentException("Workout details must not be null");
     }
 
-    // Check for required fields
+    // Check
     if (workout.getCalorieBurnPerUnitTime() == null || 
         workout.getWorkoutTitle() == null || 
         workout.getWorkoutType() == null || 
@@ -56,7 +56,6 @@ public Workout addWorkout(Long trainerID, Workout workout) {
     }
 
     try {
-        // Execute native SQL query to insert workout data
         entityManager.createNativeQuery("INSERT INTO workout (trainerid, workout_title, workout_type, target_audience, workout_estimated_time, workout_description, calorie_burn_per_unit_time, intensity_level, equipments) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
             .setParameter(1, trainerID)
@@ -77,7 +76,7 @@ public Workout addWorkout(Long trainerID, Workout workout) {
         throw new RuntimeException("Failed to add workout", e);
     }
 
-    return workout; // Consider refreshing the workout entity to ensure it contains the generated ID and any other defaults set by the database.
+    return workout; 
 }
 
     
@@ -145,11 +144,9 @@ public Workout addWorkout(Long trainerID, Workout workout) {
     public List<Workout> getAllWorkouts() {
         List<Workout> workouts = workoutRepository.findAll();
         
-        // Iterate over each workout and handle null intensity level
         workouts.forEach(workout -> {
             if (workout.getIntensityLevel() == null) {
-                // Handle null intensity level, e.g., provide a default value
-                workout.setIntensityLevel(0); // Default intensity level
+                workout.setIntensityLevel(0); 
             }
         });
         return workouts;
