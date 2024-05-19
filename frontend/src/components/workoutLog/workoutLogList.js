@@ -14,6 +14,8 @@ const WorkoutLog = () => {
   const [selectedWorkoutLog, setSelectedWorkoutLog] = useState(null);
   const { userId } = useParams();
 
+
+  
   useEffect(() => {
     console.log("Member ID:", userId);
     if (userId) {
