@@ -121,45 +121,5 @@ public class LoginService {
     }
 
 
-    // public ResponseEntity<Long> userLogin(LoginRequest request) {
-    //     String username = request.getUsername();
-    //     String password = request.getPassword();
-
-     
-
-    //     // Query to get member details
-    //     Query getMemberQuery = entityManager.createNativeQuery(
-    //         "SELECT u.id FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.username = ? AND u.password = ?")
-    //         .setParameter(1, username)
-    //         .setParameter(2, password);
-
-    //     // Query to get trainer details
-    //     Query getTrainerQuery = entityManager.createNativeQuery(
-    //         "SELECT u.id FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates tbd ON t.id = tbd.userid WHERE u.username = ? AND u.password = ?")
-    //         .setParameter(1, username)
-    //         .setParameter(2, password);
-
-    //     // Get results
-    //     List<Long> memberList = getMemberQuery.getResultList();
-    //     List<Long> trainerList = getTrainerQuery.getResultList();
-
-    //     // Check if user is a member
-    //     if (!memberList.isEmpty()) {
-    //         Long memberId = (Long) memberList.get(0);
-    //         return new ResponseEntity<>(memberId, HttpStatus.OK);
-    //     }
-
-    //     // Check if user is a trainer
-    //     if (!trainerList.isEmpty()) {
-    //         Long trainerId = (Long) trainerList.get(0);
-    //         return new ResponseEntity<>(trainerId, HttpStatus.OK);
-    //     }
-
-    //     // If user is neither a member nor a trainer
-    //     return new ResponseEntity<>(0L, HttpStatus.OK);
-    // }
-    
-
-    
     
 }

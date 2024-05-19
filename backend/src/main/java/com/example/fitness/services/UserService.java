@@ -92,7 +92,7 @@ public class UserService {
 
         try {
             // Execute native SQL query to insert user data
-            entityManager.createNativeQuery("INSERT INTO user (fullName, username, password, gender, mail, birthdate) " +
+            entityManager.createNativeQuery("INSERT INTO user (full_name, username, password, gender, mail, birthdate) " +
                     "VALUES (?, ?, ?, ?, ?, ?)")
                     .setParameter(1, fullName)
                     .setParameter(2, username)
@@ -106,7 +106,7 @@ public class UserService {
             Long userId = (Long) entityManager.createNativeQuery("SELECT LAST_INSERT_ID()").getSingleResult();
 
             // Execute native SQL query to insert member data
-            entityManager.createNativeQuery("INSERT INTO member (userID, sugCalorieIntake, height, weight, allergies, diseases, medications, fitness_goals) " +
+            entityManager.createNativeQuery("INSERT INTO member (id, sug_calorie_intake, height, weight, allergies, diseases, medications, fitness_goals) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
                     .setParameter(1, userId.longValue())
                     .setParameter(2, calculateSugCalorieIntake(weight, height))

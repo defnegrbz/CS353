@@ -31,8 +31,9 @@ const RegisterMember = () => {
 
 
         try {
-            const memberData = {
-                fullName,
+
+            
+            const response = await memberRegister(fullName,
                 username,
                 password,
                 gender,
@@ -43,10 +44,7 @@ const RegisterMember = () => {
                 allergies,
                 diseases,
                 medications,
-                fitnessGoals
-            };
-            console.log("Member Data:", memberData); 
-            const response = await memberRegister(memberData);
+                fitnessGoals);
             console.log("Response:", response); 
 
             if (response.data) {
