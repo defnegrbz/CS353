@@ -14,10 +14,10 @@ import lombok.Data;
 public class Member extends User{
 
     // Storing fitness goals as a string array
-    @ElementCollection
-    @CollectionTable(name = "member_fitnessGoals", joinColumns = @JoinColumn(name = "userID"))
-    @Column(name = "fitnessGoals")
-    private List<String> fitnessGoals;
+    // @ElementCollection
+    // @CollectionTable(name = "member_fitnessGoals", joinColumns = @JoinColumn(name = "userID"))
+    // @Column(name = "fitnessGoals")
+    // private List<String> fitnessGoals;
 
     @Column(name = "sugCalorieIntake")
     private Integer sugCalorieIntake;
@@ -41,37 +41,37 @@ public class Member extends User{
     private String fitness_goals;
 
     // Getter methods
-    public List<String> getFitnessGoals() {
-        return fitnessGoals;
-    }
+    // public List<String> getFitnessGoals() {
+    //     return fitnessGoals;
+    // }
 
-    public Integer getSugCalorieIntake() {
-        return sugCalorieIntake;
-    }
+    // public Integer getSugCalorieIntake() {
+    //     return sugCalorieIntake;
+    // }
 
-    public Integer getHeight() {
-        return height;
-    }
+    // public Integer getHeight() {
+    //     return height;
+    // }
 
-    public Double getWeight() {
-        return weight;
-    }
+    // public Double getWeight() {
+    //     return weight;
+    // }
 
-    public String getAllergies() {
-        return allergies;
-    }
+    // public String getAllergies() {
+    //     return allergies;
+    // }
 
-    public String getDiseases() {
-        return diseases;
-    }
+    // public String getDiseases() {
+    //     return diseases;
+    // }
 
-    public String getMedications() {
-        return medications;
-    }
+    // public String getMedications() {
+    //     return medications;
+    // }
 
-    public String getFitness_goals() {
-        return fitness_goals;
-    }
+    // public String getFitness_goals() {
+    //     return fitness_goals;
+    // }
 
     @Transient
     private Double BMI;

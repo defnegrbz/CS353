@@ -12,12 +12,14 @@ import WorkoutLogs from './components/workoutLog/workoutLogList';
 import WorkoutLogForm from './components/workoutLog/workoutLogForm';
 import NutritionalLogAddPage from './components/nutritions/NutritionalLogAddPage';
 import UserPage from './components/users/UserProfile';
+import HomePage from './components/users/HomePage';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
+        <Route path="/homepage" element={<HomePage />} />
         <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
         <Route path="/auth/login" element={<UserLoginPage />} />
         <Route path="/users/register/trainer" element={<TrainerRegisterPage />} />

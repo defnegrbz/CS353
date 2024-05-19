@@ -18,15 +18,16 @@ import jakarta.transaction.Transactional;
 public interface MemberRepository extends JpaRepository<Member, Long>{
 
     // new findAllMembers
-    @Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid", nativeQuery = true)
-    //@Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u, member m, member_fitness_goals f WHERE u.id = m.id AND m.id = f.userid", nativeQuery = true)
+    @Query(value = "SELECT u.*, m.* FROM user u JOIN member m ON u.id = m.id", nativeQuery = true)
     List<Member> findAllMembers(); 
 
-    //@Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid", nativeQuery = true)
-    @Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.id = ?1", nativeQuery = true)
+  
+   // @Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.id = ?1", nativeQuery = true)
+    @Query(value = "SELECT u.*, m.* FROM user u JOIN member m ON u.id = m.id WHERE u.id = ?1", nativeQuery = true)
     Optional<Member> findMemberById(Long id);
 
-    @Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.username = ?1", nativeQuery = true)
+    //@Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.username = ?1", nativeQuery = true)
+    @Query(value = "SELECT u.*, m.* FROM user u JOIN member m ON u.id = m.id WHERE u.username = ?1", nativeQuery = true)
     Optional<Member> findMemberByUsername(String username);
 
     // ADD MEMBER QUERIES
@@ -39,15 +40,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
     
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO member (id, sug_calorie_intake) " +
-                    "VALUES (:id, :sug_calorie_intake)", nativeQuery = true)
+    @Query(value = "INSERT INTO member (id, sug_calorie_intake, height, weight, allergies, diseases, medications, fitness_goals) " +
+                    "VALUES (:id, :sug_calorie_intake, :height, :weight, :allergies, :diseases, :medications, :fitness_goals)", nativeQuery = true)
     void addMember(@Param("id") Long id, @Param("sug_calorie_intake") Integer sug_calorie_intake);
-
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO member_fitness_goals (userid, fitness_goals) " +
-                    "VALUES (:userid, :fitness_goals)", nativeQuery = true)
-    void addMemberFitnessGoals(@Param("userid") Long userid, @Param("fitness_goals") List<String> fitness_goals);
 
 
     @Query(value = "SELECT u.id FROM user u WHERE u.username = ?1", nativeQuery = true)

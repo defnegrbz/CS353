@@ -13,11 +13,11 @@ const Navbar = ({ id }) => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Fitness App
         </Typography>
-        <Button component={Link} to="/" color="inherit">Home</Button>
+        <Button component={Link} to="/homepage" color="inherit">Home</Button>
         <Button component={Link} to={`/workouts/${id}`} color="inherit">Workouts</Button>
-        <Button component={Link} to="/about" color="inherit">About</Button>
         <Button component={Link} to={`/workoutLogs/${id}`} color="inherit">Workout Logs</Button>
-      
+        <Button component={Link} to="/" color="inherit">My Profile</Button>
+    
       </Toolbar>
     </AppBar>
   );

@@ -79,7 +79,7 @@ public class LoginService {
         logger.debug("Password: {}", request.getPassword());
         // Query to get member details
         Query getMemberQuery = entityManager.createNativeQuery(
-            "SELECT u.id FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.username = ? AND u.password = ?")
+            "SELECT u.id FROM user u JOIN member m ON u.id = m.id  WHERE u.username = ? AND u.password = ?")
             .setParameter(1, request.getUsername())
             .setParameter(2, request.getPassword());
     
