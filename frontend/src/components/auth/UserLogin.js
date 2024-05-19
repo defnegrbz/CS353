@@ -24,7 +24,7 @@ const UserLogin = () => {
         else {
           if (userType === "member") {
               // navigate(`/users/member/${userId}`);
-              navigate(`/homepage`)
+              navigate(`/members/${userId}`)
           } else if (userType === "trainer") {
               navigate(`/users/trainer/${userId}`);
           } else {
