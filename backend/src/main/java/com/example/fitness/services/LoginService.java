@@ -85,7 +85,7 @@ public class LoginService {
     
         // Query to get trainer details
         Query getTrainerQuery = entityManager.createNativeQuery(
-            "SELECT u.id FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates tbd ON t.id = tbd.userid WHERE u.username = ? AND u.password = ?")
+            "SELECT u.id FROM user u JOIN trainer t ON u.id = t.id WHERE u.username = ? AND u.password = ?")
             .setParameter(1, request.getUsername())
             .setParameter(2, request.getPassword());
     

@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.fitness.components.Member;
+import com.example.fitness.components.Trainer;
 import com.example.fitness.requests.RegisterRequest;
+import com.example.fitness.requests.RegisterTrainerRequest;
 import com.example.fitness.services.UserService;
 
 @RestController
@@ -20,19 +22,14 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    /* @PostMapping("/member")
-    public ResponseEntity<String> registerMember(@RequestBody RegisterRequest request) {
-        try {
-            userService.registerMember(request);
-            return ResponseEntity.ok("Member registered successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
-    } */
-
     @PostMapping("/member")
     public Member registerMember(@RequestBody RegisterRequest request) {
         return userService.registerMember(request);
+    }
+
+    @PostMapping("/trainer")
+    public Trainer registerTrainer(@RequestBody RegisterTrainerRequest request) {
+        return userService.registerTrainer(request);
     }
 }
 

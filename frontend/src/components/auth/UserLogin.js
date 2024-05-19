@@ -19,14 +19,17 @@ const UserLogin = () => {
         console.log("Login!!!")
 
         if (userId === 0) {
+          console.log("0id!!!")
           setError("Invalid username or password");
         } 
         else {
           if (userType === "member") {
+            console.log("member!!!")
               // navigate(`/users/member/${userId}`);
               navigate(`/homepage`)
           } else if (userType === "trainer") {
-              navigate(`/users/trainer/${userId}`);
+            console.log("trainer!!!")
+              navigate(`/homepage`);
           } else {
             console.log("invalid!!!")
               setError("Invalid user type");

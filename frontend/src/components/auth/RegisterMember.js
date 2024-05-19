@@ -32,7 +32,7 @@ const RegisterMember = () => {
 
         try {
 
-            
+        
             const response = await memberRegister(fullName,
                 username,
                 password,
@@ -47,9 +47,9 @@ const RegisterMember = () => {
                 fitnessGoals);
             console.log("Response:", response); 
 
-            if (response.data) {
+            if (response) {
                 setMessage("Registration successful");
-                navigate(`/members/${response.data.id}`); // Redirect to member's profile page
+                navigate(`/homepage`); // Redirect to member's profile page
             }
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred. Please try again.');
