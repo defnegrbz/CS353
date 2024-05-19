@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, Button, List, ListItem, ListItemText, TextField } from '@mui/material';
-import { getWorkouts, addWorkoutLog } from '../../api/axiosConfig';
+import { getWorkouts, addWorkoutLog, updateWorkoutLog } from '../../api/axiosConfig';
 
-const WorkoutLogForm = ({ onClose, userId }) => {
+const WorkoutLogForm = ({ onClose, initialValues }) => {
   const [date, setDate] = useState('');
   const [duration, setDuration] = useState('');
   const [status, setStatus] = useState('');
@@ -22,6 +22,16 @@ const WorkoutLogForm = ({ onClose, userId }) => {
     };
     fetchWorkouts();
   }, []);
+
+  useEffect(() => {
+    if (initialValues) {
+      setDate(initialValues.date);
+      setDuration(initialValues.duration);
+      setStatus(initialValues.status);
+      setTotalCalories(initialValues.totalCalories);
+      setSelectedWorkout(initialValues.workout);
+    }
+  }, [initialValues]);
 
   const handleSelectWorkout = (workout) => {
     setSelectedWorkout(workout);
@@ -45,14 +55,37 @@ const WorkoutLogForm = ({ onClose, userId }) => {
       alert('Please select a workout.');
       return;
     }
-    try {
-      await addWorkoutLog(userId, date, duration, status, totalCalories, selectedWorkout.workoutID);
-      console.log('Workout log created successfully!');
-      resetForm();
-      onClose();
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to create the workout log. Please try again.');
+    if (!date || !duration || !status) {
+      alert('Please fill in all the fields.');
+      return;
+    }
+    const updatedData = {
+      date,
+      duration,
+      status,
+      caloriesBurnt: totalCalories,
+      workoutId: selectedWorkout.workoutID,
+    };
+    if (initialValues && initialValues.workoutLogId) {
+      try {
+        await updateWorkoutLog(initialValues.workoutLogId, updatedData);
+        console.log('Workout log updated successfully!');
+        resetForm();
+        onClose();
+      } catch (error) {
+        console.error('Error updating workout log:', error);
+        alert('Failed to update the workout log. Please try again.');
+      }
+    } else {
+      try {
+        await addWorkoutLog(date, duration, status, totalCalories, selectedWorkout.workoutID);
+        console.log('Workout log created successfully!');
+        resetForm();
+        onClose();
+      } catch (error) {
+        console.error('Error creating workout log:', error);
+        alert('Failed to create the workout log. Please try again.');
+      }
     }
   };
 
@@ -66,7 +99,7 @@ const WorkoutLogForm = ({ onClose, userId }) => {
 
   return (
     <div style={{ maxWidth: '500px', margin: 'auto' }}>
-      <h2>Create a New Workout Log</h2>
+      <h2>{initialValues ? 'Edit Workout Log' : 'Create a New Workout Log'}</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <span>Workout:</span>
@@ -101,7 +134,7 @@ const WorkoutLogForm = ({ onClose, userId }) => {
           margin="normal"
         />
         <Button type="submit" variant="contained" color="primary">
-          Create Workout Log
+          {initialValues ? 'Update Workout Log' : 'Create Workout Log'}
         </Button>
         <Button onClick={onClose} variant="contained" color="secondary" style={{ marginLeft: '10px' }}>
           Cancel
