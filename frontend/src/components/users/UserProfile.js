@@ -26,7 +26,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar id={userId}/>
       <Grid container>
         <Grid item xs={12}>
           <h1 style={{ textAlign: 'center' }}>User Profile</h1>
@@ -83,6 +83,12 @@ const UserProfile = () => {
             </ul>
           </nav>
         </Grid>
+        <Button
+            
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`/edit-profile/${userId}`)}
+          >Edit Profile</Button>
       </Grid>
     </>
   );

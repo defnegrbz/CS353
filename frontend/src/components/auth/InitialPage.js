@@ -13,9 +13,9 @@ const InitialPage = () => {
          <h2 style={{ textAlign: 'center', color: '#333' }}>Welcome to Fitness App</h2>
             <h3 style={{ textAlign: 'center', color: '#333' }}>Please login or register to continue</h3>
 
-            <button onClick={() => navigate('/users/login/user-login')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Login</button>
+            <button onClick={() => navigate('/auth/login')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px' }}>Login</button>
             
-            <button onClick={() => navigate('/users/register/member')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px', marginLeft: '10px' }}>Register As Member</button>
+            <button onClick={() => navigate('/register/member')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px', marginLeft: '10px' }}>Register As Member</button>
             <button onClick={() => navigate('/users/register/trainer')} style={{ backgroundColor: '#007bff', color: '#fff', padding: '8px 16px', borderRadius: '5px', border: 'none', cursor: 'pointer', marginTop: '10px', marginLeft: '10px' }}>Register As Trainer</button>
         </div>
        </>
