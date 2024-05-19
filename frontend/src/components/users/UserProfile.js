@@ -61,7 +61,7 @@ const UserProfile = () => {
                 </Link>
               </li>
               <li style={{ margin: '10px' }}>
-                <Link to={`/workouts/${userId}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/workouts-member/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
                     Workouts
                   </Button>

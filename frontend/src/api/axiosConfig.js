@@ -57,8 +57,8 @@ export const getUser = (userId) => (
     axios.get(`${baseURL}/users/${userId}`)
 );
 
-export const getTrainers = (userId) => (
-  axios.get(`${baseURL}/trainers/${userId}`)
+export const getTrainers = () => (
+  axios.get(`${baseURL}/trainers`)
 );
 
 export const getBusyDates = (trainerId) => (

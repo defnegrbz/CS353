@@ -28,7 +28,7 @@ public class TrainerController{
         this.userService = userService;
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping
     public List<Trainer> getAllTrainers(){
         return userService.getAllTrainers();
     }

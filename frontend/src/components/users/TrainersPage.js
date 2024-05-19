@@ -27,7 +27,8 @@ const Trainers = () => {
     const fetchTrainers = async () => {
         console.log(userId)
         try {
-            const response = await getTrainers(userId); 
+            const response = await getTrainers(); 
+            console.log(response.data)
             const trainersWithIds = response.data.map((trainer, index) => ({
                 ...trainer,
                 id: index + 1
