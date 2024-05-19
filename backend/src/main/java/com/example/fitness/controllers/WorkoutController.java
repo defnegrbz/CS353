@@ -72,6 +72,26 @@ public class WorkoutController {
     public List<Workout> getWorkoutsByIntensity(@PathVariable int intensity) {
         return workoutService.getWorkoutsByIntensity(intensity);
     }
+
+    @GetMapping("/intensitysort/{order}")
+    public List<Workout> getWorkoutsByIntensitySort(@PathVariable String order) {
+        return workoutService.getWorkoutsByIntensitySort(order);
+    }
+
+    @GetMapping("/caloriesort/{order}")
+    public List<Workout> getWorkoutsByCalorieSort(@PathVariable String order) {
+        return workoutService.getWorkoutsByCalorieSort(order);
+    }
+
+    @GetMapping("/timesort/{order}")
+    public List<Workout> getWorkoutsByTimeSort(@PathVariable String order) {
+        return workoutService.getWorkoutsByTimeSort(order);
+    }
+
+    @GetMapping("/search")
+    public List<Workout> searchWorkoutsByTitle(@RequestParam String title) {
+        return workoutService.searchWorkoutsByTitle(title);
+    }
     
     
     @PostMapping("/{trainerID}/createWorkout")

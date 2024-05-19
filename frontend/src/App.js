@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WorkoutPage from './components/workout/WorkoutsPage';
+import WorkoutMemberPage from './components/workout/WorkoutsMemberPage';
 import WorkoutCreatePage from './components/workout/WorkoutCreatePage';
 import UserLoginPage from './components/auth/UserLogin';
 import TrainerRegisterPage from './components/auth/RegisterTrainer';
@@ -17,7 +18,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
+        <Route path="/workoutsT/:trainerID" element={<WorkoutPage />} />
+        <Route path="/workouts/:memberID" element={<WorkoutMemberPage />} />
         <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
         <Route path="/auth/login" element={<UserLoginPage />} />
         <Route path="/users/register/trainer" element={<TrainerRegisterPage />} />

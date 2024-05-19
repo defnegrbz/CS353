@@ -16,7 +16,8 @@ const UserProfile = () => {
   useEffect(() => {
     getMember(userId)
       .then(response => {
-        console.log(response.data)
+        console.log(userId)
+        console.log(response.data.id)
         setUserData(response.data);
       })
       .catch(error => {
@@ -46,9 +47,9 @@ const UserProfile = () => {
           <nav style={{ marginTop: '20px' }}>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
               <li style={{ margin: '10px' }}>
-                <Link to="/workouts" style={{ textDecoration: 'none' }}>
+                <Link to={`/workoutlogs/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
-                    Workouts
+                    Workout Logs
                   </Button>
                 </Link>
               </li>
@@ -60,9 +61,9 @@ const UserProfile = () => {
                 </Link>
               </li>
               <li style={{ margin: '10px' }}>
-                <Link to="/workoutLog" style={{ textDecoration: 'none' }}>
+                <Link to={`/workouts/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
-                    Workout Log
+                    Workouts
                   </Button>
                 </Link>
               </li>

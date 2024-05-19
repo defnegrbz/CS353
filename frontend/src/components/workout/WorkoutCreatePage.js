@@ -61,9 +61,9 @@ const WorkoutCreationPage = ({ trainerId, onClose, workoutData }) => {
           <span style={{ fontWeight: 'bold' }}>Workout Type:</span>
           <select value={workoutType} onChange={(e) => setWorkoutType(e.target.value)} required>
             <option value="">Select Workout Type</option>
-            <option value="muscle gain">Muscle Gain</option>
-            <option value="lose weight">Lose Weight</option>
-            <option value="endurance training">Endurance Training</option>
+            <option value="muscle_gain">Muscle Gain</option>
+            <option value="lose_weight">Lose Weight</option>
+            <option value="endurance_training">Endurance Training</option>
           </select>
         </label>
         <label style={{ display: 'block', marginBottom: '10px' }}>
