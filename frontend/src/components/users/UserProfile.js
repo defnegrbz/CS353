@@ -26,7 +26,7 @@ const UserProfile = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar id={userId}/>
       <Grid container>
         <Grid item xs={12}>
           <h1 style={{ textAlign: 'center' }}>User Profile</h1>
@@ -43,33 +43,14 @@ const UserProfile = () => {
               <p>Goals: {userData.goals}</p>
             </div>
           )}
-          <nav style={{ marginTop: '20px' }}>
-            <ul style={{ listStyleType: 'none', padding: 0 }}>
-              <li style={{ margin: '10px' }}>
-                <Link to="/workouts" style={{ textDecoration: 'none' }}>
-                  <Button variant="contained" color="primary">
-                    Workouts
-                  </Button>
-                </Link>
-              </li>
-              <li style={{ margin: '10px' }}>
-                <Link to="/trainers" style={{ textDecoration: 'none' }}>
-                  <Button variant="contained" color="primary">
-                    Trainers
-                  </Button>
-                </Link>
-              </li>
-              <li style={{ margin: '10px' }}>
-                <Link to="/workoutLog" style={{ textDecoration: 'none' }}>
-                  <Button variant="contained" color="primary">
-                    Workout Log
-                  </Button>
-                </Link>
-              </li>
-              {/* Add more links as needed */}
-            </ul>
-          </nav>
+          
+
         </Grid>
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`/edit-profile/${userId}`)}
+          ></Button>
       </Grid>
     </>
   );
