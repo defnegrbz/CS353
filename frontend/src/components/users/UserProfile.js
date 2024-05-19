@@ -54,21 +54,21 @@ const UserProfile = () => {
                 </Link>
               </li>
               <li style={{ margin: '10px' }}>
-                <Link to="/trainers" style={{ textDecoration: 'none' }}>
+                <Link to={`/trainers/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
                     Trainers
                   </Button>
                 </Link>
               </li>
               <li style={{ margin: '10px' }}>
-                <Link to={`/workouts/${userId}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/workouts-member/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
                     Workouts
                   </Button>
                 </Link>
               </li>
               <li style={{ margin: '10px' }}>
-                <Link to="/nutritionLog" style={{ textDecoration: 'none' }}>
+                <Link to={`/nutritionlog/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
                     Nutrition Log
                   </Button>
@@ -84,13 +84,12 @@ const UserProfile = () => {
             </ul>
           </nav>
         </Grid>
+        </Grid>
         <Button
-            
             variant="contained"
             color="primary"
             onClick={() => navigate(`/edit-profile/${userId}`)}
           >Edit Profile</Button>
-      </Grid>
     </>
   );
 };

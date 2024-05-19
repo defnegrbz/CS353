@@ -14,8 +14,6 @@ const WorkoutLog = () => {
   const [selectedWorkoutLog, setSelectedWorkoutLog] = useState(null);
   const { userId } = useParams();
 
-
-  
   useEffect(() => {
     console.log("Member ID:", userId);
     if (userId) {
@@ -36,7 +34,9 @@ const WorkoutLog = () => {
           duration: log.workoutLogDuration,
           status: log.workoutLogStatus,
           totalCalories: log.workoutLogTotalCaloriesBurnt,
-          member: log.memberId
+          member: log.memberId,
+          workoutTitle: log.workout.workoutTitle,
+          trainerName: log.workout.trainer.trainerName,
         }));
         console.log('Mapped logs:', logsWithIds);
         setWorkoutLogs(logsWithIds);
@@ -50,8 +50,17 @@ const WorkoutLog = () => {
 
   const handleCloseDialog = () => {
     setOpen(false);
+    setSelectedWorkoutLog(null); // Clear selected workout log when closing dialog
     if (userId) {
       fetchWorkoutLogs(userId);
+    }
+  };
+
+  const handleEdit = (id) => {
+    const selectedLog = workoutLogs.find(log => log.id === id);
+    if (selectedLog) {
+      setSelectedWorkoutLog(selectedLog); // Set the selected workout log
+      setOpen(true); // Open the dialog
     }
   };
 
@@ -60,7 +69,7 @@ const WorkoutLog = () => {
       await deleteWorkoutLog(id);
       console.log('Deletion successful');
       if (userId) {
-        fetchWorkoutLogs(userId);
+        await fetchWorkoutLogs(userId); // Await here
       }
     } catch (error) {
       console.error('Failed to delete workout log:', error);
@@ -74,6 +83,37 @@ const WorkoutLog = () => {
     { field: 'status', headerName: 'Status', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'totalCalories', headerName: 'Total Calories', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'member', headerName: 'Member', width: 150, align: 'center', headerAlign: 'center' },
+    // { field: 'workoutTitle', headerName: 'Workout Title', width: 200, align: 'center', headerAlign: 'center' },
+    // { field: 'trainerName', headerName: 'Trainer', width: 200, align: 'center', headerAlign: 'center' },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 150,
+      align: 'center',
+      headerAlign: 'center',
+      renderCell: (params) => (
+        <Grid container spacing={2}>
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleEdit(params.row.id)}
+            >
+              Edit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => handleDelete(params.row.id)}
+            >
+              Delete
+            </Button>
+          </Grid>
+        </Grid>
+      )
+    }
   ];
 
   return (
@@ -85,8 +125,13 @@ const WorkoutLog = () => {
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           <Dialog open={open} onClose={handleCloseDialog}>
-            <WorkoutLogForm userId={userId} onClose={handleCloseDialog} />
+            <WorkoutLogForm
+              userId={userId}
+              onClose={handleCloseDialog}
+              initialValues={selectedWorkoutLog}
+            />
           </Dialog>
+
           <Button onClick={() => setOpen(true)} variant="contained" color="primary" style={{ margin: '10px' }}>
             Create Workout Log
           </Button>
@@ -104,18 +149,6 @@ const WorkoutLog = () => {
           }}
         />
       </div>
-      <Grid container>
-        <Grid item xs={12} style={{ textAlign: 'center' }}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => handleDelete(selectedWorkoutLog?.id)}
-            disabled={!selectedWorkoutLog}
-          >
-            Delete Workout Log
-          </Button>
-        </Grid>
-      </Grid>
     </>
   );
 };

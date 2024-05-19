@@ -24,7 +24,7 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
   
    // @Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.id = ?1", nativeQuery = true)
     @Query(value = "SELECT u.*, m.* FROM user u JOIN member m ON u.id = m.id WHERE u.id = ?1", nativeQuery = true)
-    Optional<Member> findMemberById(Long id);
+    Member findMemberById(Long id);
 
     //@Query(value = "SELECT u.*, m.sug_calorie_intake, f.fitness_goals FROM user u JOIN member m ON u.id = m.id JOIN member_fitness_goals f ON m.id = f.userid WHERE u.username = ?1", nativeQuery = true)
     @Query(value = "SELECT u.*, m.* FROM user u JOIN member m ON u.id = m.id WHERE u.username = ?1", nativeQuery = true)

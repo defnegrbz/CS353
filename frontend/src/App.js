@@ -14,6 +14,8 @@ import WorkoutLogForm from './components/workoutLog/workoutLogForm';
 import NutritionalLogAddPage from './components/nutritions/NutritionalLogAddPage';
 import UserPage from './components/users/UserProfile';
 import HomePage from './components/users/HomePage';
+import TrainersPage from './components/users/TrainersPage';
+import ConsultationDate from './components/users/ConsultationDate';
 
 function App() {
   return (
@@ -21,8 +23,8 @@ function App() {
       <Routes>
         <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
         <Route path="/homepage" element={<HomePage />} />
-        <Route path="/workoutsT/:trainerID" element={<WorkoutPage />} />
-        <Route path="/workouts/:memberID" element={<WorkoutMemberPage />} />
+        <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
+        <Route path="/workouts-member/:memberID" element={<WorkoutMemberPage />} />
         <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
         <Route path="/auth/login" element={<UserLoginPage />} />
         <Route path="/register/trainer" element={<TrainerRegisterPage />} />
@@ -36,6 +38,8 @@ function App() {
         <Route path="/nutrientLogs/createNutrientLog" element={<NutritionalLogAddPage/>} />
         <Route path="/nutrientLogs/:nutrientLogId/addNutrients" element={<NutritionalLogAddPage/>}/>
         <Route path="/members/:userId" element={<UserPage/>}/>
+        <Route path="/trainers/:userId" element={<TrainersPage/>}/>
+        <Route path="/trainer/:trainerId/:userId" element={<TrainersPage/>}/>
       </Routes>
     </Router>
   );

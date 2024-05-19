@@ -3,7 +3,10 @@ import axios from 'axios';
 export const baseURL = 'http://localhost:8080';
 
 const api = axios.create({
-    baseURL: baseURL
+    baseURL: baseURL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
 });
 
 //member register
@@ -55,10 +58,17 @@ export const getMember = (userId) => (
 
 export const getUser = (userId) => (
     axios.get(`${baseURL}/users/${userId}`)
-  );
+);
+
+export const getTrainers = () => (
+  axios.get(`${baseURL}/trainers`)
+);
+
+export const getBusyDates = (trainerId) => (
+  axios.get(`${baseURL}/trainerBusy/${trainerId}`)
+);
 
 //Workout info
-
 export const getWorkout = (id) => (
     axios.get(`${baseURL}/workouts/${id}`)
 );
@@ -199,14 +209,29 @@ export const addWorkoutLog = async (userId, date, duration, status, caloriesBurn
     }
   };
 
-export const deleteWorkoutLog = async (id) => {
+export const deleteWorkoutLog = async (workout_log_id) => {
   try {
-    const response = await axios.delete(`/api/workoutLogs/${id}`);
+    const response = await axios.delete(`${baseURL}/workoutlogs/${workout_log_id}`);
     console.log('Workout log deleted successfully:', response.data);
     return response.data; // You might want to return some part of the response to the caller
   } catch (error) {
     console.error('Error deleting workout log:', error);
     throw error; // Rethrow the error if you want the caller to handle it
+  }
+};
+
+export const updateWorkoutLog = async (workout_log_id, updatedData) => {
+  try {
+    const response = await axios.put(`${baseURL}/workoutlogs/${workout_log_id}`, updatedData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('Workout log updated successfully:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating workout log:', error);
+    throw error;
   }
 };
 
