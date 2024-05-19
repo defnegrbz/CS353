@@ -44,7 +44,7 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    public User getMember(Long userId) {
+    public Member getMember(Long userId) {
         return userRepository.findMemberWithUserById(userId);
     }
 
@@ -152,6 +152,11 @@ public class UserService {
     }
 
 
+
+    public List<LocalDate> getBusyDates(Long trainerID) {
+        return null;
+        //return trainerRepository.findBusyDatesByTrainerID(trainerID);
+    }
 
     public void deleteByIdTrainer(Long trainerId) {
         trainerRepository.deleteBusyDatesById(trainerId);

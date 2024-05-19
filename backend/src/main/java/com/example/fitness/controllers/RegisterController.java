@@ -12,6 +12,7 @@ import com.example.fitness.services.UserService;
 
 @RestController
 @RequestMapping("/register")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RegisterController {
     private final UserService userService;
 

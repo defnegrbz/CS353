@@ -8,16 +8,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.example.fitness.components.Member;
 import com.example.fitness.components.Trainer;
 
 import jakarta.transaction.Transactional;
 
+@Repository
 public interface TrainerRepository extends JpaRepository<Trainer, Long>{
 
     // new findAllTrainers
-    @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid", nativeQuery = true)
+    @Query(value = "SELECT * FROM trainer t", nativeQuery = true)
     List<Trainer> findAllTrainers(); 
 
     // new find trainer by id

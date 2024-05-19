@@ -1,7 +1,10 @@
 package com.example.fitness.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,7 @@ import com.example.fitness.services.UserService;
 
 @RestController
 @RequestMapping("/trainers")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TrainerController{
      
     private UserService userService;
@@ -24,9 +28,15 @@ public class TrainerController{
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public List<Trainer> getAllTrainers(){
         return userService.getAllTrainers();
+    }
+
+    @GetMapping("/{trainerID}/busyDates")
+    public ResponseEntity<List<LocalDate>> getBusyDates(@PathVariable Long trainerID) {
+        List<LocalDate> busyDates = userService.getBusyDates(trainerID);
+        return ResponseEntity.ok(busyDates);
     }
 
     @PostMapping
@@ -34,17 +44,17 @@ public class TrainerController{
         //userService.saveOneTrainer(newTrainer);
     }
 
-    @GetMapping("/{trainerId}") 
+    @GetMapping("/oneTrainer/{trainerId}") 
     public Trainer getOneMember(@PathVariable Long trainerId){
         return userService.getOneTrainer(trainerId);
     }
 
-    @PutMapping("/{trainerId}")
+    @PutMapping("/update/{trainerId}")
     public void updateOneTrainer(@PathVariable Long trainerId, @RequestBody Trainer newTrainer){
         //userService.updateOneTrainer(trainerId, newTrainer);
     }
 
-    @DeleteMapping("/{trainerId}")
+    @DeleteMapping("/delete/{trainerId}")
     public void deleteOneTrainer(@PathVariable Long trainerId){
         userService.deleteByIdTrainer((trainerId));
     }

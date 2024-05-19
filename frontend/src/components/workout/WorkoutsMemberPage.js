@@ -26,7 +26,7 @@ const Workout = () => {
   const [sortCalOrder, setSortCalOrder] = useState(''); // Sorting order state
   const [sortIntOrder, setSortIntOrder] = useState(''); // Sorting order state
   const [sortTimeOrder, setSortTimeOrder] = useState(''); 
-  const [searchTitle, setSearchTitle] = useState(''); // Search title state
+  const [searchTitle, setSearchTitle] = useState(''); 
   const trainerId = useParams();
   const trainerID = trainerId.trainerID;
 

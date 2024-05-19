@@ -27,7 +27,6 @@ const Workout = () => {
 
   useEffect(() => {
     fetchWorkouts();
-    console.log("Intensity", filterWorkoutIntensity);
   }, [filterTargetAudience, filterWorkoutType, minCalories, maxCalories, filterWorkoutIntensity]); // Refetch workouts when filter changes
 
   const fetchWorkouts = async () => {

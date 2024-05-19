@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import jakarta.validation.Payload;
 
 @RestController
 @RequestMapping("/members")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MemberController{
      
     private UserService userService;
@@ -44,7 +46,7 @@ public class MemberController{
     }
 
     @GetMapping("/{memberId}") 
-    public User getOneMember(@PathVariable Long memberId){
+    public Member getOneMember(@PathVariable Long memberId){
         return userService.getMember(memberId);
     }
 

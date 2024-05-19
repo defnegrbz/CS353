@@ -55,10 +55,17 @@ export const getMember = (userId) => (
 
 export const getUser = (userId) => (
     axios.get(`${baseURL}/users/${userId}`)
-  );
+);
+
+export const getTrainers = (userId) => (
+  axios.get(`${baseURL}/trainers/${userId}`)
+);
+
+export const getBusyDates = (trainerId) => (
+  axios.get(`${baseURL}/trainerBusy/${trainerId}`)
+);
 
 //Workout info
-
 export const getWorkout = (id) => (
     axios.get(`${baseURL}/workouts/${id}`)
 );
