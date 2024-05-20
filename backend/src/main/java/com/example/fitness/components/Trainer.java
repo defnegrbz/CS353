@@ -31,7 +31,4 @@ public class Trainer extends User{
 
     @Column(name = "trainerRating")
     private Double trainerRating;
-
-    
-
 }

@@ -19,12 +19,12 @@ import jakarta.transaction.Transactional;
 public interface TrainerRepository extends JpaRepository<Trainer, Long>{
 
     // new findAllTrainers
-    @Query(value = "SELECT * FROM trainer t", nativeQuery = true)
-    List<Trainer> findAllTrainers(); 
+    @Query(value = "SELECT * FROM MemberTrainerView", nativeQuery = true)
+    List<Trainer> findAllTrainers();
 
     // new find trainer by id
     @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid WHERE u.id = ?1", nativeQuery = true)
-    Optional<Trainer> findTrainerById(Long id);
+    Trainer findTrainerById(Long id);
 
     @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid WHERE u.username = ?1", nativeQuery = true)
     Optional<Trainer> findTrainerByUsername(String username);
@@ -79,6 +79,15 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long>{
 
     @Modifying
     @Transactional
+    @Query(value = "INSERT INTO trainer_busy_dates (userid, busy_dates) VALUES (:userid, :busy_dates)", nativeQuery = true)
+    void addTrainerBusyDate(@Param("userid") Long userid, @Param("busy_dates") LocalDate busy_dates);
+
+    @Modifying
+    @Transactional
     @Query(value = "UPDATE trainer_busy_dates b SET b.busy_dates = :busy_dates WHERE b.userid = :userid", nativeQuery = true)
     void updateTrainerBusyDates(@Param("userid") Long userid, @Param("busy_dates") List<LocalDate> busy_dates);
+
+    // Find busy dates by trainer ID
+    @Query(value = "SELECT busy_dates FROM trainer_busy_dates WHERE userid = :userid", nativeQuery = true)
+    List<LocalDate> findTrainerBusyDates(@Param("userid") Long userid);
 }

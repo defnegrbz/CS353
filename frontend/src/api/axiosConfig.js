@@ -64,9 +64,14 @@ export const getTrainers = () => (
   axios.get(`${baseURL}/trainers`)
 );
 
-export const getBusyDates = (trainerId) => (
-  axios.get(`${baseURL}/trainerBusy/${trainerId}`)
-);
+export const getBusyDates = (trainerID) => {
+  return axios.get(`/trainers/${trainerID}/busy-dates`);
+};
+
+export const addBusyDate = (trainerID, date) => {
+  return axios.post(`/trainers/${trainerID}/add-busy-dates`);
+};
+
 
 //Workout info
 export const getWorkout = (id) => (

@@ -3,6 +3,7 @@ package com.example.fitness.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +20,7 @@ import com.example.fitness.services.UserService;
 
 @RestController
 @RequestMapping("/trainers")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class TrainerController{
      
     private UserService userService;
@@ -29,14 +30,29 @@ public class TrainerController{
     }
 
     @GetMapping
-    public List<Trainer> getAllTrainers(){
-        return userService.getAllTrainers();
+    public ResponseEntity<List<Trainer>> getAllTrainers() {
+        try {
+            List<Trainer> trainers = userService.getAllTrainers();
+            return new ResponseEntity<>(trainers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{trainerID}/busyDates")
     public ResponseEntity<List<LocalDate>> getBusyDates(@PathVariable Long trainerID) {
         List<LocalDate> busyDates = userService.getBusyDates(trainerID);
         return ResponseEntity.ok(busyDates);
+    }
+
+    @PostMapping("/{trainerID}/add-busy-dates`")
+    public ResponseEntity<String> addBusyDate(@PathVariable Long trainerID, @RequestBody LocalDate date) {
+        String email = userService.addBusyDate(trainerID, date);
+        if (email != null) {
+            return ResponseEntity.ok("Date successfully added. Trainer's email: " + email);
+        } else {
+            return ResponseEntity.status(404).body("Trainer not found");
+        }
     }
 
     @PostMapping

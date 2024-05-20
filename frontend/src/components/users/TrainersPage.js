@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { getTrainers } from '../../api/axiosConfig';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
-import { DialogContent } from '@mui/material';
-import { DialogActions } from '@mui/material';
-import { DialogTitle } from '@mui/material';
-import { DialogContentText } from '@mui/material';
+import { DialogContent, DialogActions, DialogTitle } from '@mui/material';
 import ConsultationDate from './ConsultationDate';
-
 
 const Trainers = () => {
     const [trainers, setTrainers] = useState([]);
@@ -25,15 +21,13 @@ const Trainers = () => {
     }, []);
 
     const fetchTrainers = async () => {
-        console.log(userId)
+        console.log(userId);
         try {
-            const response = await getTrainers(); 
-            console.log(response.data)
-            const trainersWithIds = response.data.map((trainer, index) => ({
-                ...trainer,
-                id: index + 1
-            }));
-            setTrainers(trainersWithIds);
+            console.log("here")
+            const response = await getTrainers();
+            console.log("here2")
+            console.log(response);
+            setTrainers(response.data);
         } catch (error) {
             console.error('Error fetching trainers:', error);
         }
@@ -51,10 +45,12 @@ const Trainers = () => {
 
     const columns = [
         { field: 'trainerID', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
-        { field: 'trainerDescription', headerName: 'Description', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'full_name', headerName: 'Full Name', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'gender', headerName: 'Gender', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'trainer_description', headerName: 'Description', width: 150, align: 'center', headerAlign: 'center' },
         { field: 'specialization', headerName: 'Specialization', width: 150, align: 'center', headerAlign: 'center' },
-        { field: 'trainerExperience', headerName: 'Experience', width: 150, align: 'center', headerAlign: 'center' },
-        { field: 'trainerRating', headerName: 'Rating', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'trainer_experience', headerName: 'Experience', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'trainer_rating', headerName: 'Rating', width: 150, align: 'center', headerAlign: 'center' },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -77,12 +73,10 @@ const Trainers = () => {
           </Grid>
           <div style={{ height: 400, width: '80%', margin: '0 auto', textAlign: 'center' }}>
             <div style={{ marginBottom: '10px' }}>
-            <div>
                 <label>
                   Search by Name:
-                  <input type="text" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder="Enter workout title" />
+                  <input type="text" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder="Enter name" />
                 </label>
-              </div>
             </div>
             <DataGrid
                 rows={trainers}
@@ -108,6 +102,6 @@ const Trainers = () => {
             </Dialog>
         </>
       );
-    };
-    
+};
+
 export default Trainers;

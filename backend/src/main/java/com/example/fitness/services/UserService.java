@@ -138,8 +138,6 @@ public class UserService {
         memberRepository.deleteUserById(memberId);
 
     }
-   
-
 
 
     // TRAINER SERVICE
@@ -148,14 +146,11 @@ public class UserService {
     }
 
     public Trainer getOneTrainer(Long trainerId) {
-        return trainerRepository.findTrainerById(trainerId).orElse(null);
+        return trainerRepository.findTrainerById(trainerId);
     }
 
-
-
     public List<LocalDate> getBusyDates(Long trainerID) {
-        return null;
-        //return trainerRepository.findBusyDatesByTrainerID(trainerID);
+        return trainerRepository.findTrainerBusyDates(trainerID);
     }
 
     public void deleteByIdTrainer(Long trainerId) {
@@ -165,9 +160,14 @@ public class UserService {
 
     }
 
-
-
-
-
+    public String addBusyDate(Long trainerID, LocalDate date) {
+        Trainer trainer = trainerRepository.findById(trainerID).orElse(null);
+        if (trainer != null) {
+            trainerRepository.addTrainerBusyDate(trainerID, date);
+            return trainer.getMail();
+        } else {
+            return null;
+        }
+    }
 
 }
