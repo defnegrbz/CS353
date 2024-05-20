@@ -75,4 +75,11 @@ public class TrainerController{
         userService.deleteByIdTrainer((trainerId));
     }
 
+
+    // for voting system
+    @PutMapping("/vote/{trainerId}")
+    public void voteTrainer(@PathVariable Long trainerId, @RequestBody Integer vote){
+        userService.voteTrainer(trainerId, vote);
+    }
+
 }

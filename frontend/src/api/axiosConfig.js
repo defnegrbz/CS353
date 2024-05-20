@@ -64,14 +64,16 @@ export const getTrainers = () => (
   axios.get(`${baseURL}/trainers`)
 );
 
-export const getBusyDates = (trainerID) => {
-  return axios.get(`/trainers/${trainerID}/busy-dates`);
-};
-
 export const addBusyDate = (trainerID, date) => {
   return axios.post(`/trainers/${trainerID}/add-busy-dates`);
 };
 
+export const voteTrainer = (trainerId, vote) => api.put(`/trainers/vote/${trainerId}`, vote);
+
+
+export const getBusyDates = (trainerId) => (
+  axios.get(`${baseURL}/trainerBusy/${trainerId}`)
+);
 
 //Workout info
 export const getWorkout = (id) => (
@@ -285,6 +287,7 @@ export const deleteNutrientLog = async (id) => {
   export const getNutrientLogs = async () => {
     return await api.get('/nutrientLogs'); // Adjust the endpoint as needed
   };
+
 
 
 export default api

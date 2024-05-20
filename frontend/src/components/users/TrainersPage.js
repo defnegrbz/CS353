@@ -1,33 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { getTrainers } from '../../api/axiosConfig';
 import { useParams } from 'react-router-dom';
+import { getTrainers, voteTrainer } from '../../api/axiosConfig';
 import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import { DialogContent, DialogActions, DialogTitle } from '@mui/material';
 import ConsultationDate from './ConsultationDate';
+import { TextField } from '@mui/material';
+import { DialogContentText } from '@mui/material';
 
 const Trainers = () => {
     const [trainers, setTrainers] = useState([]);
     const [searchTitle, setSearchTitle] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
+    const [openVoteDialog, setOpenVoteDialog] = useState(false);
     const [selectedTrainer, setSelectedTrainer] = useState(null);
-    const { userId } = useParams();
+    const [vote, setVote] = useState(0);
 
     useEffect(() => {
         fetchTrainers();
     }, []);
 
     const fetchTrainers = async () => {
-        console.log(userId);
         try {
             console.log("here")
             const response = await getTrainers();
             console.log("here2")
             console.log(response);
             setTrainers(response.data);
+            const trainersWithIds = response.data.map((trainer, index) => ({
+                ...trainer,
+                id: index + 1
+            }));
+            setTrainers(trainersWithIds);
         } catch (error) {
             console.error('Error fetching trainers:', error);
         }
@@ -43,6 +50,26 @@ const Trainers = () => {
         setSelectedTrainer(null);
     };
 
+    const handleOpenVoteDialog = (trainer) => {
+        setSelectedTrainer(trainer);
+        setOpenVoteDialog(true);
+    };
+
+    const handleCloseVoteDialog = () => {
+        setOpenVoteDialog(false);
+        setSelectedTrainer(null);
+    };
+
+    const handleVoteSubmit = async () => {
+        try {
+            await voteTrainer(selectedTrainer.id, vote);
+            fetchTrainers();
+            handleCloseVoteDialog();
+        } catch (error) {
+            console.error('Error submitting vote:', error);
+        }
+    };
+
     const columns = [
         { field: 'trainerID', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
         { field: 'full_name', headerName: 'Full Name', width: 150, align: 'center', headerAlign: 'center' },
@@ -54,11 +81,20 @@ const Trainers = () => {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 150,
+            width: 200,
             renderCell: (params) => (
-                <Button variant="contained" color="primary" onClick={() => handleOpenDialog(params.row)}>
-                    Consultate
-                </Button>
+                <Grid container spacing={2}>
+                    <Grid item>
+                        <Button variant="contained" color="primary"  onClick={() => handleOpenDialog(params.row)}>
+                            Consultate
+                        </Button>
+                    </Grid>
+                    <Grid item>
+                        <Button variant="contained" color="primary" onClick={() => handleOpenVoteDialog(params.row)}>
+                            Vote
+                        </Button>
+                    </Grid>
+                </Grid>
             ),
         },
     ];
@@ -91,6 +127,37 @@ const Trainers = () => {
                         />
                     )}
                 </DialogContent>
+            </Dialog>
+            <Dialog open={openVoteDialog} onClose={handleCloseVoteDialog}>
+                <DialogTitle>Vote for Trainer</DialogTitle>
+                <DialogContent>
+                    {selectedTrainer && (
+                        <>
+                            <DialogContentText>
+                                Rate {selectedTrainer.fullName} between 0 and 5:
+                            </DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="vote"
+                                label="Vote"
+                                type="number"
+                                fullWidth
+                                value={vote}
+                                onChange={(e) => setVote(parseInt(e.target.value))}
+                                inputProps={{ min: 0, max: 5 }}
+                            />
+                        </>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseVoteDialog} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleVoteSubmit} color="primary">
+                        Submit
+                    </Button>
+                </DialogActions>
             </Dialog>
         </div>
         </>

@@ -137,7 +137,9 @@ public class UserService {
         String specialization = request.getSpecialization();
         Integer trainerExperience = request.getExperience();
         String certificate = request.getCertificate();
-
+        Double trainerRating = 0.0;
+        Integer voteScore = 0;
+        Integer voteCount = 0;
 
         try {
             // Execute native SQL query to insert user data
@@ -155,13 +157,16 @@ public class UserService {
             Long userId = (Long) entityManager.createNativeQuery("SELECT LAST_INSERT_ID()").getSingleResult();
 
             // Execute native SQL query to insert trainer data
-            entityManager.createNativeQuery("INSERT INTO trainer (id, trainer_description, specialization, trainer_experience, certificate) " +
-                    "VALUES (?, ?, ?, ?, ?)")
+            entityManager.createNativeQuery("INSERT INTO trainer (id, trainer_description, specialization, trainer_experience, certificate, trainer_rating, vote_score, vote_count) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
                     .setParameter(1, userId)
                     .setParameter(2, trainerDescription)
                     .setParameter(3, specialization)
                     .setParameter(4, trainerExperience)
                     .setParameter(5, certificate)
+                    .setParameter(6, trainerRating)
+                    .setParameter(7, voteScore)
+                    .setParameter(8, voteCount)
                     .executeUpdate();
 
         } catch (Exception e) {
@@ -217,6 +222,24 @@ public class UserService {
             return null;
         }
     }
+    public void voteTrainer(Long trainerId, Integer vote) {
+        Trainer trainer = trainerRepository.findTrainerById(trainerId);
+        if(trainer != null) {
+            if (trainer.getTrainerRating() == null) {
+                trainer.setTrainerRating(0.0);
+                
+            } 
+            trainer.setVoteScore(vote);
+            trainer.setVoteCount(trainer.getVoteCount() + 1);  
+            //ensure the result is point number with 1 decimal
+            trainer.setTrainerRating((double) Math.round((trainer.getVoteScore() / trainer.getVoteCount()) * 10) / 10);
+        }
+    }
+
+
+
+
+
 
 
 }
