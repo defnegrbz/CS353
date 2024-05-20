@@ -92,6 +92,7 @@ const Trainers = () => {
                     )}
                 </DialogContent>
             </Dialog>
+        </div>
         </>
     );
 };
