@@ -72,15 +72,13 @@ public class WorkoutLogService {
         logger.debug("Adding workout log for member ID: {}", memberId);
         logger.debug("Received workout log details: {}", workoutLog);
 
-        if (
-            memberId == null) {
+        if (memberId == null) {
             logger.error("memberId is null");
             throw new IllegalArgumentException("All critical workout log information must be provided");
         }
 
-
         try {
-            entityManager.createNativeQuery("INSERT INTO workoutlog (member_id, workout_log_date, workout_log_duration, workout_log_status, workout_log_totalcaloriesburnt, workout_id) " +
+            entityManager.createNativeQuery("INSERT INTO workoutlog (id, workout_log_date, workout_log_duration, workout_log_status, workout_log_totalcaloriesburnt, workoutid) " +
                 "VALUES (?, ?, ?, ?, ?, ?)")
                 .setParameter(1, memberId)
                 .setParameter(2, workoutLog.getWorkoutLogDate())
@@ -89,15 +87,16 @@ public class WorkoutLogService {
                 .setParameter(5, workoutLog.getWorkoutLogTotalCaloriesBurnt())
                 .setParameter(6, workoutLog.getWorkoutId())
                 .executeUpdate();
-                logger.debug("Workout log added successfully for member ID: {}", memberId);
-            } catch (Exception e) {
-                logger.error("Error adding workout log: {}", e.getMessage(), e);
-                throw new RuntimeException("Failed to add workout log", e);
-            }
+            logger.debug("Workout log added successfully for member ID: {}", memberId);
+        } catch (Exception e) {
+            logger.error("Error adding workout log: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to add workout log", e);
+        }
 
         return workoutLog;
     }
 
+    
 
     @Transactional
     public void deleteWorkoutLog(Long id) {
