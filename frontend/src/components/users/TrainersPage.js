@@ -72,12 +72,12 @@ const Trainers = () => {
 
     const columns = [
         { field: 'trainerID', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
-        { field: 'full_name', headerName: 'Full Name', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'fullName', headerName: 'Full Name', width: 150, align: 'center', headerAlign: 'center' },
         { field: 'gender', headerName: 'Gender', width: 150, align: 'center', headerAlign: 'center' },
-        { field: 'trainer_description', headerName: 'Description', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'trainerDescription', headerName: 'Description', width: 150, align: 'center', headerAlign: 'center' },
         { field: 'specialization', headerName: 'Specialization', width: 150, align: 'center', headerAlign: 'center' },
-        { field: 'trainer_experience', headerName: 'Experience', width: 150, align: 'center', headerAlign: 'center' },
-        { field: 'trainer_rating', headerName: 'Rating', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'trainerExperience', headerName: 'Experience', width: 150, align: 'center', headerAlign: 'center' },
+        { field: 'trainerRating', headerName: 'Rating', width: 150, align: 'center', headerAlign: 'center' },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -114,6 +114,22 @@ const Trainers = () => {
                   <input type="text" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder="Enter name" />
                 </label>
             </div>
+            <div style={{ height: 400, width: '80%', margin: '0 auto' }}>
+        <DataGrid
+          rows={trainers}
+          columns={columns.map((column) => ({
+            ...column,
+            align: 'center'
+          }))}
+          pageSize={5}
+
+          rowsPerPageOptions={[5, 10, 20]}
+          onRowClick={(row) => {
+            setSelectedTrainer(row);
+            console.log('Row clicked:', row);
+          }}
+        />
+      </div>
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>Consultation Date Selector</DialogTitle>
                 <DialogContent>

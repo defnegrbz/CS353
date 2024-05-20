@@ -11,7 +11,7 @@ import com.example.fitness.components.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT m, u FROM member m JOIN user u ON m.id = u.id WHERE m.id = :memberId", nativeQuery = true)
-        Member findMemberWithUserById(@Param("memberId") Long memberId);
+    Member findMemberWithUserById(@Param("memberId") Long memberId);
 }
 
 

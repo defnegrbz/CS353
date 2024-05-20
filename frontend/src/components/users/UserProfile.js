@@ -37,6 +37,8 @@ const UserProfile = () => {
         <Grid item xs={6}>
           {userData && (
             <div style={{ textAlign: 'center' }}>
+              <p>Full Name: {userData.fullName}</p>
+              <p>Username: {userData.username}</p>
               <p>Height: {userData.height}</p>
               <p>Weight: {userData.weight}</p>
               <p>Allergies: {userData.allergies}</p>

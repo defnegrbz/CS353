@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <div>
       <Navbar id={id} />
-      <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Welcome to Fitness App</h1>
+      <h1 style={{ textAlign: 'center', marginTop: '20px' }}>Welcome to Fitness Fusion</h1>
     </div>
   );
 };

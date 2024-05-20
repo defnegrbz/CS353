@@ -12,6 +12,7 @@ import InitialPage from './components/auth/InitialPage';
 import WorkoutLogs from './components/workoutLog/workoutLogList';
 import WorkoutLogForm from './components/workoutLog/workoutLogForm';
 import NutritionalLogAddPage from './components/nutritions/NutritionalLogAddPage';
+import NutrientLogCreatePage from './components/nutritions/NutrientLogCreatePage';
 import UserPage from './components/users/UserProfile';
 import HomePage from './components/users/HomePage';
 import TrainersPage from './components/users/TrainersPage';
@@ -33,6 +34,7 @@ function App() {
         <Route path="/healthdatas/:userId" element={<HealthDataPage />} />
         <Route path="/nutritionalPlan/:userId" element={<HealthDataPage />} />
         <Route path="/" element={<InitialPage />} />
+        <Route path="/nutrientLogCreatePage" element={<NutrientLogCreatePage />} />
         <Route path="/workoutlogs/:userId" element={<WorkoutLogs />} />
         <Route path="/workoutlogs/:userId/createWorkoutLog" element={<WorkoutLogForm />} />
         <Route path="/nutrientLogs/createNutrientLog" element={<NutritionalLogAddPage/>} />

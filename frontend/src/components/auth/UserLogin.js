@@ -19,7 +19,6 @@ const UserLogin = () => {
         console.log("Login!!!")
 
         if (userId === 0) {
-          console.log("0id!!!")
           setError("Invalid username or password");
         } 
         else {

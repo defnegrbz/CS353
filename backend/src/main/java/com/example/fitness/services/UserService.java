@@ -1,6 +1,7 @@
 package com.example.fitness.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -142,6 +143,7 @@ public class UserService {
         Integer voteCount = 0;
 
         try {
+            List<LocalDate> busyDates = new ArrayList<>();
             // Execute native SQL query to insert user data
             entityManager.createNativeQuery("INSERT INTO user (full_name, username, password, gender, mail, birthdate) " +
                     "VALUES (?, ?, ?, ?, ?, ?)")
@@ -167,6 +169,12 @@ public class UserService {
                     .setParameter(6, trainerRating)
                     .setParameter(7, voteScore)
                     .setParameter(8, voteCount)
+                    .executeUpdate();
+
+            entityManager.createNativeQuery("INSERT INTO trainer_busy_dates (userid, busy_dates) " +
+                    "VALUES (?, ?)")
+                    .setParameter(1, userId)
+                    .setParameter(2, busyDates)
                     .executeUpdate();
 
         } catch (Exception e) {
@@ -195,7 +203,7 @@ public class UserService {
 
     // TRAINER SERVICE
     public List<Trainer> getAllTrainers() {
-        return trainerRepository.findAllTrainers();
+        return trainerRepository.findTrainers();
     }
 
     public Trainer getOneTrainer(Long trainerId) {

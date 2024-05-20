@@ -11,7 +11,7 @@ const Navbar = ({ id }) => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Fitness App
+          Fitness Fusion
         </Typography>
         <Button component={Link} to={`/homepage/${id}`} color="inherit">Home</Button>
         <Button component={Link} to={`/workouts-member/${id}`} color="inherit">Workouts</Button>
