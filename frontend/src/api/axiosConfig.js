@@ -27,21 +27,21 @@ export const memberRegister = (fullName, username, password, gender, mail, birth
     })
 );
 
-export const trainerRegister = (firstName, lastName, email, userName, password, certificateFile) => {
-    const formData = new FormData();
-    formData.append('firstName', firstName);
-    formData.append('lastName', lastName);
-    formData.append('email', email);
-    formData.append('userName', userName);
-    formData.append('password', password);
-    formData.append('certificate', certificateFile); // Append certificate file
-
-    return axios.post(`${baseURL}/users/register/trainer`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    });
-};
+//member register
+export const trainerRegister = (fullName, username, password, gender, mail, birthdate, description, specialization, experience, certificate) => ( 
+  axios.post(`${baseURL}/register/trainer`, {
+        fullName,
+        username,
+        password,
+        gender,
+        mail,
+        birthdate,
+        description, 
+        specialization, 
+        experience, 
+        certificate
+    })
+);
 
 
 //Logins 

@@ -83,8 +83,8 @@ const WorkoutLog = () => {
     { field: 'status', headerName: 'Status', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'totalCalories', headerName: 'Total Calories', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'member', headerName: 'Member', width: 150, align: 'center', headerAlign: 'center' },
-    { field: 'workoutTitle', headerName: 'Workout Title', width: 200, align: 'center', headerAlign: 'center' },
-    { field: 'trainerName', headerName: 'Trainer', width: 200, align: 'center', headerAlign: 'center' },
+    // { field: 'workoutTitle', headerName: 'Workout Title', width: 200, align: 'center', headerAlign: 'center' },
+    // { field: 'trainerName', headerName: 'Trainer', width: 200, align: 'center', headerAlign: 'center' },
     {
       field: 'actions',
       headerName: 'Actions',

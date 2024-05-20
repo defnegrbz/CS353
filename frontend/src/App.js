@@ -27,7 +27,7 @@ function App() {
         <Route path="/workouts-member/:memberID" element={<WorkoutMemberPage />} />
         <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
         <Route path="/auth/login" element={<UserLoginPage />} />
-        <Route path="/users/register/trainer" element={<TrainerRegisterPage />} />
+        <Route path="/register/trainer" element={<TrainerRegisterPage />} />
         <Route path="/register/member" element={<MemberRegisterPage />} />
         <Route path="/healthdatas/:userId/create" element={<HealthDataCreatePage />} />
         <Route path="/healthdatas/:userId" element={<HealthDataPage />} />

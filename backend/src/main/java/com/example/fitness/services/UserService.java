@@ -16,6 +16,7 @@ import com.example.fitness.repositories.MemberRepository;
 import com.example.fitness.repositories.TrainerRepository;
 import com.example.fitness.repositories.UserRepository;
 import com.example.fitness.requests.RegisterRequest;
+import com.example.fitness.requests.RegisterTrainerRequest;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -124,6 +125,53 @@ public class UserService {
         return null;
     }
 
+    @Transactional
+    public Trainer registerTrainer(RegisterTrainerRequest request) {
+        String fullName = request.getFullName();
+        String username = request.getUsername();
+        String password = request.getPassword();
+        String gender = request.getGender();
+        String mail = request.getMail();
+        LocalDate birthdate = request.getBirthdate();
+        String trainerDescription = request.getDescription();
+        String specialization = request.getSpecialization();
+        Integer trainerExperience = request.getExperience();
+        String certificate = request.getCertificate();
+
+
+        try {
+            // Execute native SQL query to insert user data
+            entityManager.createNativeQuery("INSERT INTO user (full_name, username, password, gender, mail, birthdate) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)")
+                    .setParameter(1, fullName)
+                    .setParameter(2, username)
+                    .setParameter(3, password)
+                    .setParameter(4, gender)
+                    .setParameter(5, mail)
+                    .setParameter(6, birthdate)
+                    .executeUpdate();
+
+            // Execute native SQL query to retrieve the ID of the inserted user
+            Long userId = (Long) entityManager.createNativeQuery("SELECT LAST_INSERT_ID()").getSingleResult();
+
+            // Execute native SQL query to insert trainer data
+            entityManager.createNativeQuery("INSERT INTO trainer (id, trainer_description, specialization, trainer_experience, certificate) " +
+                    "VALUES (?, ?, ?, ?, ?)")
+                    .setParameter(1, userId)
+                    .setParameter(2, trainerDescription)
+                    .setParameter(3, specialization)
+                    .setParameter(4, trainerExperience)
+                    .setParameter(5, certificate)
+                    .executeUpdate();
+
+        } catch (Exception e) {
+            // Handle exception
+        }
+        // Return null or handle return value as needed
+        return null;
+    }
+
+
     // Method to calculate suggested calorie intake 
     private Integer calculateSugCalorieIntake(Double weight, Integer height) {
         // Your calculation logic here
@@ -169,5 +217,6 @@ public class UserService {
             return null;
         }
     }
+
 
 }

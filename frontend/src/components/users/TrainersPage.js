@@ -57,20 +57,20 @@ const Trainers = () => {
             width: 150,
             renderCell: (params) => (
                 <Button variant="contained" color="primary" onClick={() => handleOpenDialog(params.row)}>
-                    Ask for Consultation
+                    Consultate
                 </Button>
-            )
-        }
+            ),
+        },
     ];
 
     return (
         <>
-          <Navbar />
-          <Grid container>
-            <Grid item xs={12}>
-              <h1 style={{ textAlign: 'center' }}>Trainers</h1>
+            <Navbar />
+            <Grid container>
+                <Grid item xs={12}>
+                    <h1 style={{ textAlign: 'center' }}>Trainers</h1>
+                </Grid>
             </Grid>
-          </Grid>
           <div style={{ height: 400, width: '80%', margin: '0 auto', textAlign: 'center' }}>
             <div style={{ marginBottom: '10px' }}>
                 <label>
@@ -78,15 +78,7 @@ const Trainers = () => {
                   <input type="text" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} placeholder="Enter name" />
                 </label>
             </div>
-            <DataGrid
-                rows={trainers}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5, 10, 20]}
-                onRowClick={(row) => handleOpenDialog(row)}
-            />
-          </div>
-          <Dialog open={openDialog} onClose={handleCloseDialog}>
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>Consultation Date Selector</DialogTitle>
                 <DialogContent>
                     {selectedTrainer && (
@@ -101,7 +93,7 @@ const Trainers = () => {
                 </DialogContent>
             </Dialog>
         </>
-      );
+    );
 };
 
 export default Trainers;
