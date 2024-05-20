@@ -23,7 +23,7 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long>{
     List<Trainer> findAllTrainers();
 
     // new find trainer by id
-    @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid WHERE u.id = ?1", nativeQuery = true)
+    @Query(value = "SELECT u.*, t.* FROM user u JOIN trainer t ON u.id = t.id WHERE u.id = :id", nativeQuery = true)
     Trainer findTrainerById(Long id);
 
     @Query(value = "SELECT u.*, t.*, b.busy_dates FROM user u JOIN trainer t ON u.id = t.id JOIN trainer_busy_dates b ON t.id = b.userid WHERE u.username = ?1", nativeQuery = true)

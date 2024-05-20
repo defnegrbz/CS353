@@ -16,6 +16,7 @@ const UserLogin = () => {
       try {
         const response = await userLogin(username, password);
         const { userId, userType } = response.data;
+        console.log(userType);
         console.log("Login!!!")
 
         if (userId === 0) {
@@ -25,11 +26,10 @@ const UserLogin = () => {
         else {
           if (userType === "member") {
             console.log("member!!!")
-              // navigate(`/users/member/${userId}`);
               navigate(`/members/${userId}`)
           } else if (userType === "trainer") {
             console.log("trainer!!!")
-              navigate(`/homepage`);
+              navigate(`/trainers/${userId}`);
           } else {
             console.log("invalid!!!")
               setError("Invalid user type");

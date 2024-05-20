@@ -60,8 +60,8 @@ public class TrainerController{
         //userService.saveOneTrainer(newTrainer);
     }
 
-    @GetMapping("/oneTrainer/{trainerId}") 
-    public Trainer getOneMember(@PathVariable Long trainerId){
+    @GetMapping("/{trainerId}") 
+    public Trainer getOneTrainer(@PathVariable Long trainerId){
         return userService.getOneTrainer(trainerId);
     }
 
