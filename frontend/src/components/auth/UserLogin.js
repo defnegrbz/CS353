@@ -26,10 +26,11 @@ const UserLogin = () => {
           if (userType === "member") {
             console.log("member!!!")
               // navigate(`/users/member/${userId}`);
-              navigate(`/members/${userId}`)
-          } else if (userType === "trainer") {
+              //navigate(`/members/${userId}`)
+              navigate(`/homepage/${userId}`);
+            } else if (userType === "trainer") {
             console.log("trainer!!!")
-              navigate(`/homepage`);
+              navigate(`/homepage/${userId}`);
           } else {
             console.log("invalid!!!")
               setError("Invalid user type");
