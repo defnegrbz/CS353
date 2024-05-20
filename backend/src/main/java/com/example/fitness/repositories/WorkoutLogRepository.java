@@ -21,7 +21,7 @@ public interface WorkoutLogRepository extends JpaRepository<WorkoutLog, Long> {
     @Query(value = "SELECT * FROM workoutlog wl WHERE wl.workout_log_date = ?1", nativeQuery = true)
     List<WorkoutLog> findWorkoutLogsByDate(String date);
 
-    @Query(value = "SELECT * FROM workoutlog wl WHERE wl.member_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM workoutlog wl WHERE wl.id = ?1", nativeQuery = true)
     List<WorkoutLog> findWorkoutLogsByMember(Long memberId);
 
     @Query(value = "SELECT * FROM workoutlog wl WHERE wl.workout_log_duration <= ?1", nativeQuery = true)
