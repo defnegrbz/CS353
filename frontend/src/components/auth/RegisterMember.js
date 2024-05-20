@@ -49,7 +49,8 @@ const RegisterMember = () => {
 
             if (response) {
                 setMessage("Registration successful");
-                navigate(`/homepage`); // Redirect to member's profile page
+                //navigate(`/homepage`); // Redirect to member's profile page
+                navigate(`/auth/login`)
             }
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred. Please try again.');

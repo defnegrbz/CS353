@@ -31,4 +31,16 @@ public class Trainer extends User{
 
     @Column(name = "trainerRating")
     private Double trainerRating;
+
+
+    // Storing the votes of the trainer as the number of votes and the total score of the votes initially 0
+    @Column(name = "voteScore")
+    private Integer voteScore;
+    
+    @Column(name = "voteCount")
+    private Integer voteCount;
+
+
+    
+
 }

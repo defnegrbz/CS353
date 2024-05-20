@@ -38,7 +38,7 @@ const RegisterTrainer = () => {
 
             if (response) {
                 setMessage("Registration successful");
-                navigate(`/homepage`); // Redirect to trainer's profile page
+                navigate(`/auth/login`); // Redirect to trainer's profile page
             }
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred. Please try again.');
