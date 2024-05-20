@@ -1,6 +1,7 @@
 package com.example.fitness.repositories;
 
 import com.example.fitness.components.Workout;
+import com.example.fitness.components.WorkoutCatalog;
 
 import jakarta.transaction.Transactional;
 
@@ -56,6 +57,9 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
     @Query(value = "SELECT * FROM workout w", nativeQuery = true)
     List<Workout> findAll();
+
+    @Query(value = "SELECT * FROM WorkoutCatalog w", nativeQuery = true)
+    List<WorkoutCatalog> findAllWorkouts();
 
     @Modifying
     @Transactional

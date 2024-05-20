@@ -56,6 +56,10 @@ export const getMember = (userId) => (
   axios.get(`${baseURL}/members/${userId}`)
 );
 
+export const getTrainer = (userId) => (
+  axios.get(`${baseURL}/trainers/${userId}`)
+);
+
 export const getUser = (userId) => (
     axios.get(`${baseURL}/users/${userId}`)
 );
@@ -83,6 +87,11 @@ export const getWorkout = (id) => (
 export const getWorkouts = () => (
     axios.get(`${baseURL}/workouts`)
 );  
+
+export const getWorkoutsAll = () => (
+  axios.get(`${baseURL}/workouts/all`)
+);  
+
 
 // Function to delete a workout
 export const deleteWorkout = (id) => (
@@ -188,33 +197,26 @@ export const addWorkout = (
     }, config) 
 );
 
-export const addWorkoutLog = async (userId, date, duration, status, caloriesBurnt, workoutId) => {
-    try {
+export const addWorkoutLog = async (userId, workoutLog) => {
+  try {
       const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+          headers: {
+              'Content-Type': 'application/json',
+          },
       };
-      
+
       const response = await api.post(
-        `${baseURL}/workoutlogs/${userId}/createworkoutlog`,
-        {
-          memberId: userId,
-          workoutLogDate: date,
-          workoutLogDuration: duration,
-          workoutLogStatus: status,
-          workoutLogTotalCaloriesBurnt: caloriesBurnt,
-          workoutId: workoutId
-        },
-        config
+          `${baseURL}/workoutlogs/${userId}/createworkoutlog`,
+          workoutLog,
+          config
       );
-      
+
       return response.data; // Return the data for further use if needed
-    } catch (error) {
+  } catch (error) {
       console.error('Error adding workout log:', error);
       throw error; // Re-throw the error for the caller to handle
-    }
-  };
+  }
+};
 
 export const deleteWorkoutLog = async (workout_log_id) => {
   try {

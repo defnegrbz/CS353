@@ -3,7 +3,7 @@ import Navbar from '../navbar';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-import { getMember } from '../../api/axiosConfig'; // Import the function to fetch user profile data
+import { getTrainer } from '../../api/axiosConfig'; // Import the function to fetch user profile data
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,11 +14,10 @@ const UserProfile = () => {
   const [error, setError] = useState(''); 
 
   useEffect(() => {
-    getMember(userId)
+    getTrainer(userId)
       .then(response => {
-        console.log(userId)
-        console.log(response.data.id)
         setUserData(response.data);
+        console.log(response.data)
       })
       .catch(error => {
         setError(error.response?.data?.message || 'An error occurred. Please try again.');
@@ -38,48 +37,22 @@ const UserProfile = () => {
           {userData && (
             <div style={{ textAlign: 'center' }}>
               <p>Full Name: {userData.fullName}</p>
-              <p>Username: {userData.username}</p>
-              <p>Height: {userData.height}</p>
-              <p>Weight: {userData.weight}</p>
-              <p>Allergies: {userData.allergies}</p>
-              <p>Diseases: {userData.diseases}</p>
-              <p>Medications: {userData.medications}</p>
+              <p>Rating: {userData.trainerRating}</p>
             </div>
           )}
           <nav style={{ marginTop: '20px' }}>
             <ul style={{ listStyleType: 'none', padding: 0 }}>
               <li style={{ margin: '10px' }}>
-                <Link to={`/workoutlogs/${userId}`} style={{ textDecoration: 'none' }}>
-                  <Button variant="contained" color="primary">
-                    Workout Logs
-                  </Button>
-                </Link>
-              </li>
-              <li style={{ margin: '10px' }}>
-                <Link to={`/trainers-consultation/${userId}`} style={{ textDecoration: 'none' }}>
-                  <Button variant="contained" color="primary">
-                    Trainers
-                  </Button>
-                </Link>
-              </li>
-              <li style={{ margin: '10px' }}>
-                <Link to={`/workouts-member/${userId}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/workouts-trainer/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
                     Workouts
                   </Button>
                 </Link>
               </li>
               <li style={{ margin: '10px' }}>
-                <Link to={`/nutritionlog/${userId}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/trainers/busyDates/${userId}`} style={{ textDecoration: 'none' }}>
                   <Button variant="contained" color="primary">
-                    Nutrition Log
-                  </Button>
-                </Link>
-              </li>
-              <li style={{ margin: '10px' }}>
-                <Link to="/member/setGoal" style={{ textDecoration: 'none' }}>
-                  <Button variant="contained" color="primary">
-                    Set Goal
+                    Busy Dates
                   </Button>
                 </Link>
               </li>

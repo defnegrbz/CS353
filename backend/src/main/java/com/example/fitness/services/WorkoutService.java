@@ -1,6 +1,7 @@
 package com.example.fitness.services;
 
 import com.example.fitness.components.Workout;
+import com.example.fitness.components.WorkoutCatalog;
 import com.example.fitness.repositories.WorkoutRepository;
 import com.example.fitness.requests.WorkoutRequest;
 import org.apache.logging.log4j.LogManager;
@@ -139,6 +140,10 @@ public Workout addWorkout(Long trainerID, Workout workout) {
     public Workout getWorkoutById(Long workoutId) {
         Optional<Workout> workout = workoutRepository.findById(workoutId);
         return workout.orElse(null);
+    }
+
+    public List<WorkoutCatalog> getAllWorkoutCatalogs(){
+        return workoutRepository.findAllWorkouts();
     }
 
     public List<Workout> getAllWorkouts() {

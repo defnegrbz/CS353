@@ -35,8 +35,6 @@ const WorkoutLog = () => {
           status: log.workoutLogStatus,
           totalCalories: log.workoutLogTotalCaloriesBurnt,
           member: log.memberId,
-          workoutTitle: log.workout.workoutTitle,
-          trainerName: log.workout.trainer.trainerName,
         }));
         console.log('Mapped logs:', logsWithIds);
         setWorkoutLogs(logsWithIds);

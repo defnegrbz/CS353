@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fitness.components.Workout;
+import com.example.fitness.components.WorkoutCatalog;
 import com.example.fitness.repositories.WorkoutRepository;
 import com.example.fitness.requests.WorkoutRequest;
 import com.example.fitness.services.WorkoutService;
@@ -51,6 +52,11 @@ public class WorkoutController {
     @GetMapping
     public List<Workout> getWorkouts(){
         return workoutService.getAllWorkouts();
+    }
+
+    @GetMapping("/all")
+    public List<WorkoutCatalog> getAllWorkouts(){
+        return workoutService.getAllWorkoutCatalogs();
     }
 
     @GetMapping("/targetAudience={targetAudience}")

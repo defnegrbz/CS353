@@ -16,15 +16,16 @@ import NutrientLogCreatePage from './components/nutritions/NutrientLogCreatePage
 import UserPage from './components/users/UserProfile';
 import HomePage from './components/users/HomePage';
 import TrainersPage from './components/users/TrainersPage';
+import TrainerPage from './components/users/TrainerProfile';
 import ConsultationDate from './components/users/ConsultationDate';
+import BusyDate from './components/users/busyDates';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
         <Route path="/homepage" element={<HomePage />} />
-        <Route path="/workouts/:trainerID" element={<WorkoutPage />} />
+        <Route path="/workouts-trainer/:trainerID" element={<WorkoutPage />} />
         <Route path="/workouts-member/:memberID" element={<WorkoutMemberPage />} />
         <Route path="/workouts/:trainerID/createWorkout" element={<WorkoutCreatePage />} />
         <Route path="/auth/login" element={<UserLoginPage />} />
@@ -40,8 +41,10 @@ function App() {
         <Route path="/nutrientLogs/createNutrientLog" element={<NutritionalLogAddPage/>} />
         <Route path="/nutrientLogs/:nutrientLogId/addNutrients" element={<NutritionalLogAddPage/>}/>
         <Route path="/members/:userId" element={<UserPage/>}/>
-        <Route path="/trainers/:userId" element={<TrainersPage/>}/>
-        <Route path="/trainer/:trainerId/:userId" element={<ConsultationDate/>}/>
+        <Route path="/trainers/:userId" element={<TrainerPage/>}/>
+        <Route path="/trainers-member/:userId" element={<TrainersPage/>}/>
+        <Route path="/trainers-consultation/:trainerId/:userId" element={<ConsultationDate/>}/>
+        <Route path="/trainers/busyDate/:trainerId" element={<BusyDate/>}/>
       </Routes>
     </Router>
   );
