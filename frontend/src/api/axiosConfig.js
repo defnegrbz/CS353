@@ -88,6 +88,11 @@ export const getWorkouts = () => (
     axios.get(`${baseURL}/workouts`)
 );  
 
+export const getWorkoutsAll = () => (
+  axios.get(`${baseURL}/workouts/all`)
+);  
+
+
 // Function to delete a workout
 export const deleteWorkout = (id) => (
     api.delete(`${baseURL}/workouts/${id}`)

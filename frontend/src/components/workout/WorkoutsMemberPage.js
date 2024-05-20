@@ -9,6 +9,7 @@ import {
   sortWorkoutsByIntensity, 
   sortWorkoutsByTime, 
   getWorkouts,
+  getWorkoutsAll,
   searchWorkoutsByTitle 
 } from '../../api/axiosConfig';
 import { useNavigate, Link, useParams } from 'react-router-dom';
@@ -72,9 +73,7 @@ const Workout = () => {
   };
 
   const columns = [
-    { field: 'workoutID', headerName: 'ID', width: 50, align: 'center', headerAlign: 'center' },
     { field: 'workoutTitle', headerName: 'Title', width: 150, align: 'center', headerAlign: 'center' },
-    { field: 'trainerID', headerName: 'Trainer ID', width: 100, align: 'center', headerAlign: 'center' },
     { field: 'workoutType', headerName: 'Type', width: 150, align: 'center', headerAlign: 'center' },
     { field: 'workoutDescription', headerName: 'Description', width: 150, align: 'center', headerAlign: 'center'},
     { field: 'equipments', headerName: 'Equipments', width: 150, align: 'center', headerAlign: 'center'},
